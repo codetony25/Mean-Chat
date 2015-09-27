@@ -4,8 +4,7 @@
   "description": "MEAN Stack project",
   "main": "server/server.js",
   "scripts": {
-    "start": "nodemon server/server.js",
-    "watch": "gulp watch"
+    "start": "nodemon server/server.js"
   },
   "repository": {
     "type": "git",
