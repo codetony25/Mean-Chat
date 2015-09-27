@@ -4,8 +4,8 @@
   angular
     .module('meanChat', [
       'ui.router',
+      'ngMessages',
       'ngMaterial',
-      'ngMdIcons',
       'meanChat.home-page',
       'meanChat.userAuthentication'
     ])

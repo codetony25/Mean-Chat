@@ -15,7 +15,7 @@ var UserSchema = new mongoose.Schema({
 		value: String,
 		type: String,
 	}],
-	phogots: [{
+	photos: [{
 		value: String
 	}],
 	provider: String,

@@ -1,0 +1,39 @@
+<h2 class="md-headline">Register</h2>
+<md-content layout-padding>
+	<form name="UserAuth.registrationForm" ng-click="UserAuth.registrationForm.$valid && UserAuth.userRegistration(user)" novalidate>
+		<md-input-container>
+			<label>Username</label>
+			<input ng-model="user.username" name="username" md-minlength="5" md-maxlength="20" required>
+<!-- 			<div ng-messages="UserAuth.registrationForm.username.$error" ng-show="UserAuth.registrationForm.username.$touched">
+				<div ng-message="required">Username is required</div>
+				<div ng-message-exp="['minlength', 'maxlength']">Your username must be between 5 and 20 characters</div>
+			</div> -->
+		</md-input-container>
+		<md-input-container>
+			<label>Email</label>
+			<input type="email" ng-model="user.email" name="email" minlength="10" required>
+<!-- 			<div ng-messages="UserAuth.registrationForm.email.$error" ng-show="UserAuth.registrationForm.$dirty">
+				<div ng-message="required">Email is required</div>
+				<div ng-message="md-minlength">Your email must be at least 10 characters long</div>
+			</div> -->
+		</md-input-container>
+		<md-input-container>
+			<label>Password</label>
+			<input type="password" ng-model="user.password" name="password" md-minlength="10" md-maxlength="255" required>
+<!-- 			<div ng-messages="UserAuth.registrationForm.password.$error">
+				<div ng-message="required">Password is required</div>
+				<div ng-message-exp="['minlength', 'maxlength']">Your password must be between 10 and 255 characters</div>
+			</div> -->
+		</md-input-container>
+		<md-input-container>
+			<label>Password re-prompt</label>
+			<input type="password" ng-model="user.confirm_password" name="confirm_password" md-minlength="10" md-maxlength="255">
+<!-- 			<div ng-messages="UserAuth.registrationForm.confirm_password.$error">
+				<div ng-message-exp="['minlength', 'maxlength']">Your password must be between 10 and 255 characters</div>
+			</div> -->
+		</md-input-container>
+		<div>
+			<md-button class="md-raised md-primary">Register</md-button>
+		</div>
+	</form>
+</md-content>

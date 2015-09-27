@@ -6,6 +6,10 @@
     .controller('userAuthenticationController', userAuthenticationController);
 
   function userAuthenticationController() {
-    console.log("UserLogin Controller Loaded");
+    var _this = this;
+
+    this.userRegistration = function(user){
+      console.log(user);
+    }
   }
 })();
