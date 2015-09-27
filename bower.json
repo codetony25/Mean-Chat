@@ -1,6 +1,6 @@
 {
-  "name": "Mean Chat",
-  "version": "1.0.0",
+  "name": "mean-chat",
+  "version": "0.1.0",
   "authors": [
     "Andrew Lee",
     "Nathan Brady",
@@ -8,7 +8,6 @@
   ],
   "description": "Mean Stack project",
   "main": "public/app.module.js",
-  "moduleType": [],
   "keywords": [
     "MEAN",
     "stack",
@@ -17,20 +16,18 @@
     "Express",
     "Mongoose"
   ],
-  "license": "MIT",
-  "homepage": "",
   "private": true,
   "ignore": [
     "**/.*",
+    "package.json",
+    "gulpfile.js",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "public/bower_components"
   ],
   "dependencies": {
     "angular": "~1.4.6",
     "angular-messages": "~1.4.6",
-    "angular-ui-router": "ui-router#~0.2.15",
+
     "angular-socket-io": "~0.7.0",
     "angular-material": "~0.11.1"
   }
