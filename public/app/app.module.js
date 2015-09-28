@@ -13,6 +13,7 @@
 
   config.$inject = ['$stateProvider', '$urlRouterProvider', '$mdThemingProvider'];
 
+  /* @ngInject */
   function config($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     $mdThemingProvider.theme('default')
       .primaryPalette('indigo');
