@@ -8,7 +8,17 @@
   UserAuthFactory.$inject = ['$resource'];
 
   /* @ngInject */
-  function UserAuthFactory($resourc) {
+  function UserAuthFactory($resource) {
+    var userResource = $resource('/users/:id', { id: '@_id' }, {
+      update: {
+        method: 'PUT'
+      }
+    });
 
-  }
-})
+    userResource.prototype.testFn = function() {
+
+    };
+
+    return userResource;
+  };
+})();

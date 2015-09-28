@@ -9,12 +9,13 @@ router.post('/login', passport.authenticate('local', {
   failureFlash: true })
 );
 
-router.post('/register', function( req, res, next) {
-  var user = new User(req.body);
-  user.provider = 'local';
-  user.save( function(err) {
+router.post('/save', function( req, res, next) {
+  console.log(req.body);
+  // var user = new User(req.body);
+  // user.provider = 'local';
+  // user.save( function(err) {
     
-  })
+  // })
 });
 
 module.exports = router;
