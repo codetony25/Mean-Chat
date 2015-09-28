@@ -26,12 +26,10 @@ router.post('/login', passport.authenticate('local', {
 }));
 
 router.get('/success', function(req, res) {
-  console.log("HERE");
   return res.send({state: 'success', user: req.user ? req.user : null } );
 });
 
 router.get('/failure', function(req, res){
-  console.log("HERE!");
   res.send({state: 'failure', user: null, message: "Invalid username or password"});
 });
 

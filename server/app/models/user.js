@@ -3,17 +3,91 @@
  */
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var validate = require('mongoose-validator');
+var uniqueValidator = require('mongoose-unique-validator');
 
+/**
+ * Moongoose-Validator Validations
+ */
+var nameValidator = [
+	validate({
+		validator: 'isAlphanumeric',
+		passIfEmpty: true,
+		message: 'Name fields should contain alpha-numeric characters only'
+	})
+];
+
+var usernameValidator = [
+	validate({
+		validator: 'isLength',
+		arguments: [3, 20],
+		message: 'Username should be between {ARGS[0]} and {ARGS[1]} characters'
+	}),
+	validate({
+		validator: 'isAlphanumeric',
+		message: 'Username should contain alpha-numeric characters only'
+	})
+];
+
+var emailValidator = [
+	validate({
+		validator: 'isEmail',
+		messagee: 'Invalid email'
+	}),
+	validate({
+		validator: 'isLength',
+		arguments: [0, 50],
+		message: 'Email should be no more than 50 characters long'
+	}),
+];
+
+var passwordValidator = [
+	validate(({
+		validator: 'isLength',
+		argument: [6, 255],
+		message: 'Password should be between 6 and 255 characters'
+	}))
+];
+
+/**
+ * Schema for User accounts. Login / Registration
+ */
 var UserSchema = new mongoose.Schema({
-	name: String,
-	username: { type: String },
-	email: { type: String, index: { unique: true } },
-	password: String,
-	name: {
-		firstName: String,
-		lastName: String
+	username: {
+		type: String,
+		required: true,
+		trim: true,
+		unique: true,
+		validate: usernameValidator
 	},
-	updated: Date,
+	email: {
+		type: String,
+		required: true,
+		trim: true,
+		unique: true,
+		validate: emailValidator
+	},
+	password: {
+		type: String,
+		required: true,
+		validate: passwordValidator
+	},
+	name: {
+		firstName: {
+			type: String,
+			trim: true,
+			validate: nameValidator
+		},
+		lastName: {
+			type: String,
+			trim: true,
+			validate: nameValidator
+		}
+	},
+	updated: {
+		type: Date,
+		default: Date.now
+	},
 	facebook: {},
 	google: {},
 	twitter: {}
@@ -22,11 +96,11 @@ var UserSchema = new mongoose.Schema({
 UserSchema.pre('save', function(next) {
 
 	// Only hash password if it has been modified (or is new)
-	if( !this.isModified('password')) {
+	if (!this.isModified('password')) {
 		return next();
 	}
 
-	if( !this.password || !this.password.length ) {
+	if (!this.password || !this.password.length) {
 		return (Error('Invalid Password'));
 	}
 
