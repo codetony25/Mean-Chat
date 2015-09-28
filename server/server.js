@@ -11,14 +11,13 @@ var passport = passport();
 var app = express();
 var routes = require('./config/routes')(app);
 
-var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
-
-server.listen(config.port, function() {
-	console.log('Mean Chat app server running on port ' + config.port);
+var server = app.listen(config.port, function() {
+  console.log('Mean Chat app server running on port ' + config.port);
 });
 
-io.sockets.on('connection', function() {
+var io = require('socket.io').listen(server);
+
+io.on('connection', function() {
 	console.log('Sockets working');
 });
 
