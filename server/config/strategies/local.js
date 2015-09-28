@@ -13,11 +13,8 @@ module.exports = new LocalStrategy({
     passwordField: 'password'
   },
   function(email, password, done) {
-    var options = {
-      criteria: { email: email },
-      select: 'name username email password'
-    };
-    User.load(options, function(err, user) {
+    User.findOne({email: email}, function(err, user) {
+
       if (err){
         return done(err);
       }
@@ -26,10 +23,10 @@ module.exports = new LocalStrategy({
         return done(null, false, {message: 'Unknown user'});
       }
 
-      if (!user.authenticate(password)){
+      if (!user.validatePassword(password)){
         return done(null, false, {message: 'Invalid password'});
       }
-
+      
       return done(null, user);
     });
   }

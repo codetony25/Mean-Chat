@@ -27,6 +27,7 @@
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "mongoose": "^4.1.8",
+    "mongoose-unique-validator": "^0.4.1",
     "mongoose-validator": "^1.2.4",
     "morgan": "^1.6.1",
     "passport": "^0.3.0",

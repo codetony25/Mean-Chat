@@ -11,7 +11,7 @@ var local = require('./strategies/local');
 /**
  * Expose
  */
- module.exports = function() {
+module.exports = function() {
   /**
    * Passport Session set up
    *
@@ -30,4 +30,4 @@ var local = require('./strategies/local');
 
   // Use strategies
   passport.use(local);
- }
+}
