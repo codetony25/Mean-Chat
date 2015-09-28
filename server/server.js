@@ -11,8 +11,15 @@ var passport = passport();
 var app = express();
 var routes = require('./config/routes')(app);
 
-app.listen(config.port, function() {
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+
+server.listen(config.port, function() {
 	console.log('Mean Chat app server running on port ' + config.port);
+});
+
+io.sockets.on('connection', function() {
+	console.log('Sockets working');
 });
 
 module.exports = app;

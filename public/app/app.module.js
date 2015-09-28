@@ -7,7 +7,8 @@
       'ngMessages',
       'ngMaterial',
       'meanChat.home-page',
-      'meanChat.userAuthentication'
+      'meanChat.userAuthentication',
+      'btford.socket-io'
     ])
     .config(config);
 
