@@ -32,7 +32,7 @@ module.exports = function() {
 	app.use(session({
 		saveUninitialized: true,
 		resave: true,
-		secret: "someSecretStringGoesHere"
+		secret: "tonyIsAwesome"
 	}));
 	app.use(passport.initialize());
 	app.use(passport.session());
