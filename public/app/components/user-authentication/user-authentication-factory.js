@@ -10,9 +10,8 @@
   /* @ngInject */
   function UserAuthFactory($resource) {
     var userResource = $resource('/users/:id', { id: '@_id' }, {
-      update: {
-        method: 'PUT'
-      }
+      update: { method: 'PUT', isArray: false },
+      login: { method: 'POST', url: '/users/login' }
     });
 
     userResource.prototype.testFn = function() {
