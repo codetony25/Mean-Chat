@@ -1,4 +1,4 @@
-<h2 class="md-headline">Login</h2>
+<h2 class="md-headline"><i class="material-icons md-24" style="line-height: 32px;">input</i> Login</h2>
 <md-content layout-padding>
 	<form name="UserAuth.loginForm" ng-click="UserAuth.loginForm.$valid && UserAuth.userLogin(user)" novalidate>
 		<md-input-container>
@@ -17,8 +17,11 @@
 				<div ng-message-exp="['minlength', 'maxlength']">Your password must be between 10 and 255 characters</div>
 			</div> -->
 		</md-input-container>
-		<div>
-			<md-button class="md-raised md-primary">Login</md-button>
-		</div>
+
+		<md-button class="md-raised md-primary">Login</md-button>
+
+		<md-divider style="margin: 1em 0"></md-divider>
+
+		<p class="md-body-1">Need an account? <a href ui-sref="authenticate.register">Register</a></p>
 	</form>
 </md-content>

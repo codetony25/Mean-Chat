@@ -5,18 +5,17 @@
 	<title>Mean Chat</title>
 
 	<link rel="stylesheet" href="./bower_components/angular-material/angular-material.css">
+	<link rel="stylesheet" href="./styles.css">
 </head>
 <body layout="column" layout-fill>
-		<!-- Top toolbar -->
-		<md-toolbar class="md-toolbar-tools">
-			<div class="md-toolbar-tools">
-				<h2><span class="md-title">Mean Chat</span></h2>
-			</div>
-		</md-toolbar>
-	<md-content class="md-padding">
-
-		<div ui-view></div>
-	</md-content>
+	<!-- Top toolbar -->
+	<md-toolbar class="md-toolbar-tools">
+		<div class="md-toolbar-tools">
+			<h2><span class="md-title">Mean Chat</span></h2>
+		</div>
+	</md-toolbar>
+	
+	<div ui-view></div>
 
 	<!-- Core Dependencies -->
 	<script src="./bower_components/angular/angular.js"></script>

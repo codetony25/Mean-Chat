@@ -1,14 +1,6 @@
-<h2 class="md-headline">Register</h2>
+<h2 class="md-headline"><i class="material-icons md-24" style="line-height: 32px;">account_circle</i> Register</h2>
 <md-content layout-padding>
 	<form name="UserAuth.registrationForm" ng-click="UserAuth.registrationForm.$valid && UserAuth.userRegistration(user)" novalidate>
-		<md-input-container>
-			<label>Username</label>
-			<input ng-model="user.username" name="username" md-minlength="5" md-maxlength="20" required>
-<!-- 			<div ng-messages="UserAuth.registrationForm.username.$error" ng-show="UserAuth.registrationForm.username.$touched">
-				<div ng-message="required">Username is required</div>
-				<div ng-message-exp="['minlength', 'maxlength']">Your username must be between 5 and 20 characters</div>
-			</div> -->
-		</md-input-container>
 		<md-input-container>
 			<label>Email</label>
 			<input type="email" ng-model="user.email" name="email" minlength="10" required>
@@ -32,8 +24,11 @@
 				<div ng-message-exp="['minlength', 'maxlength']">Your password must be between 10 and 255 characters</div>
 			</div> -->
 		</md-input-container>
-		<div>
-			<md-button class="md-raised md-primary">Register</md-button>
-		</div>
+
+		<md-button class="md-raised md-primary">Register</md-button>
+
+		<md-divider style="margin: 1em 0"></md-divider>
+
+		<p class="md-body-1">Already have an account? <a href ui-sref="authenticate.login">Login</a></p>
 	</form>
 </md-content>

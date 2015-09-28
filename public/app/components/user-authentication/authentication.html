@@ -1,11 +1,11 @@
-<div layout="row" layout-align="center" layout-wrap>
-	<md-card>
-		<md-card-content>
-			<section ui-view></section>
-			<section layout="row" layout-align="center center" layout-wrap>
-				<md-button class="md-raised md-primary" ui-sref=".login"><ng-md-icon icon="account_circle"></ng-md-icon> Login</md-button>
-				<md-button class="md-raised md-primary" ui-sref=".register"><ng-md-icon icon="person_add"></ng-md-icon> Register</md-button>
-			</section>
-		</md-card-content>
-	</md-card>
-</div>
+<md-content layout="row" layout-padding>
+	<div flex="30"></div>
+
+	<div flex="40">
+		<md-card>
+			<md-card-content>
+				<section ui-view></section>
+			</md-card-content>
+		</md-card>
+	</div>
+</md-content>
