@@ -5,21 +5,18 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
 var UserSchema = new mongoose.Schema({
-	displayName: String,
+	name: String,
+	username: String,
+	email: String,
+	password: String,
 	name: {
 		firstName: String,
-		middleName: String,
 		lastName: String
 	},
-	emails: [{
-		value: String,
-		type: String,
-	}],
-	photos: [{
-		value: String
-	}],
-	provider: String,
-	updated: Date
+	updated: Date,
+	facebook: {},
+	google: {},
+	twitter: {}
 });
 
 UserSchema.methods.hashPassword = function(password) {
