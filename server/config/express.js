@@ -41,8 +41,8 @@ module.exports = function() {
 	// uncomment after placing your favicon in /public
 	//app.use(favicon('./public/favicon.ico'));
 
-	// app.use(passport.initialize());
-	// app.use(passport.session());
+	app.use(passport.initialize());
+	app.use(passport.session());
 
 	return app;
 }
