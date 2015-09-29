@@ -12,8 +12,13 @@
     var _this = this;
 
     this.userRegistration = function(user){
-      var result = UserAuthFactory.save(user);
-      console.log(result);
+      var newUser = new UserAuthFactory(user);
+
+      newUser.$save( function(data) {
+        console.log('here' + data);
+      }, function(err) {
+        _this.formErrors = err.errors;
+      })
     };
 
     this.userLogin = function(user) {

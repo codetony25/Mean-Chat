@@ -13,7 +13,7 @@ router.post('/', function( req, res, next) {
 
   user.save( function(err) {
     if(err) {
-      return res.json(_getErrorMessage(err));
+      return res.status(401).json(err);
     }
 
     return res.json(true);
@@ -32,27 +32,5 @@ router.get('/success', function(req, res) {
 router.get('/failure', function(req, res){
   res.send({state: 'failure', user: null, message: "Invalid username or password"});
 });
-
-var _getErrorMessage = function(err) {
-  var message = '';
-  if (err.code) {
-    switch (err.code) {
-      case 11000:
-      case 11001:
-        message = 'Email already taken';
-        break;
-      default:
-        message = 'Something went wrong';
-    }
-  }
-  else {
-    for (var errName in err.errors) {
-      if (err.errors[errName].message)
-        message = err.errors[errName].message;
-    }
-  }
-
-  return message;
-};
 
 module.exports = router;
