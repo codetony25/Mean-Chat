@@ -5,8 +5,7 @@
     .module('meanChat.userAuthentication', [
       'ui.router',
       'ngResource',
-      'btford.socket-io',
-      'ngCookies'
+      'btford.socket-io'
     ])
     .config(config);
 

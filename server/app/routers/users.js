@@ -19,7 +19,6 @@ module.exports = function() {
         return res.status(401).json(err);
       }
 
-      // To do: send back state to change angular state
       return res.json(true);
     })
   });
