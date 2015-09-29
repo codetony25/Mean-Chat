@@ -19,7 +19,12 @@
   /* @ngInject */
   function config($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     $mdThemingProvider.theme('default')
-      .primaryPalette('indigo')
+      .primaryPalette('indigo', {
+        'default': '900',
+        'hue-1': '600',
+        'hue-2': '400',
+        'hue-3': '100'
+      })
       .accentPalette('pink')
       .warnPalette('red');
 

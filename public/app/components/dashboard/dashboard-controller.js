@@ -9,6 +9,5 @@
 
   function DashboardController(DashboardFactory, mySocket) {
     console.log('in DashCtrl');
-
   }
 })();
