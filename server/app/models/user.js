@@ -20,7 +20,7 @@ var nameValidator = [
 var usernameValidator = [
 	validate({
 		validator: 'isLength',
-		arguments: [3, 20],
+		arguments: [3, 25],
 		message: 'Username should be between {ARGS[0]} and {ARGS[1]} characters'
 	}),
 	validate({
@@ -69,8 +69,7 @@ var UserSchema = new mongoose.Schema({
 	},
 	password: {
 		type: String,
-		required: true,
-		validate: passwordValidator
+		required: true
 	},
 	name: {
 		firstName: {

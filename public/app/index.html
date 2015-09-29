@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="./css/styles.css">
 </head>
 <body layout="column" layout-fill>
+
 	<!-- Top toolbar -->
 	<md-toolbar class="md-toolbar-tools">
 		<div class="md-toolbar-tools">
@@ -15,7 +16,8 @@
 		</div>
 	</md-toolbar>
 	
-	<div ui-view></div>
+	<div flex layout="row" ui-view></div>
+	
 
 	<!-- Core Dependencies -->
 	<script src="./bower_components/angular/angular.js"></script>
@@ -44,5 +46,8 @@
 	<!-- App Controller -->
 	<script src="./app/components/home-page/home-page-controller.js"></script>
 	<script src="./app/components/user-authentication/user-authentication-controller.js"></script>
+
+	<script src="./app/components/user-authentication/server-error-directive.js"></script>
+	
 </body>
 </html>

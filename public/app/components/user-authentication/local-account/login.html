@@ -1,21 +1,33 @@
-<h2 class="md-headline"><i class="material-icons md-24" style="line-height: 32px;">input</i> Login</h2>
-<md-content layout-padding>
+<md-card-content layout-margin>
+	<h2 class="md-headline"><i class="material-icons md-24" style="line-height: 32px;">input</i> Login</h2>
+</md-card-content>
+
+<md-card-content ng-show="UserAuth.loginErrors" style="background-color: #B0BEC5">
+	<div layout-margin ng-cloak>
+		<p class="md-body-1" ng-repeat="errors in UserAuth.loginErrors">{{ errors.message }}</p>
+	</div>
+</md-card-content>
+
+<md-card-content layout-margin>
 	<form name="UserAuth.loginForm" ng-submit="UserAuth.loginForm.$valid && UserAuth.userLogin(user)" novalidate>
+
 		<md-input-container>
 			<label>Email</label>
-			<input type="email" ng-model="user.email" name="email" minlength="10" required>
-<!-- 			<div ng-messages="UserAuth.loginForm.email.$error" ng-show="UserAuth.loginForm.$dirty">
+			<input type="email" ng-model="user.email" name="email" md-maxlength="50" required>
+			<div ng-messages="UserAuth.loginForm.email.$error" ng-show="UserAuth.loginForm.email.$touched && UserAuth.loginForm.email.$error">
+				<div ng-message="valid">sfdsdf</div>
 				<div ng-message="required">Email is required</div>
-				<div ng-message="md-minlength">Your email must be at least 10 characters long</div>
-			</div> -->
+				<div ng-message="md-maxlength">Max email address length is 50 characters</div>
+			</div>
 		</md-input-container>
+
 		<md-input-container>
 			<label>Password</label>
-			<input type="password" ng-model="user.password" name="password" md-minlength="10" md-maxlength="255" required>
-<!-- 			<div ng-messages="UserAuth.loginForm.password.$error">
+			<input type="password" ng-model="user.password" name="password" minlength="6" md-maxlength="255" required>
+			<div ng-messages="UserAuth.loginForm.password.$error" ng-show="UserAuth.loginForm.password.$touched && UserAuth.loginForm.password.$error">
 				<div ng-message="required">Password is required</div>
-				<div ng-message-exp="['minlength', 'maxlength']">Your password must be between 10 and 255 characters</div>
-			</div> -->
+				<div ng-message-exp="['minlength', 'md-maxlength']">Your password must be between 6 and 255 characters</div>
+			</div>
 		</md-input-container>
 
 		<md-button class="md-raised md-primary">Login</md-button>
@@ -24,4 +36,4 @@
 
 		<p class="md-body-1">Need an account? <a href ui-sref="authenticate.register">Register</a></p>
 	</form>
-</md-content>
+</md-card-content>
