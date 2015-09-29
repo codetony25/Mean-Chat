@@ -12,12 +12,23 @@
     var _this = this;
 
     this.userRegistration = function(user){
-      var result = UserAuthFactory.save(user);
-      console.log(result);
+      var newUser = new UserAuthFactory(user);
+
+      newUser.$save( function(data) {
+        // TO DO: Success response
+      }, function(err) {
+        _this.registrationErrors = err.data.errors;
+      })
     };
 
     this.userLogin = function(user) {
-      console.log( UserAuthFactory.login(user) );
+      var user = new UserAuthFactory(user);
+      
+      user.$login( function(response) {
+        console.log(response);
+      }, function(err) {
+        _this.loginErrors = err.data.errors;
+      });
     }
 
     this.test = function() {

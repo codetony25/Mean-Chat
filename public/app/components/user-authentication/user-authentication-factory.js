@@ -5,18 +5,14 @@
     .module('meanChat.userAuthentication')
     .factory('UserAuthFactory', UserAuthFactory);
 
-  UserAuthFactory.$inject = ['$resource', 'mySocket'];
+  UserAuthFactory.$inject = ['$resource'];
 
   /* @ngInject */
-  function UserAuthFactory($resource, mySocket) {
+  function UserAuthFactory($resource) {
     var userResource = $resource('/users/:id', { id: '@_id' }, {
       update: { method: 'PUT', isArray: false },
       login: { method: 'POST', url: '/users/login' }
     });
-
-    userResource.prototype.testFn = function() {
-
-    };
 
     return userResource;
   };
