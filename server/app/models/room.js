@@ -11,7 +11,6 @@ var uniqueValidator = require('mongoose-unique-validator');
 var roomValidator = [
     validate({
         validator: 'isAlphanumeric',
-        passIfEmpty: true,
         message: 'Room names should contain alpha-numeric characters only'
     }),
     validate({
@@ -21,6 +20,13 @@ var roomValidator = [
     }),
 ];
 
+var topicValidator = [
+	validate({
+		validator: 'isLength',
+		arguments: [3, 30],
+		message: 'Room topics should be between {ARGS[0]} and {ARGS[1]} characters'
+	})
+];
 var RoomSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -37,6 +43,10 @@ var RoomSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
+    _blocked: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     invite: {
         type: Boolean,
         default: false
@@ -45,7 +55,16 @@ var RoomSchema = new mongoose.Schema({
         type: Number,
         default: -1
     },
-    count: Number
+    topic: {
+    	type: String,
+    	trim: true,
+    	validator: topicValidator,
+    	default: 'A topic has not been set.'
+    },
+    count: {
+    	type: Number,
+    	default: 0
+    }
 });
 
 mongoose.model('Room', RoomSchema);

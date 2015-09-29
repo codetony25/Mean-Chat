@@ -101,11 +101,11 @@ UserSchema.pre('save', function(next) {
 	}
 
 	if (!this.password || !this.password.length) {
-		return (Error('Invalid Password'));
+		return next(Error('Invalid Password'));
 	}
 
 	this.password = UserSchema.methods.hashPassword(this.password);
-	next();
+	return next();
 });
 
 UserSchema.methods.hashPassword = function(password) {
