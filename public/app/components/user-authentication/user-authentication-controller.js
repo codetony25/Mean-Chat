@@ -15,14 +15,20 @@
       var newUser = new UserAuthFactory(user);
 
       newUser.$save( function(data) {
-        console.log('here' + data);
+        // TO DO: Success response
       }, function(err) {
-        _this.formErrors = err.errors;
+        _this.registrationErrors = err.data.errors;
       })
     };
 
     this.userLogin = function(user) {
-      console.log( UserAuthFactory.login(user) );
+      var user = new UserAuthFactory(user);
+      
+      user.$login( function(response) {
+        console.log(response);
+      }, function(err) {
+        _this.loginErrors = err.data.errors;
+      });
     }
 
     this.test = function() {

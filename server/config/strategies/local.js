@@ -20,11 +20,11 @@ module.exports = new LocalStrategy({
       }
 
       if (!user){
-        return done(null, false, {message: 'Unknown user'});
+        return done(null, false);
       }
 
       if (!user.validatePassword(password)){
-        return done(null, false, {message: 'Invalid password'});
+        return done(null, false);
       }
       
       return done(null, user);

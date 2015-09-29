@@ -1,14 +1,22 @@
-<h2 class="md-headline"><i class="material-icons md-24" style="line-height: 32px;">account_circle</i> Register</h2>
-<md-content>
+<md-card-content layout-margin>
+	<h2 class="md-headline"><i class="material-icons md-24" style="line-height: 32px;">account_circle</i> Register</h2>
+</md-card-content>
+
+<md-card-content ng-show="UserAuth.registrationErrors" style="background-color: #B0BEC5">
+	<div layout-margin ng-cloak>
+		<p class="md-body-1" ng-repeat="errors in UserAuth.registrationErrors">{{ errors.message }}</p>
+	</div>
+</md-card-content>
+
+<md-card-content layout-margin>
 	<form name="UserAuth.registrationForm" ng-submit="UserAuth.registrationForm.$valid && UserAuth.userRegistration(user)" novalidate>
-	
+
 		<md-input-container>
 			<label>Username</label>
 			<input type="text" ng-model="user.username" name="username" minlength="3" md-maxlength="25" required>
 			<div ng-messages="UserAuth.registrationForm.username.$error" ng-show="UserAuth.registrationForm.username.$touched && UserAuth.registrationForm.username.$error">
 				<div ng-message="required">Email is required</div>
 				<div ng-message-exp="['minlength', 'md-maxlength']">Username must be between 3 and 25 characters long</div>
-				<div ng-message>sfsfsdffsdsfd</div>
 			</div>
 		</md-input-container>
 
@@ -23,10 +31,10 @@
 
 		<md-input-container>
 			<label>Password</label>
-			<input type="password" ng-model="user.password" name="password" minlength="10" md-maxlength="255" required>
+			<input type="password" ng-model="user.password" name="password" minlength="8" md-maxlength="255" required>
 			<div ng-messages="UserAuth.registrationForm.password.$touched && UserAuth.registrationForm.password.$error">
 				<div ng-message="required">Password is required</div>
-				<div ng-message-exp="['minlength', 'md-maxlength']">Your password must be between 10 and 255 characters</div>
+				<div ng-message-exp="['minlength', 'md-maxlength']">Your password must be between 8 and 255 characters</div>
 			</div>
 		</md-input-container>
 
@@ -44,4 +52,4 @@
 
 		<p class="md-body-1">Already have an account? <a href ui-sref="authenticate.login">Login</a></p>
 	</form>
-</md-content>
+</md-card-content>

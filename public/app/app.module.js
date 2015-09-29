@@ -18,7 +18,9 @@
   /* @ngInject */
   function config($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     $mdThemingProvider.theme('default')
-      .primaryPalette('indigo');
+      .primaryPalette('indigo')
+      .accentPalette('pink')
+      .warnPalette('red');
 
     $urlRouterProvider.otherwise('home');
   } 
