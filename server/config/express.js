@@ -1,14 +1,14 @@
 /**
  * Module dependencies
  */
-var express = require('express');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var morgan = require('morgan');
-var flash = require('connect-flash');
-var passport = require('passport');
-var config = require('./config');
+var express = require('express')
+    ,bodyParser = require('body-parser')
+    ,cookieParser = require('cookie-parser')
+    ,session = require('express-session')
+    ,morgan = require('morgan')
+    ,flash = require('connect-flash')
+    ,passport = require('passport')
+    ,config = require('./config');
 
 /**
  * Expose

@@ -2,14 +2,50 @@
  * Module dependencies
  */
 var mongoose = require('mongoose');
+var validate = require('mongoose-validator');
+var uniqueValidator = require('mongoose-unique-validator');
+
+/**
+ * Moongoose-Validator Validations
+ */
+var roomValidator = [
+    validate({
+        validator: 'isAlphanumeric',
+        passIfEmpty: true,
+        message: 'Room names should contain alpha-numeric characters only'
+    }),
+    validate({
+        validator: 'isLength',
+        arguments: [3, 10],
+        message: 'Room names should be between {ARGS[0]} and {ARGS[1]} characters'
+    }),
+];
 
 var RoomSchema = new mongoose.Schema({
-	name: String,
-  	_owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  	_admins: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-  	invite: {type: Boolean, default: false},
-  	max_users: {type: Number, default: -1},
-  	count: Number
+    name: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true,
+        validate: roomValidator
+    },
+    _owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    _admins: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    invite: {
+        type: Boolean,
+        default: false
+    },
+    max_users: {
+        type: Number,
+        default: -1
+    },
+    count: Number
 });
 
 mongoose.model('Room', RoomSchema);

@@ -8,6 +8,7 @@ router.post('/', function(req, res) {
 		Messages will have to go through a parser to determine resource type
 		and other manipulations
 	*/
+
 });
 
 module.exports = router;
