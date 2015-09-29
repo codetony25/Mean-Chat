@@ -9,6 +9,7 @@
       'ngResource',
       'meanChat.home-page',
       'meanChat.userAuthentication',
+      'meanChat.dashboard',
       'btford.socket-io'
     ])
     .config(config);

@@ -19,7 +19,7 @@ module.exports = function() {
         return res.status(401).json(err);
       }
 
-      return res.json(true);
+      return res.json({state: 'success'});
     })
   });
 
