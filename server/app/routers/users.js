@@ -1,41 +1,45 @@
 var express = require('express');
-var router = express.Router();
+
 var passport = require('passport');
 var User = require('mongoose').model('User');
 
-router.get('/', function(req,res,next) {
-  
-});
+module.exports = function() {
+  var router = express.Router();
 
-// Register
-router.post('/', function( req, res, next) {
-  var user = new User(req.body);
+  router.get('/', function(req,res,next) {
 
-  user.save( function(err) {
-    if(err) {
-      return res.status(401).json(err);
-    }
-
-    // To do: send back state to change angular state
-    return res.json(true);
-  })
-});
-
-router.post('/login', passport.authenticate('local', {
-  successRedirect: '/users/success',
-  failureRedirect: '/users/failure'
-}));
-
-router.get('/success', function(req, res) {
-  return res.send({state: 'success', user: req.user ? req.user : null } );
-});
-
-router.get('/failure', function(req, res){
-  res.status(401).json({ 
-    errors: {
-      login: { message: 'Invalid username or password' }
-    }
   });
-});
 
-module.exports = router;
+  // Register
+  router.post('/', function( req, res, next) {
+    var user = new User(req.body);
+
+    user.save( function(err) {
+      if(err) {
+        return res.status(401).json(err);
+      }
+
+      // To do: send back state to change angular state
+      return res.json(true);
+    })
+  });
+
+  router.post('/login', passport.authenticate('local', {
+    successRedirect: '/users/success',
+    failureRedirect: '/users/failure'
+  }));
+
+  router.get('/success', function(req, res) {
+    return res.send({state: 'success', user: req.user ? req.user : null } );
+  });
+
+  router.get('/failure', function(req, res){
+    res.status(401).json({ 
+      errors: {
+        login: { message: 'Invalid username or password' }
+      }
+    });
+  });
+
+  return router;
+}

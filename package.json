@@ -23,7 +23,7 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.0",
     "connect-flash": "^0.1.1",
-    "cookie-parser": "^1.4.0",
+    "connect-mongodb-session": "^1.0.5",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "html-entities": "^1.1.3",

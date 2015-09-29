@@ -3,13 +3,15 @@
  */
 var config = require('./config');
 var routes = require(config.serverRoot + '/app/routers/index');
-var users = require(config.serverRoot + '/app/routers/users');
+
 var messages = require(config.serverRoot + '/app/routers/messages');
 
 /**
  * Expose
  */
-module.exports = function(app) {
+module.exports = function(app, io) {
+
+var users = require(config.serverRoot + '/app/routers/users')(io);
 
 	app.use('/', routes);
 	app.use('/users', users);

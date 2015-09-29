@@ -7,6 +7,7 @@
       'ngMessages',
       'ngMaterial',
       'ngResource',
+      'ngCookies',
       'meanChat.home-page',
       'meanChat.userAuthentication',
       'btford.socket-io'

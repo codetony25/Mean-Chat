@@ -1,15 +1,14 @@
 /**
  * Module dependencies
  */
-var express = require('express')
-    ,bodyParser = require('body-parser')
-    ,cookieParser = require('cookie-parser')
-    ,session = require('express-session')
-    ,MongoDBStore = require('connect-mongodb-session')(session)
-    ,morgan = require('morgan')
-    ,flash = require('connect-flash')
-    ,passport = require('passport')
-    ,config = require('./config');
+var express = require('express');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session);
+var morgan = require('morgan');
+var flash = require('connect-flash');
+var passport = require('passport');
+var config = require('./config');;
 
 /**
  * Expose
@@ -18,11 +17,10 @@ module.exports = function() {
 	var app = express();
 
 	// MongoDB Session Stores
-	var store = new MongoDBStore(
-		{
-			uri: config.db,
-			collection: 'mySessions'
-		});
+	var store = new MongoDBStore({
+		uri: config.db,
+		collection: 'mySessions'
+	});
 
 	// Catch errors 
     store.on('error', function(error) {
@@ -42,7 +40,6 @@ module.exports = function() {
 	}));
 	app.use(bodyParser.json());
 
-	app.use(cookieParser());
 	app.use(session({
 		saveUninitialized: true,
 		resave: true,
