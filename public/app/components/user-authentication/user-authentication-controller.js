@@ -36,6 +36,10 @@
             });
         }
 
-
+        this.logout = function() {
+            UserAuthFactory.logout( function() {
+                UserAuthFactory.removeUser();
+            })
+        }
     }
 })();

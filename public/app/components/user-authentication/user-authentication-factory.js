@@ -11,7 +11,8 @@
   function UserAuthFactory($resource, SessionFactory) {
     var factory = $resource('/users/:id', { id: '@_id' }, {
       update: { method: 'PUT', isArray: false },
-      login: { method: 'POST', url: '/users/login' }
+      login: { method: 'POST', url: '/users/login' },
+      logout: { method:'POST', url: '/users/logout' }
     });
 
     var _user = null;
@@ -28,11 +29,20 @@
     }
 
     factory.isLoggedIn = function() {
-        return this._isLoggedIn;
+        return _isLoggedIn;
+    }
+
+    factory.removeUser = function() {
+        _user = null;
+        _isLoggedIn = false;
+        SessionFactory.destroyUser();
     }
 
     function _init() {
         _user = SessionFactory.getUser();
+        if( _user ) {
+            _isLoggedIn = true;
+        }
     }
 
     _init();

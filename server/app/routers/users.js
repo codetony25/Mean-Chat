@@ -23,6 +23,10 @@ module.exports = function() {
     })
   });
 
+  router.post('/logout', function() {
+    // OTDO
+  })
+
   router.post('/login', passport.authenticate('local', {
     successRedirect: '/users/success',
     failureRedirect: '/users/failure'

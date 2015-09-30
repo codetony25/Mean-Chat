@@ -24,6 +24,10 @@
             return JSON.parse($window.sessionStorage[_key]);
         }
 
+        factory.destroyUser = function() {
+            $window.sessionStorage[_key] = null;
+        }
+
         return factory;
     }
 
