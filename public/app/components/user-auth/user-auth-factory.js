@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('meanChat.userAuthentication')
+    .module('meanChat.userAuth')
     .factory('UserAuthFactory', UserAuthFactory);
 
   UserAuthFactory.$inject = ['$resource', 'SessionFactory'];

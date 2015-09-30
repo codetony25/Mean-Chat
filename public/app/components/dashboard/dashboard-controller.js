@@ -1,13 +1,31 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('meanChat.dashboard')
-    .controller('DashboardController', DashboardController);
+    angular
+        .module('meanChat.dashboard')
+        .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['DashboardFactory', 'mySocket', 'UserAuthFactory'];
+    DashboardController.$inject = ['DashboardFactory', 'mySocket'];
 
-  function DashboardController(DashboardFactory, mySocket, UserAuthFactory) {
-    console.log(UserAuthFactory.getUser());
-  }
+    /* @ngInject */
+    function DashboardController(DashboardFactory, mySocket) {
+        var _this = this;
+
+        this.getUserInfo = function() {
+            DashboardFactory.fetchUserInfo( function(response) {
+
+                if(response.state == 'success') {
+                    _this.userInfo = response.user;
+                    console.log(_this.userInfo);
+                }
+            })
+        }
+
+        var _init = function _init() {
+            console.log('Init Run');
+            _this.getUserInfo();
+        }
+
+        _init();
+    }
 })();

@@ -2,13 +2,13 @@
     'use strict';
 
     angular
-        .module('meanChat.userAuthentication')
-        .controller('userAuthenticationController', userAuthenticationController);
+        .module('meanChat.userAuth')
+        .controller('UserAuthController', UserAuthController);
 
-    userAuthenticationController.$inject = ['UserAuthFactory', 'mySocket', '$state'];
+    UserAuthController.$inject = ['UserAuthFactory', 'mySocket', '$state'];
 
     /* @ngInject */
-    function userAuthenticationController(UserAuthFactory, mySocket, $state) {
+    function UserAuthController(UserAuthFactory, mySocket, $state) {
         var _this = this;
 
         this.userRegistration = function(user){

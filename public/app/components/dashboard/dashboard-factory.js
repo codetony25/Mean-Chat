@@ -1,18 +1,25 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('meanChat.dashboard')
-    .factory('DashboardFactory', DashboardFactory);
+    angular
+        .module('meanChat.dashboard')
+        .factory('DashboardFactory', DashboardFactory);
 
-  DashboardFactory.$inject = ['$resource'];
+    DashboardFactory.$inject = ['UserAuthFactory'];
 
-  /* @ngInject */
-  function DashboardFactory($resource) {
-    var dashboardResource = $resource('/dashboard/:id', { id: '@_id' }, {
-      update: { method: 'PUT', isArray: false }
-    });
+    /* @ngInject */
+    function DashboardFactory(UserAuthFactory) {
+        var factory = {};
 
-    return dashboardResource;
-  }
+        factory.fetchUserInfo = function(callback) {
+            var user = UserAuthFactory.getUser();
+            UserAuthFactory.get({ id: user._id }, function(response) {
+                return callback(response);
+            }, function(err) {
+                console.log('DashboardFactory Error: ', err);
+            })
+        };
+
+        return factory;
+    }
 })();

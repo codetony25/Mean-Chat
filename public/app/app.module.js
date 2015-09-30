@@ -9,7 +9,7 @@
             'ngResource',
             'meanChat.home-page',
             'meanChat.chat',
-            'meanChat.userAuthentication',
+            'meanChat.userAuth',
             'meanChat.dashboard',
             'btford.socket-io'
         ])
@@ -31,7 +31,7 @@
         .accentPalette('pink')
         .warnPalette('red');
 
-        $urlRouterProvider.otherwise('home');
+        $urlRouterProvider.otherwise('/');
     } 
 
     run.$inject = ['$rootScope', '$state', 'UserAuthFactory'];
@@ -39,8 +39,6 @@
     function run($rootScope, $state, UserAuthFactory) {
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
             
-            console.log(UserAuthFactory.getUser() );
-
             if( toState.data && !UserAuthFactory.isLoggedIn() ) {
                 event.preventDefault();
                 $state.go('authenticate.login');

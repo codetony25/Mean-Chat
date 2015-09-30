@@ -12,7 +12,7 @@
 
   function config($stateProvider, $urlRouterProvider) {
     $stateProvider
-      .state('home', {
+      .state('/', {
         url: '/',
         templateUrl: 'app/components/home-page/home-page.html',
         controller: 'HomePageController as HomePage'

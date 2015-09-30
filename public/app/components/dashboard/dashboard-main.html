@@ -1,19 +1,19 @@
 <div layout="row" layout-padding>
 	<div class="stats-card md-whiteframe-2dp">
-		<div flex="50" class="left"><i class="material-icons">chat</i></div>
-		<div flex="50" class="right">548 <small>messages</small></div>
+		<div flex="30" class="left"><i class="material-icons">chat</i></div>
+		<div flex="70" class="right"><span ng-bind="Dashboard.userInfo.message_count"></span> <small>messages</small></div>
 	</div>
 	<div class="stats-card md-whiteframe-2dp">
-		<div flex="50" class="left"><i class="material-icons">thumb_up</i></div>
-		<div flex="50" class="right">154 <small>up votes</small></div>
+		<div flex="30" class="left"><i class="material-icons">thumb_up</i></div>
+		<div flex="70" class="right"><span ng-bind="Dashboard.userInfo.upvotes"></span> <small>up votes</small></div>
 	</div>
 	<div class="stats-card md-whiteframe-2dp">
-		<div flex="50" class="left"><i class="material-icons">thumb_down</i></div>
-		<div flex="50" class="right">12 <small>down votes</small></div>
+		<div flex="30" class="left"><i class="material-icons">thumb_down</i></div>
+		<div flex="70" class="right"><span ng-bind="Dashboard.userInfo.downvotes"></span> <small>down votes</small></div>
 	</div>
 	<div class="stats-card md-whiteframe-2dp">
-		<div flex="50" class="left"><i class="material-icons">web</i></div>
-		<div flex="50" class="right">17 <small>rooms visited</small></div>
+		<div flex="30" class="left"><i class="material-icons">web</i></div>
+		<div flex="70" class="right">1<span ng-bind="Dashboard.userInfo.active_rooms.length"></span> <small>rooms visited</small></div>
 	</div>
 </div>
 <div layout="row" layout-padding>

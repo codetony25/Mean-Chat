@@ -22,12 +22,10 @@
                         controller: 'DashboardController as Dashboard'
                     },
                     'main@dashboard': {
-                        templateUrl: 'app/components/dashboard/dashboard-main.html',
-                        controller: 'DashboardController as Dashboard'
+                        templateUrl: 'app/components/dashboard/dashboard-main.html'
                     },
                     'sidebar@dashboard': {
-                        templateUrl: 'app/components/dashboard/dashboard-profile.html',
-                        controller: 'DashboardController as Dashboard'
+                        templateUrl: 'app/components/dashboard/dashboard-profile.html'
                     }
                 },
                 data: {requiresLogin: true }

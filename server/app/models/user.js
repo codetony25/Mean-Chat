@@ -140,4 +140,13 @@ UserSchema.methods.validatePassword = function(password) {
 	return bcrypt.compareSync(password, this.password);
 };
 
+UserSchema.virtual('created').get(function() {
+    return mongoose.Types.ObjectId(this._id).getTimestamp();
+});
+
+
+UserSchema.set('toJSON', {
+    virtuals: true
+});
+
 mongoose.model('User', UserSchema);
