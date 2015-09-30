@@ -13,6 +13,7 @@
     $stateProvider
       .state('chat', {
         url: '/chat',
+        abstract: true,
         templateUrl: 'app/components/chat/chat.html',
         controller: 'ChatController as Chat'
       })

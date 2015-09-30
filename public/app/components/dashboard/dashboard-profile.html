@@ -1,0 +1,54 @@
+<div flex="100" class="background" layout-padding layout="center center">
+	<span flex class="username md-headline md-primary" ng-bind="Dashboard.userInfo.username">Username</span>
+</div>
+<md-content>
+	<md-list>
+		<md-list-item class="md-2-line">
+			<md-icon class="md-primary md-hue-2"><i class="material-icons md-24">email</i></md-icon>
+			<div class="md-list-item-text">
+				<h3 class="md-body-2" ng-bind="Dashboard.userInfo.email"></h3>
+				<p class="md-caption">Email</p>
+			</div>
+		</md-list-item>
+
+		<md-divider ></md-divider>
+
+		<md-list-item class="md-2-line">
+			<md-icon md-svg-src="/img/facebook.svg" class="md-primary md-hue-2"></md-icon>
+			<div class="md-list-item-text">
+				<h3 class="md-body-2">Facebook</h3>
+				<p class="md-caption">Social Account</p>
+			</div>
+		</md-list-item>
+
+		<md-divider ></md-divider>
+
+		<md-list-item class="md-2-line">
+			<md-icon md-svg-src="/img/google-plus.svg" class="md-primary md-hue-2"></md-icon>
+			<div class="md-list-item-text">
+				<h3 class="md-body-2">Google</h3>
+				<p class="md-caption">Social Account</p>
+			</div>
+		</md-list-item>
+		
+		<md-divider ></md-divider>
+
+		<md-list-item class="md-2-line">
+			<md-icon md-svg-src="/img/twitter.svg" class="md-primary md-hue-2"></md-icon>
+			<div class="md-list-item-text">
+				<h3 class="md-body-2">Twitter</h3>
+				<p class="md-caption">Social Account</p>
+			</div>
+		</md-list-item>
+		
+		<md-divider ></md-divider>
+
+		<md-list-item class="md-2-line">
+			<md-icon class="md-primary md-hue-2"><i class="material-icons md-24">access_time</i></md-icon>
+			<div class="md-list-item-text">
+				<h3 class="md-body-2" ng-bind="Dashboard.userInfo.created | date: 'short'"></h3>
+				<p class="md-caption">Chatting Since</p>
+			</div>
+		</md-list-item>
+	</md-list>
+</md-content>

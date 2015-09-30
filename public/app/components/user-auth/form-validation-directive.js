@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('meanChat.userAuthentication')
+    .module('meanChat.userAuth')
     .directive('ngEquals', ngEquals);
 
   function ngEquals() {

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('meanChat.userAuthentication', [
+    .module('meanChat.userAuth', [
       'ui.router',
       'ngResource',
       'btford.socket-io'
@@ -15,18 +15,18 @@
   function config($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('authenticate', {
-        url: '/authenticate',
+        url: '',
         abstract: true,
-        templateUrl: 'app/components/user-authentication/authentication.html',
-        controller: 'userAuthenticationController as UserAuth'
+        templateUrl: 'app/components/user-auth/authentication.html',
+        controller: 'UserAuthController as UserAuth'
       })
       .state('authenticate.login', {
-        url: '',
-        templateUrl: 'app/components/user-authentication/local-account/login.html'
+        url: '/login',
+        templateUrl: 'app/components/user-auth/local-account/login.html'
       })
       .state('authenticate.register', {
         url: '/register',
-        templateUrl: 'app/components/user-authentication/local-account/registration.html'
+        templateUrl: 'app/components/user-auth/local-account/registration.html'
       })
   } 
 })();
