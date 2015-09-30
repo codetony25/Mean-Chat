@@ -9,6 +9,8 @@
 
     /* @ngInject */
     function SessionFactory($window) {
+        console.log('SessionFactory loaded');
+
         var factory = {};
         var _key = 'userInfo';
 

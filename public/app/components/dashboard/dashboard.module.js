@@ -33,7 +33,8 @@
                     'sidebar-nav@dashboard': {
                         templateUrl: 'app/components/dashboard/sidebar/rooms/sidebar-nav.html'
                     }
-                }
+                },
+                data: {requiresLogin: true }
             })
             .state('dashboard.sidebar', {
                 views: {

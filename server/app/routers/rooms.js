@@ -25,7 +25,7 @@ var isAuthenticated = function(req, res, next) {
 }
 
 //Register authentication middleware
-router.use(isAuthenticated);
+// router.use(isAuthenticated);
 
 /**
  * Expose

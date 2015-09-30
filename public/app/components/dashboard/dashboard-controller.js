@@ -5,10 +5,10 @@
         .module('meanChat.dashboard')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['DashboardFactory', 'mySocket', 'ChatFactory'];
+    DashboardController.$inject = ['DashboardFactory', 'ChatFactory'];
 
     /* @ngInject */
-    function DashboardController(DashboardFactory, mySocket, ChatFactory) {
+    function DashboardController(DashboardFactory, ChatFactory) {
         var _this = this;
 
         this.getUserInfo = function() {
@@ -21,7 +21,9 @@
         }
 
         this.createRoom = function(formData) {
-            console.log(formData);
+            ChatFactory.createRoom( function(response) {
+                console.log(response);
+            })
         }
         
         var _init = function _init() {
