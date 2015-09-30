@@ -27,6 +27,7 @@
             var user = new UserAuthFactory(user);
 
             user.$login( function(response) {
+                console.log(response);
                 if(response.state == 'success') { 
                     UserAuthFactory.setUser(response.user);
                     $state.go('dashboard');

@@ -141,6 +141,7 @@ UserSchema.methods.validatePassword = function(password) {
 };
 
 UserSchema.virtual('created').get(function() {
+    console.log(this);
     return mongoose.Types.ObjectId(this._id).getTimestamp();
 });
 
