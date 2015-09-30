@@ -103,18 +103,17 @@ var UserSchema = new mongoose.Schema({
     favorite_rooms: [{
     	type: String
     }],
-    upvotes: {
-    	type: Number,
-    	default: 0
-    },
-    downvotes: {
-    	type: Number,
-    	default: 0
-    },
     message_count: {
     	type: Number,
     	default: 0
-    }
+    },
+    // Upvotes and downvotes hold an array of user ids that have voted
+    _upvotes: [{
+    	type: String
+    }],
+    _downvotes: [{
+    	type: String
+    }]
 });
 
 UserSchema.pre('save', function(next) {
