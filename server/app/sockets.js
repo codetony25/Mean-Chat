@@ -146,7 +146,12 @@ module.exports.listen = function(app){
             Room.findOne({_id: data._room}, function(err, room) {
                 // If there's no errors and the user is active in the room
                 if (!err && (room._users.indexOf(userId) > -1)) {
-                    Room.update(room, {$pull: {_users: userId}}, function(err) { console.log(err); });
+                    Room.findOneAndUpdate({_id: data._room}, {$pull: {_users: userId}}, function(err, room) { 
+                        if (!err) {
+                            // emit to the user that the room object has changed
+                            socket.emit('room_update_' + data._room, room);
+                        }
+                    });
                     User.findOneAndUpdate({_id: userId}, {$pull: {active_rooms: data._room}}, {new: true, select: '-password'}, function(err, user) {
                         if (!err) {
                             socket.emit('user_changed', user);

@@ -1,16 +1,7 @@
-<div layout="row" flex>
-	<md-content flex="75" layout="column">
-		<div class="trend-bar" flex="100" layout="row">
-			<a class="trend" style="background-color: #FF4081;">Trending <i class="material-icons">trending_up</i></a>
-			<a class="trend" style="background-color: #01579B;"><i class="material-icons">whatshot</i> Taylor Swift</a>
-			<a class="trend" style="background-color: #0277BD;"><i class="material-icons">whatshot</i> Tony is Awesome</a>
-			<a class="trend" style="background-color: #0288D1;"><i class="material-icons">whatshot</i> UCLA</a>
-			<a class="trend" style="background-color: #039BE5;"><i class="material-icons">whatshot</i> Lakers</a>
-			<a class="trend" style="background-color: #03a9F4;"><i class="material-icons">whatshot</i> Not USC</a>
-		</div>
-		<md-content class="dashboard" flex layout="column" ui-view="main" layout-padding></md-content>
-	</md-content>
-
-	<!-- Profile Side -->
-	<md-content class="profile md-whiteframe-2dp" flex="25" layout="column" ui-view="sidebar"></md-content>
+<div layout="column" flex>
+	<h1>Testing Sockets</h1>
+	<a ng-click="Test.joinRoom()">Join Room</a>
+	<a ng-click="Test.leaveRoom()">Leave Room</a>
+	<a ng-click="Test.voteUp()">Vote message up</a>
+	<a ng-click="Test.voteDown()">Vote message down</a>
 </div>
