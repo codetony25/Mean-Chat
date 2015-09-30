@@ -8,6 +8,7 @@
       'ngMaterial',
       'ngResource',
       'meanChat.home-page',
+      'meanChat.chat',
       'meanChat.userAuthentication',
       'meanChat.dashboard',
       'btford.socket-io'

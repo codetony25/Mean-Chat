@@ -8,8 +8,8 @@
 	<link rel="stylesheet" href="./css/styles.css">
 	<link rel="stylesheet" href="./css/dashboard.css">
 </head>
-<body layout="column" layout-fill>
 
+<body layout="column">
 	<!-- Top toolbar -->
 	<md-toolbar class="md-toolbar-tools">
 		<div class="md-toolbar-tools">
@@ -17,8 +17,8 @@
 		</div>
 	</md-toolbar>
 	
-	<div flex layout="row" ui-view></div>
-	
+	<div flex layout="row" layout-wrap ui-view>
+	</div>
 
 	<!-- Core Dependencies -->
 	<script src="./bower_components/angular/angular.js"></script>
@@ -38,6 +38,7 @@
 	<!-- App Modules -->
 	<script src="./app.module.js"></script>
 	<script src="./app/components/home-page/home-page.module.js"></script>
+	<script src="./app/components/chat/chat.module.js"></script>
 	<script src="./app/components/user-authentication/user-authentication.module.js"></script>
 	<script src="./app/components/dashboard/dashboard.module.js"></script>
 
@@ -46,7 +47,9 @@
 	<script src="./app/components/user-authentication/user-authentication-factory.js"></script>
 	<script src="./app/components/dashboard/dashboard-factory.js"></script>
 
+
 	<!-- App Controller -->
+	<script src="./app/components/chat/chat-controller.js"></script>
 	<script src="./app/components/home-page/home-page-controller.js"></script>
 	<script src="./app/components/user-authentication/user-authentication-controller.js"></script>
 	<script src="./app/components/dashboard/dashboard-controller.js"></script>
