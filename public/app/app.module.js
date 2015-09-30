@@ -7,6 +7,7 @@
       'ngMessages',
       'ngMaterial',
       'meanChat.home-page',
+      'meanChat.chat',
       'meanChat.userAuthentication'
     ])
     .config(config);
