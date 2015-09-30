@@ -10,9 +10,19 @@
     /* @ngInject */
     function SessionFactory($window) {
         var factory = {};
+        var _key = 'userInfo';
 
-        // Instantiate data when factory is loaded
-        // factory._user = JSON.parse($window.getItem('session.user'));
+        factory.storeUser = function(userInfo) {
+            $window.sessionStorage[_key] = JSON.stringify(userInfo);
+        }
+
+        factory.getUser = function() {
+            if (!$window.sessionStorage[_key]) {
+                return null;
+            }
+            
+            return JSON.parse($window.sessionStorage[_key]);
+        }
 
         return factory;
     }

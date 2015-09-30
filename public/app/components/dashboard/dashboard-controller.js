@@ -5,9 +5,9 @@
     .module('meanChat.dashboard')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['DashboardFactory', 'mySocket'];
+  DashboardController.$inject = ['DashboardFactory', 'mySocket', 'UserAuthFactory'];
 
-  function DashboardController(DashboardFactory, mySocket) {
-    console.log('in DashCtrl');
+  function DashboardController(DashboardFactory, mySocket, UserAuthFactory) {
+    console.log(UserAuthFactory.getUser());
   }
 })();

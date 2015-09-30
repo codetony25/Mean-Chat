@@ -14,10 +14,13 @@
   /* @ngInject */
   function config($stateProvider, $urlRouterProvider) {
     $stateProvider
-      .state('dashboard', {
-        url: '/dashboard',
-        templateUrl: 'app/components/dashboard/dashboard.html',
-        controller: 'DashboardController as Dashboard'
-      });
+        .state('dashboard', {
+            url: '/dashboard',
+            templateUrl: 'app/components/dashboard/dashboard.html',
+            controller: 'DashboardController as Dashboard',
+            resolve: {
+                // auth: ['$q', ]
+            }
+        });
   } 
 })();
