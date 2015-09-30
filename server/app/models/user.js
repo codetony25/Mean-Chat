@@ -103,7 +103,7 @@ var UserSchema = new mongoose.Schema({
     favorite_rooms: [{
     	type: String
     }],
-    upvotes: {
+    message_count: {
     	type: Number,
     	default: 0
     },

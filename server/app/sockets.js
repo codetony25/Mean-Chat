@@ -40,42 +40,46 @@ module.exports.listen = function(app){
         * Recieving a new message from the client
         */
         socket.on('new_message', function(data) {
-            // Encode the message to prevent xss/script injection
-            var msg = entities.encode(data.message);
+            // Make sure the user is active in the room
+            Room.findOne({_id: data._room, _users: userId}, function(err, room) {
+                if (!err && room) {
+                    // Encode the message to prevent xss/script injection
+                    var msg = entities.encode(data.message);
 
-            // After encoding check for BBCode markup
-            msg = msg.replace('[b]','<b>').replace('[/b]','</b>');
-            msg = msg.replace('[i]','<i>').replace('[/i]','</i>');
-            msg = msg.replace('[u]','<u>').replace('[/u]','</u>');
-            msg = msg.replace('[s]','<s>').replace('[/s]','</s>');
+                    // After encoding check for BBCode markup
+                    msg = msg.replace('[b]','<b>').replace('[/b]','</b>');
+                    msg = msg.replace('[i]','<i>').replace('[/i]','</i>');
+                    msg = msg.replace('[u]','<u>').replace('[/u]','</u>');
+                    msg = msg.replace('[s]','<s>').replace('[/s]','</s>');
 
-            // Create the message object to save
-            var message = new Message({
-                _owner: userId,
-                _room: data._room,
-                time: Date.now(),
-                message: msg,
-                resource_type: data.resource_type
-            });
-
-            // Attempt to save the message
-            message.save(function(err) {
-                if (!err) {
-                    // If there are no errors, emit the message to the room
-                    io.emit('room_' + data._room, message);
-                    // Emit an event to those that have the room docked
-                    io.emit('docked_' + data._room);
-                    // Once we've emitted to the room, update the users message count
-                    User.update({_id: userId}, { $inc: {message_count: 1}, last_activity: Date.now() }, function(err) { 
-                        console.log('here');
-                        if (err) {
-                            console.log(err);
-                        } 
+                    // Create the message object to save
+                    var message = new Message({
+                        _owner: userId,
+                        _room: data._room,
+                        time: Date.now(),
+                        message: msg,
+                        resource_type: data.resource_type
                     });
-                } else {
-                    //There was an error saving the message for some reason
-                    // Probably shouldn't display it to the room
-                    console.log(err);
+
+                    // Attempt to save the message
+                    message.save(function(err) {
+                        if (!err) {
+                            // If there are no errors, emit the message to the room
+                            io.emit('room_' + data._room, message);
+                            // Emit an event to those that have the room docked
+                            io.emit('docked_' + data._room);
+                            // Once we've emitted to the room, update the users message count and last activity
+                            User.findOneAndUpdate({_id: userId}, { $inc: {message_count: 1}, last_activity: Date.now()}, {new: true, select: '-password -__v'}, function(err, user) { 
+                                if (!err && user) {
+                                    socket.emit('user_update', user);
+                                } 
+                            });
+                        } else {
+                            //There was an error saving the message for some reason
+                            // Probably shouldn't display it to the room
+                            console.log(err);
+                        }
+                    });
                 }
             });
         });
@@ -93,7 +97,12 @@ module.exports.listen = function(app){
                         // If the room doesn't already exist as an active room, make it an active room
                         User.update({_id: userId}, {$addToSet: { active_rooms: data._room }}, function(err) { console.log(err)});
                         // Add the user to the rooms list of users
-                        Room.update({_id: data._room}, {$addToSet: { _users: userId}}, function(err) { console.log(err); });
+                        Room.findOneAndUpdate({_id: data._room}, {$addToSet: { _users: userId}}, {new: true}, function(err, room) { 
+                            if (!err && room) {
+                                // emit to the user that the room object has changed
+                                socket.emit('room_update_' + data._room, room);
+                            }
+                        });
                         // Emit to the user so that a dynamic socket can be created
                         socket.emit('joined_room', {_room: data._room});
                         // Create a new system message to send to the room
@@ -114,11 +123,10 @@ module.exports.listen = function(app){
                                 // Remove the room from the recently visited arrays if it exits and then push it
                                 // Last in, First out in order of most recently visited
                                 User.update({_id: userId}, {$pull: { recent_rooms: data._room }}, function(err) { console.log(err); });
-                                User.update({_id: userId}, {$push: { recent_rooms: data._room }}, function(err) { console.log(err); });
-                                User.findOne({_id: userId}, {select: '-password'}, function(err, user) {
+                                User.findOneAndUpdate({_id: userId}, {$push: {recent_rooms: data._room}}, {select: '-password'}, function(err, user) {
                                     if (!err) {
                                         // User has changed
-                                        socket.emit('user_changed', user);
+                                        socket.emit('user_update', user);
                                         // Emit to the user that he's left the room
                                         socket.emit('left_room', {_room: data._room});
                                         // Create a new system message and broadcast that the user has left the room
@@ -145,8 +153,8 @@ module.exports.listen = function(app){
             // Find the room
             Room.findOne({_id: data._room}, function(err, room) {
                 // If there's no errors and the user is active in the room
-                if (!err && (room._users.indexOf(userId) > -1)) {
-                    Room.findOneAndUpdate({_id: data._room}, {$pull: {_users: userId}}, function(err, room) { 
+                if (!err && room && (room._users.indexOf(userId) > -1)) {
+                    Room.findOneAndUpdate({_id: data._room}, {$pull: {_users: userId}}, {new: true}, function(err, room) { 
                         if (!err) {
                             // emit to the user that the room object has changed
                             socket.emit('room_update_' + data._room, room);
@@ -154,7 +162,7 @@ module.exports.listen = function(app){
                     });
                     User.findOneAndUpdate({_id: userId}, {$pull: {active_rooms: data._room}}, {new: true, select: '-password'}, function(err, user) {
                         if (!err) {
-                            socket.emit('user_changed', user);
+                            socket.emit('user_update', user);
                             var message = new Message({
                                 _owner: userId,
                                 _room: data._room,
@@ -177,6 +185,19 @@ module.exports.listen = function(app){
             });
         });
 
+        /**
+        * Emits room data to the client as long as he's active in that room
+        */
+        socket.on('get_room', function(data) {
+            Room.findOne({_id: data._room, _users: userId}, function(err, room) {
+                if (!err && room)  {
+                    socket.emit('room_update_' + data._room, room);
+                } else {
+                    // there was an error or the room doesn't exist
+                }
+            });
+        });
+
         socket.on('msg_vote', function(data) {
             // Find the message
             Message.findOne({_id: data._message, _room: data._room}, function(err, message) {
@@ -190,7 +211,7 @@ module.exports.listen = function(app){
                             User.findOneAndUpdate({_id: userId}, {$push: { _upvotes: message._id }, $pull: { _downvotes: message._id }}, { new: true, select: '-password' }, 
                                 function(err, user) {
                                     if (!err) {
-                                        socket.emit('user_changed', user);
+                                        socket.emit('user_update', user);
                                     }
                             });                           
                             io.emit('msg_votechange', message);
@@ -206,7 +227,7 @@ module.exports.listen = function(app){
                             User.findOneAndUpdate({_id: userId}, {$push: { _downvotes: message._id }, $pull: { _upvotes: message._id }}, { new: true, select: '-password' }, 
                                 function(err, user) {
                                     if (!err) {
-                                        socket.emit('user_changed', user);
+                                        socket.emit('user_update', user);
                                     }
                             });                           
                             io.emit('msg_votechange', message);
