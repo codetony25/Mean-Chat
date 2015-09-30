@@ -32,32 +32,13 @@ var MessageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    // Upvotes and downvotes hold an array of user ids that have voted
     _upvotes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+    	type: String
     }],
     _downvotes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+    	type: String
     }]
 });
-
-// MessageSchema.pre('save', function(next) {
-//     this.resource_type = MessageSchema.methods.getResourceType(this.message);
-//     return next();
-// });
-
-/**
- * Returns the resource type of a message
- */
-// MessageSchema.methods.getResourceType = function(message) {
-//     if (message.substring(0, 2).toUpperCase() == '/Q') {
-//         return 'question';
-//     } else if (message.substring(0, 2).toUpperCase() == '/L') {
-//         return 'link';
-//     } else {
-//         return 'text';
-//     }
-// }
 
 mongoose.model('Message', MessageSchema);
