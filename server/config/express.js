@@ -3,18 +3,30 @@
  */
 var express = require('express');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session);
 var morgan = require('morgan');
 var flash = require('connect-flash');
 var passport = require('passport');
-var config = require('./config');
+var config = require('./config');;
 
 /**
  * Expose
  */
 module.exports = function() {
 	var app = express();
+
+	// MongoDB Session Stores
+	var store = new MongoDBStore({
+		uri: config.db,
+		collection: 'mySessions'
+	});
+
+	// Catch errors 
+    store.on('error', function(error) {
+      assert.ifError(error);
+      assert.ok(false);
+    });
 
 	// Static files middlewear
 	app.use(express.static(config.publicRoot));
@@ -28,21 +40,17 @@ module.exports = function() {
 	}));
 	app.use(bodyParser.json());
 
-	app.use(cookieParser());
 	app.use(session({
 		saveUninitialized: true,
 		resave: true,
-		secret: "someSecretStringGoesHere"
+		secret: "tonyIsAwesome",
+		store: store
 	}));
 	app.use(passport.initialize());
 	app.use(passport.session());
-	app.use(flash());
 
 	// uncomment after placing your favicon in /public
 	//app.use(favicon('./public/favicon.ico'));
-
-	app.use(passport.initialize());
-	app.use(passport.session());
 
 	return app;
 }

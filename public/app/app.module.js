@@ -6,9 +6,12 @@
       'ui.router',
       'ngMessages',
       'ngMaterial',
+      'ngResource',
       'meanChat.home-page',
       'meanChat.chat',
-      'meanChat.userAuthentication'
+      'meanChat.userAuthentication',
+      'meanChat.dashboard',
+      'btford.socket-io'
     ])
     .config(config);
 
@@ -17,7 +20,9 @@
   /* @ngInject */
   function config($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     $mdThemingProvider.theme('default')
-      .primaryPalette('indigo');
+      .primaryPalette('indigo')
+      .accentPalette('pink')
+      .warnPalette('red');
 
     $urlRouterProvider.otherwise('home');
   } 

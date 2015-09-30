@@ -1,28 +1,49 @@
-<h2 class="md-headline"><i class="material-icons md-24" style="line-height: 32px;">account_circle</i> Register</h2>
-<md-content layout-padding>
-	<form name="UserAuth.registrationForm" ng-click="UserAuth.registrationForm.$valid && UserAuth.userRegistration(user)" novalidate>
+<md-card-content layout-margin>
+	<h2 class="md-headline"><i class="material-icons md-24" style="line-height: 32px;">account_circle</i> Register</h2>
+</md-card-content>
+
+<md-card-content ng-show="UserAuth.registrationErrors" style="background-color: #B0BEC5">
+	<div layout-margin ng-cloak>
+		<p class="md-body-1" ng-repeat="errors in UserAuth.registrationErrors">{{ errors.message }}</p>
+	</div>
+</md-card-content>
+
+<md-card-content layout-margin>
+	<form name="UserAuth.registrationForm" ng-submit="UserAuth.registrationForm.$valid && UserAuth.userRegistration(user)" novalidate>
+
+		<md-input-container>
+			<label>Username</label>
+			<input type="text" ng-model="user.username" name="username" minlength="3" md-maxlength="25" required>
+			<div ng-messages="UserAuth.registrationForm.username.$error" ng-show="UserAuth.registrationForm.username.$touched && UserAuth.registrationForm.username.$error">
+				<div ng-message="required">Email is required</div>
+				<div ng-message-exp="['minlength', 'md-maxlength']">Username must be between 3 and 25 characters long</div>
+			</div>
+		</md-input-container>
+
 		<md-input-container>
 			<label>Email</label>
-			<input type="email" ng-model="user.email" name="email" minlength="10" required>
-<!-- 			<div ng-messages="UserAuth.registrationForm.email.$error" ng-show="UserAuth.registrationForm.$dirty">
+			<input type="email" ng-model="user.email" name="email" md-maxlength="50" required>
+			<div ng-messages="UserAuth.registrationForm.email.$error" ng-show="UserAuth.registrationForm.email.$touched && UserAuth.registrationForm.email.$error">
 				<div ng-message="required">Email is required</div>
-				<div ng-message="md-minlength">Your email must be at least 10 characters long</div>
-			</div> -->
+				<div ng-message="md-maxlength">Max email address length is 50 characters</div>
+			</div>
 		</md-input-container>
+
 		<md-input-container>
 			<label>Password</label>
-			<input type="password" ng-model="user.password" name="password" md-minlength="10" md-maxlength="255" required>
-<!-- 			<div ng-messages="UserAuth.registrationForm.password.$error">
+			<input type="password" ng-model="user.password" name="password" minlength="8" md-maxlength="255" required>
+			<div ng-messages="UserAuth.registrationForm.password.$touched && UserAuth.registrationForm.password.$error">
 				<div ng-message="required">Password is required</div>
-				<div ng-message-exp="['minlength', 'maxlength']">Your password must be between 10 and 255 characters</div>
-			</div> -->
+				<div ng-message-exp="['minlength', 'md-maxlength']">Your password must be between 8 and 255 characters</div>
+			</div>
 		</md-input-container>
+
 		<md-input-container>
 			<label>Password re-prompt</label>
-			<input type="password" ng-model="user.confirm_password" name="confirm_password" md-minlength="10" md-maxlength="255">
-<!-- 			<div ng-messages="UserAuth.registrationForm.confirm_password.$error">
-				<div ng-message-exp="['minlength', 'maxlength']">Your password must be between 10 and 255 characters</div>
-			</div> -->
+			<input type="password" ng-model="user.confirm_password" name="confirm_password" ng-equals="user.password">
+			<div ng-messages="UserAuth.registrationForm.confirm_password.$touched && UserAuth.registrationForm.confirm_password.$error">
+				<div ng-message="equals">Your passwords must match</div>
+			</div>
 		</md-input-container>
 
 		<md-button class="md-raised md-primary">Register</md-button>
@@ -31,4 +52,4 @@
 
 		<p class="md-body-1">Already have an account? <a href ui-sref="authenticate.login">Login</a></p>
 	</form>
-</md-content>
+</md-card-content>

@@ -3,12 +3,15 @@
 
   angular
     .module('meanChat.userAuthentication', [
-      'ui.router'
+      'ui.router',
+      'ngResource',
+      'btford.socket-io'
     ])
     .config(config);
 
   config.$inject = ['$stateProvider', '$urlRouterProvider'];
 
+  /* @ngInject */
   function config($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('authenticate', {

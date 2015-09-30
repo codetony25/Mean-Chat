@@ -3,7 +3,8 @@
 
   angular
     .module('meanChat.home-page', [
-      'ui.router'
+      'ui.router',
+      'btford.socket-io'
     ])
     .config(config);
 

@@ -5,7 +5,9 @@
     .module('meanChat.home-page')
     .controller('HomePageController', HomePageController);
 
-  function HomePageController() {
-    console.log("HomePage Controller loaded"); 
+  HomePageController.$inject = ['mySocket'];
+  
+  function HomePageController(mySocket) {
+    console.log("HomePage Controller loaded");
   }
 })();

@@ -1,20 +1,44 @@
 var express = require('express');
-var router = express.Router();
+
 var passport = require('passport');
 var User = require('mongoose').model('User');
 
-router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true })
-);
+module.exports = function() {
+  var router = express.Router();
 
-router.post('/register', function( req, res, next) {
-  var user = new User(req.body);
-  user.provider = 'local';
-  user.save( function(err) {
-    
-  })
-});
+  router.get('/', function(req,res,next) {
 
-module.exports = router;
+  });
+
+  // Register
+  router.post('/', function( req, res, next) {
+    var user = new User(req.body);
+
+    user.save( function(err) {
+      if(err) {
+        return res.status(401).json(err);
+      }
+
+      return res.json({state: 'success'});
+    })
+  });
+
+  router.post('/login', passport.authenticate('local', {
+    successRedirect: '/users/success',
+    failureRedirect: '/users/failure'
+  }));
+
+  router.get('/success', function(req, res) {
+    return res.send({state: 'success', user: req.user ? req.user : null } );
+  });
+
+  router.get('/failure', function(req, res){
+    res.status(401).json({ 
+      errors: {
+        login: { message: 'Invalid username or password' }
+      }
+    });
+  });
+
+  return router;
+}
