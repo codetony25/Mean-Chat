@@ -40,6 +40,8 @@ module.exports.listen = function(app){
         socket.on('new_message', function(data) {
             var msg = entities.encode(data.message);
 
+            console.log(userId);
+            
             msg = msg.replace('[b]','<b>');
             msg = msg.replace('[/b]','</b>');
 
@@ -58,6 +60,7 @@ module.exports.listen = function(app){
                     io.emit('docked_' + data.roomId);
                     // Once we've emitted to the room, update the users message count
                     User.update({_id: userId}, { $inc: {message_count: 1}, last_activity: Date.now() }, function(err) { 
+                        console.log('here');
                         if (err) {
                             console.log(err);
                         } 
