@@ -15,7 +15,7 @@ var roomValidator = [
     }),
     validate({
         validator: 'isLength',
-        arguments: [3, 10],
+        arguments: [3, 20],
         message: 'Room names should be between {ARGS[0]} and {ARGS[1]} characters'
     }),
 ];
@@ -39,15 +39,13 @@ var RoomSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    _admins: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+    _admins: [{ 
+    	type: String 
     }],
-    _blocked: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+    _blocked: [{ 
+    	type: String 
     }],
-    invite: {
+	invite: {
         type: Boolean,
         default: false
     },

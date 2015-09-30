@@ -89,7 +89,32 @@ var UserSchema = new mongoose.Schema({
 	},
 	facebook: {},
 	google: {},
-	twitter: {}
+	twitter: {},
+	/**
+	* User info added..
+	*/
+	last_activity: Date, // To check activity and prevent spamming
+    active_rooms: [{
+        type: String
+    }],
+    recent_rooms: [{
+    	type: String
+    }],
+    favorite_rooms: [{
+    	type: String
+    }],
+    upvotes: {
+    	type: Number,
+    	default: 0
+    },
+    downvotes: {
+    	type: Number,
+    	default: 0
+    },
+    message_count: {
+    	type: Number,
+    	default: 0
+    }
 });
 
 UserSchema.pre('save', function(next) {
