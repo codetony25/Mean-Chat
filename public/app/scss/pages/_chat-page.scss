@@ -1,0 +1,62 @@
+/*=================================
+=            Chat Page            =
+=================================*/
+
+
+.chat {
+	h6 {
+		margin: 0;
+		padding: 4px;
+		padding-left: 4px;
+	}
+}
+
+.navigation {
+	background-color: #3F51B5;
+	padding: 4.5px;
+}
+.navigation-icons {
+	width: 100%;
+	.md-button.md-icon-button {
+		margin: 0 -5px;
+	}
+}
+
+//Making input focused out white
+md-input-container.md-default-theme label, 
+ md-input-container.md-default-theme .md-placeholder{
+    color: white !important;
+}
+
+.type-chat {
+	width: 100%;
+	background-color: #3F51B5;
+	label {
+		color: white;
+	}
+	md-input-container {
+		padding-bottom: 0px;
+	}
+}
+
+.type-chat md-input-container {
+	padding-left: 10px;
+}
+
+.send-button {
+	text-align: center;
+	padding-top: 10px;
+	background-color: #80d8ff;
+}
+
+.side-bar h1 {
+	margin: 0;
+	text-align: center;
+}
+
+
+
+/*=====  End of Chat Page  ======*/
+
+
+

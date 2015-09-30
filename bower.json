@@ -32,5 +32,8 @@
     "angular-socket-io": "~0.7.0",
     "angular-ui-router": "ui-router#~0.2.15",
     "material-design-icons": "~2.0.0"
+  },
+  "resolutions": {
+    "angular": "~1.4.x"
   }
 }
