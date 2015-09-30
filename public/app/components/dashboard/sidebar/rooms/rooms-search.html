@@ -1,0 +1,23 @@
+<md-input-container layout-padding>
+	<label for="">Search by name or topic</label>
+	<input ng-model="rooms.filter">
+</md-input-container>
+<md-content flex>
+</md-content>
+
+<form name="Dashboard.newRoomForm" class="md-whiteframe-2dp" ng-submit="Dashboard.newRoomForm.$valid && Dashboard.createRoom(Dashboard.newRoomForm.formData)" novalidate>
+	<md-content layout="column">
+		<md-button class="md-fab md-mini">
+            <i class="material-icons" style="display: flex; align-self: center; margin-left: 2px">close</i>
+        </md-button>
+		<md-input-container>
+			<label>Room Name</label>
+			<input ng-model="Dashboard.newRoomForm.formData.name" required>
+		</md-input-container>
+		<md-input-container>
+			<label>Topic</label>
+			<input ng-model="Dashboard.newRoomForm.formData.topic">
+		</md-input-container>
+		<md-button class="md-raised md-primary" ng-disabled="Dashboard.newRoomForm.$invalid">Submit</md-button>
+	</md-content>
+</form>

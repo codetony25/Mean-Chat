@@ -1,16 +1,20 @@
+/**
+ * Module dependencies
+ */
 var express = require('express');
-
+var router = express.Router();
 var passport = require('passport');
 var User = require('mongoose').model('User');
 
+/**
+ * Expose
+ */
 module.exports = function() {
-    var router = express.Router();
-
     router.get('/', function(req,res,next) {
 
     });
 
-    // Register
+    // Register/create user
     router.post('/', function( req, res, next) {
         var user = new User(req.body);
 
@@ -23,8 +27,9 @@ module.exports = function() {
         })
     });
 
-    router.post('/logout', function() {
-        // TO DO
+    router.get('/logout', function(req, res) {
+        req.logout();
+        // Send back response
     })
 
     router.post('/login', passport.authenticate('local', {

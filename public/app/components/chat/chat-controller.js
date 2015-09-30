@@ -1,15 +1,14 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('meanChat.chat')
-    .controller('ChatController', ChatController);
+    angular
+        .module('meanChat.chat')
+        .controller('ChatController', ChatController);
 
-  function ChatController() {
-    console.log("Chat Controller loaded"); 
+    function ChatController() {
+        console.log("Chat Controller loaded"); 
 
-  }
+    }
 
 
-  
 })();
