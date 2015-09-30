@@ -99,12 +99,11 @@ module.exports.listen = function(app){
                         // Add the user to the rooms list of users
                         Room.findOneAndUpdate({_id: data._room}, {$addToSet: { _users: userId}}, {new: true}, function(err, room) { 
                             if (!err && room) {
-                                // emit to the user that the room object has changed
-                                socket.emit('room_update_' + data._room, room);
-                            }
+                                // emit to all that the room object has changed
+                                io.emit('room_update_' + data._room, room);
+                                // Emit to the user so that a dynamic socket can be created
+                                socket.emit('joined_room', room);                            }
                         });
-                        // Emit to the user so that a dynamic socket can be created
-                        socket.emit('joined_room', {_room: data._room});
                         // Create a new system message to send to the room
                         var message = new Message({
                             _owner: userId,
@@ -122,15 +121,14 @@ module.exports.listen = function(app){
                                 io.emit('docked_' + data._room);
                                 // Remove the room from the recently visited arrays if it exits and then push it
                                 // Last in, First out in order of most recently visited
-                                User.update({_id: userId}, {$pull: { recent_rooms: data._room }}, function(err) { console.log(err); });
-                                User.findOneAndUpdate({_id: userId}, {$push: {recent_rooms: data._room}}, {select: '-password'}, function(err, user) {
-                                    if (!err) {
-                                        // User has changed
-                                        socket.emit('user_update', user);
-                                        // Emit to the user that he's left the room
-                                        socket.emit('left_room', {_room: data._room});
-                                        // Create a new system message and broadcast that the user has left the room
-
+                                User.findOneAndUpdate({_id: userId}, {$pull: { recent_rooms: data._room }}, function(err, user) {
+                                    if (!err && user) {
+                                        User.findOneAndUpdate({_id: userId}, {$push: {recent_rooms: data._room}}, {select: '-password'}, function(err, user) {
+                                            if (!err && user) {
+                                                // User has changed
+                                                socket.emit('user_update', user);
+                                            }
+                                        });
                                     }
                                 });
                             } else {
@@ -150,18 +148,17 @@ module.exports.listen = function(app){
         * Listens for when a user closes a room
         */
         socket.on('leave_room', function(data) {
-            // Find the room
-            Room.findOne({_id: data._room}, function(err, room) {
-                // If there's no errors and the user is active in the room
-                if (!err && room && (room._users.indexOf(userId) > -1)) {
-                    Room.findOneAndUpdate({_id: data._room}, {$pull: {_users: userId}}, {new: true}, function(err, room) { 
-                        if (!err) {
-                            // emit to the user that the room object has changed
-                            socket.emit('room_update_' + data._room, room);
-                        }
-                    });
+            // Find the room and pull the user from the _users list
+            Room.findOneAndUpdate({_id: data._room, _users: userId}, {$pull: {_users: userId}}, {new: true}, function(err, room) {
+                console.log(room);
+                if (!err && room) {
+                    // emit to all that the room object has changed
+                    io.emit('room_update_' + data._room, room);
+                    // emit to the user that he has successfully left the room
+                    socket.emit('left_room', room);
+                    // Pull the room from the users active rooms
                     User.findOneAndUpdate({_id: userId}, {$pull: {active_rooms: data._room}}, {new: true, select: '-password'}, function(err, user) {
-                        if (!err) {
+                        if (!err && user) {
                             socket.emit('user_update', user);
                             var message = new Message({
                                 _owner: userId,
@@ -179,10 +176,15 @@ module.exports.listen = function(app){
                             });
                         }
                     });
-                } else {
-                    // there was an error or the user wasn't in the room
                 }
             });
+        });
+
+        /**
+        * Toggles a room as favorite and emits the updated user object
+        */
+        socket.on('favorite_room', function(data) {
+            User.findOne({_id: userId})
         });
 
         /**
@@ -194,6 +196,19 @@ module.exports.listen = function(app){
                     socket.emit('room_update_' + data._room, room);
                 } else {
                     // there was an error or the room doesn't exist
+                }
+            });
+        });
+
+        /**
+        * Emits the user data back to the client on request
+        */
+        socket.on('get_user', function() {
+            User.findOne({_id: userId}, {}, {select: '-password'}, function(err, user) {
+                if (!err && user) {
+                    socket.emit('user_update', user);
+                } else {
+                    // If there's an error or we can't find the user we should probably disconnect the user and destroy the session
                 }
             });
         });

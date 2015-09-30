@@ -62,6 +62,17 @@
             });
         }
 
+        this.favoriteRoom = function() {
+            /**
+            * Mark or unmark a room as a favorite.
+            * This emitter will toggle whether the room is a favorite or not
+            * and an updated user object will be emitted to user_update
+            */
+            mySocket.emit('favorite_room', {
+                _room: '560ae3776c83c0004e8c637d'
+            });
+        }
+
         this.getRoom = function() {
             /**
             * get_room fires a request for updated room data
@@ -75,6 +86,19 @@
             });
         }
 
+        this.getUser = function() {
+            /**
+            * get_user fires a request to update the logged in
+            * users information and sends the updated user object
+            * back to mySocket.on('user_update')
+            * Most actions will automatically fire to this socket to update
+            * the user, but this will also be available for special cases.
+            *
+            * Note that you don't need to pass a user ID. We will only be sending
+            * back the logged in user information.
+            */
+            mySocket.emit('get_user');
+        }
 
         /**
         * Dynamic listeners for room messages
@@ -102,6 +126,21 @@
             console.log('---------------------------------------');
             console.log(user);
         });
+
+        /**
+        * Response to successfully joining a room
+        */
+        mySocket.on('joined_room', function(room) {
+            console.log('You have successfully joined room: ', room._id);
+        });
+
+        /**
+        * Response to successfully leaving a room
+        */
+        mySocket.on('left_room', function(room) {
+            console.log('You have successfully left room: ', room._id);
+        });
+
     }
 
 })();
