@@ -276,6 +276,20 @@ textarea {
   padding: 4px;
   padding-left: 4px; }
 
+.type-chat {
+  width: 100%;
+  background-color: #3F51B5; }
+  .type-chat label {
+    color: white; }
+  .type-chat md-input-container {
+    padding-bottom: 0px;
+    padding-left: 10px; }
+
+.send-button {
+  text-align: center;
+  padding-top: 10px;
+  background-color: #80d8ff; }
+
 .navigation {
   background-color: #3F51B5;
   padding: 4.5px; }
@@ -285,30 +299,39 @@ textarea {
   .navigation-icons .md-button.md-icon-button {
     margin: 0 -5px; }
 
-md-input-container.md-default-theme label,
-md-input-container.md-default-theme .md-placeholder {
-  color: white !important; }
-
-.type-chat {
-  width: 100%;
-  background-color: #3F51B5; }
-  .type-chat label {
-    color: white; }
-  .type-chat md-input-container {
-    padding-bottom: 0px; }
-
-.type-chat md-input-container {
-  padding-left: 10px; }
-
-.send-button {
-  text-align: center;
-  padding-top: 10px;
-  background-color: #80d8ff; }
-
 .side-bar h1 {
   margin: 0;
+  margin-top: 5px;
   text-align: center; }
 
 /*=====  End of Chat Page  ======*/
+/*=====================================================
+=            Slider Animation for Side Bar            =
+=====================================================*/
+.slide {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%; }
+
+.slide.ng-enter,
+.slide.ng-leave {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease; }
+
+.slide.ng-enter {
+  left: 100%; }
+
+.slide.ng-enter-active {
+  left: 0; }
+
+.slide.ng-leave {
+  left: 0; }
+
+.slide.ng-leave-active {
+  left: -100%; }
+
+/*=====  End of Slider Animation for Side Bar  ======*/
 
 /*# sourceMappingURL=styles.css.map */
