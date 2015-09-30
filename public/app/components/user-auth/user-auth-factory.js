@@ -5,10 +5,12 @@
     .module('meanChat.userAuth')
     .factory('UserAuthFactory', UserAuthFactory);
 
-  UserAuthFactory.$inject = ['$resource', 'SessionFactory'];
+  UserAuthFactory.$inject = ['$resource', 'SessionFactory', '$http'];
 
   /* @ngInject */
-  function UserAuthFactory($resource, SessionFactory) {
+  function UserAuthFactory($resource, SessionFactory, $http) {
+    console.log('UserAuthFactory loaded');
+
     var factory = $resource('/users/:id', { id: '@_id' }, {
       update: { method: 'PUT', isArray: false },
       login: { method: 'POST', url: '/users/login' },
@@ -40,11 +42,12 @@
 
     function _init() {
         _user = SessionFactory.getUser();
+
         if( _user ) {
             _isLoggedIn = true;
         }
     }
-
+    
     _init();
 
     return factory;

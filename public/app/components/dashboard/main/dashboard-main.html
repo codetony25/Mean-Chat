@@ -29,11 +29,11 @@
 		</md-toolbar>
 		<md-content>
 			<md-list>
-				<md-list-item ng-click="" ng-repeat="n in [1,2,3,4,5,6,7,8,9]">
+				<md-list-item ng-click="" ng-repeat-start="active_room in Dashboard.userInfo.active_rooms">
 					<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
-					<p>#{{n}} Room Name</p>
+					<p ng-bind="active_room.name"></p>
 				</md-list-item>
-				<md-divider></md-divider>
+				<md-divider ng-repeat-end></md-divider>
 			</md-list>
 		</md-content>
 	</div>
@@ -50,11 +50,11 @@
 		</md-toolbar>
 		<md-content>
 			<md-list>
-				<md-list-item ng-click=""  ng-repeat="n in [1,2,3,4,5,6,7,8,9]">
+				<md-list-item ng-click="" ng-repeat-start="active_room in Dashboard.userInfo.active_rooms">
 					<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
-					<p>Room Name</p>
+					<p ng-bind="active_room"></p> <!-- ng-if -->
 				</md-list-item>
-				<md-divider></md-divider>
+				<md-divider ng-repeat-end></md-divider>
 			</md-list>
 		</md-content>
 	</div>
@@ -72,11 +72,11 @@
 		</md-toolbar>
 		<md-content>
 			<md-list>
-				<md-list-item ng-click="" ng-repeat="n in [1,2,3,4,5,6,7,8,9]">
+				<md-list-item ng-click="" ng-repeat-start="recent_room in Dashboard.userInfo.recent_rooms">
 					<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
-					<p>Room Name</p>
+					<p ng-bind="recent_room.name"></p>
 				</md-list-item>
-				<md-divider></md-divider>
+				<md-divider ng-repeat-end></md-divider>
 			</md-list>
 		</md-content>
 	</div>
@@ -93,11 +93,11 @@
 		</md-toolbar>
 		<md-content>
 			<md-list>
-				<md-list-item ng-click="" ng-repeat="n in [1,2,3,4,5,6,7,8,9]">
+				<md-list-item ng-click="" ng-repeat-start="recent_room in Dashboard.userInfo.favorite_rooms">
 					<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
-					<p>Room Name</p>
+					<p ng-bind="recent_room.name"></p>
 				</md-list-item>
-				<md-divider></md-divider>
+				<md-divider ng-repeat-end></md-divider>
 			</md-list>
 		</md-content>
 	</div>
