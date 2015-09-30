@@ -59,10 +59,9 @@ var RoomSchema = new mongoose.Schema({
     	validator: topicValidator,
     	default: 'A topic has not been set.'
     },
-    count: {
-    	type: Number,
-    	default: 0
-    }
+    _users: [{
+    	type: String
+    }]
 });
 
 mongoose.model('Room', RoomSchema);

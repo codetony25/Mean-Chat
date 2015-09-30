@@ -11,6 +11,7 @@
             'meanChat.chat',
             'meanChat.userAuth',
             'meanChat.dashboard',
+            'meanChat.test',
             'btford.socket-io'
         ])
         .config(config)
