@@ -1,12 +1,12 @@
 <div flex="100" class="background" layout-padding layout="center center">
-	<span flex class="username md-headline md-primary">Username</span>
+	<span flex class="username md-headline md-primary" ng-bind="Dashboard.userInfo.username">Username</span>
 </div>
 <md-content>
 	<md-list>
 		<md-list-item class="md-2-line">
 			<md-icon class="md-primary md-hue-2"><i class="material-icons md-24">email</i></md-icon>
 			<div class="md-list-item-text">
-				<h3 class="md-body-2">something@something.com</h3>
+				<h3 class="md-body-2" ng-bind="Dashboard.userInfo.email"></h3>
 				<p class="md-caption">Email</p>
 			</div>
 		</md-list-item>
@@ -46,8 +46,8 @@
 		<md-list-item class="md-2-line">
 			<md-icon class="md-primary md-hue-2"><i class="material-icons md-24">access_time</i></md-icon>
 			<div class="md-list-item-text">
-				<h3 class="md-body-2">February 31st, 2056</h3>
-				<p class="md-caption">Joined On</p>
+				<h3 class="md-body-2" ng-bind="Dashboard.userInfo.created | date: 'short'"></h3>
+				<p class="md-caption">Chatting Since</p>
 			</div>
 		</md-list-item>
 	</md-list>

@@ -13,7 +13,7 @@
 	</div>
 	<div class="stats-card md-whiteframe-2dp">
 		<div flex="30" class="left"><i class="material-icons">web</i></div>
-		<div flex="70" class="right">1<span ng-bind="Dashboard.userInfo.active_rooms.length"></span> <small>rooms visited</small></div>
+		<div flex="70" class="right"><span ng-bind="Dashboard.userInfo.active_rooms.length + Dashboard.userInfo.recent_room.length"></span> <small>rooms visited</small></div>
 	</div>
 </div>
 <div layout="row" layout-padding>
