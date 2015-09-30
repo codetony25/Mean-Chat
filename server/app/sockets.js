@@ -110,7 +110,8 @@ module.exports.listen = function(app){
                                 io.emit('docked_' + data._room);
                                 // Remove the room from the recently visited arrays if it exits and then push it
                                 // Last in, First out in order of most recently visited
-                                User.update({_id: userId}, {$pull: { recent_rooms: data._room }, $push: { recent_rooms: data._room }}, function(err) { console.log(err); });
+                                User.update({_id: userId}, {$pull: { recent_rooms: data._room }}, function(err) { console.log(err); });
+                                User.update({_id: userId}, {$push: { recent_rooms: data._room }}, function(err) { console.log(err); });
                             } else {
                                 //There was an error saving the message for some reason
                                 // Probably shouldn't display it to the room
@@ -125,6 +126,32 @@ module.exports.listen = function(app){
         });
 
         socket.on('msg_vote', function(data) {
+            // Find the message
+            Message.findOne({_id: data._message, _room: data._room}, function(err, message) {
+                if (!err) {
+                    if (data.vote == 'up') {
+                        // Make sure the user hasn't already upvoted this
+                        if (message._upvotes.indexOf(userId) == -1) {
+                            // Hasn't already upvoted this. Add user to upvotes, and remove user if he's in downvotes
+                            Message.update(message, {$push: { _upvotes: userId }, $pull: { _downvotes: userId }}, function(err) {});
+                            // Also remove it from the users information to change his personal upvote and downvote count
+                            User.findOneAndUpdate({_id: userId}, {$push: { _upvotes: message._id }, $pull: { _downvotes: message._id }}, { new: true }, 
+                                function(err, user) {
+                                    if (!err) {
+                                        socket.emit('user_changed', user);
+                                    }
+                            });                           
+                            io.emit('msg_votechange', message);
+                        } else {
+                            // Already upvoted so do nothing
+                        }
+                    } else if (data.vote == 'down') {
+
+                    }
+                } else {
+                    // Couldn't find the message
+                }
+            })
 
         });
 
