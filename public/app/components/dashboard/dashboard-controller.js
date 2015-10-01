@@ -15,6 +15,14 @@
             DashboardFactory.fetchUserInfo( function(response) {
                 if(response.state == 'success') {
                     _this.userInfo = response.user;
+
+                    // Fake data
+                    _this.userInfo.active_rooms = [
+                        {
+                            _id: '560c93349d49749c1bf1c574',
+                            name: 'testroom5'
+                        }
+                    ]
                 }
             })
         }
@@ -33,7 +41,7 @@
                     console.log(response); 
                 })
                 .catch( function(err) { 
-                    console.log(err); 
+                    console.log('Err:', err); 
                 });
         }
         

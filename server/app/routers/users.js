@@ -16,7 +16,7 @@ router.get('/', function(req,res,next) {
 // Register/create user
 router.post('/', function( req, res, next) {
     var user = new User(req.body);
-    console.log('HERE');
+
     user.save( function(err) {
         if(err) {
             return res.status(401).json(err);
@@ -37,7 +37,7 @@ router.post('/login', passport.authenticate('local', {
 }));
 
 router.get('/success', function(req, res) {
-    console.log('success');
+
     var user = {
         _id: req.user._id,
         username: req.user.username,
@@ -56,12 +56,23 @@ router.get('/failure', function(req, res){
 });
 
 router.get('/:id', function(req, res, next) {
-    User.findById(req.params.id, '-password -__v', function(err, user) {
-        if(err){
-            return res.status(400).json(err);
-        }
-        return res.json({state: 'success', user: user });
-    })
+    User.findById(req.params.id, '-password -__v')
+        .populate('created_room')
+        .exec( function(err, user) {
+            if(err){
+                console.log(err);
+                return res.status(400).json(err);
+            }
+            return res.json({state: 'success', user: user });
+    });
+
+
+    // User.findById(req.params.id, '-password -__v', function(err, user) {
+    //     if(err){
+    //         return res.status(400).json(err);
+    //     }
+    //     return res.json({state: 'success', user: user });
+    // })
 })
 
 module.exports = router;

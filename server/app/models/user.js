@@ -103,6 +103,9 @@ var UserSchema = new mongoose.Schema({
     favorite_rooms: [{
     	type: String
     }],
+    created_rooms: [{
+        type: String
+    }],
     message_count: {
     	type: Number,
     	default: 0
@@ -140,7 +143,6 @@ UserSchema.methods.validatePassword = function(password) {
 };
 
 UserSchema.virtual('created').get(function() {
-    console.log(this);
     return mongoose.Types.ObjectId(this._id).getTimestamp();
 });
 

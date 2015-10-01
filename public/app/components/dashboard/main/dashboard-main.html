@@ -52,7 +52,7 @@
 			<md-list>
 				<md-list-item ng-click="" ng-repeat-start="active_room in Dashboard.userInfo.active_rooms">
 					<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
-					<p ng-bind="active_room"></p> <!-- ng-if -->
+					<p ng-bind="active_room" ui-sref=""></p> <!-- ng-if -->
 				</md-list-item>
 				<md-divider ng-repeat-end></md-divider>
 			</md-list>
@@ -63,7 +63,7 @@
 	<div layout="column" class="rooms-list recent md-whiteframe-2dp">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2><span>Recently Visited</span></h2>
+				<h2><span>Favorite Rooms</span></h2>
 				<span flex></span>
 				<md-button class="md-icon-button">
 		          <md-icon><i class="material-icons md-36">more_vert</i></md-icon>
