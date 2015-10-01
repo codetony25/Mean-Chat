@@ -9,6 +9,8 @@
 
     /* @ngInject */
     function MessageFactory($resource) {
+        console.log('MessageFactory loaded');
+
         var factory = $resource('/messages/:id', { id: '@_id' }, {
           update: { method: 'PUT', isArray: false },
           query: {

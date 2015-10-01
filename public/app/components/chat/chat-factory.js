@@ -9,6 +9,8 @@
 
     /* @ngInject */
     function ChatFactory($resource) {
+        console.log('ChatFactory loaded');
+
         var factory = $resource('/rooms/:id', { id: '@_id' }, {
             update: { method: 'PUT', isArray: false }
         });

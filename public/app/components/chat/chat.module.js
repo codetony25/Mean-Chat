@@ -29,7 +29,10 @@
                         templateUrl: 'app/components/chat/sidebar/sidebar-nav.html'
                     }
                 },
-                data: { requiresLogin: true }
+                data: { 
+                    requiresLogin: true,
+                    sidebarTitle: 'Users List'
+                }
             });
     } 
 })();

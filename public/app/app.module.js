@@ -40,7 +40,7 @@
     function run($rootScope, $state, UserAuthFactory) {
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 
-            if( toState.data && !UserAuthFactory.isLoggedIn() ) {
+            if( toState.data.requiresLogin && !UserAuthFactory.isLoggedIn() ) {
                 console.log('User not logged in. Re-routing to login screen');
                 event.preventDefault();
                 $state.go('authenticate.login');

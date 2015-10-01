@@ -9,10 +9,12 @@
 
     /* @ngInject */
     function DashboardController(DashboardFactory, ChatFactory, UserAuthFactory, $state, mySocket) {
+        console.log('DashboardController loaded');
+
         var _this = this;
 
         mySocket.on('joined_room', function(roomObj) {
-            console.log('Socket listener(joined_room):', roomObj);
+            console.log('DashboardController:socket(joined_room) -', roomObj);
             ChatFactory.setOpenRoom(roomObj);
             $state.go('chat');
         })
@@ -20,7 +22,7 @@
         this.getUserInfo = function() {
             DashboardFactory.fetchUserInfo( function(response) {
                 if(response.state == 'success') {
-                    console.log('On Dashboard load: ', response.user);
+                    console.log('DashboardController:getUserInfo(success)- ', response.user);
                     _this.userInfo = response.user;
                 }
             })
@@ -42,12 +44,12 @@
                     _clearNewRoomForm();
                 })
                 .catch( function(err) { 
-                    console.log('Err:', err); 
+                    console.log('DashboardController:createRoom(error) - ', err); 
                 });
         }
 
         this.loadRoom = function(roomId) {
-            console.log('Socket emit (join_room)', roomId);
+            console.log('DashboardController:socket(join_room)', roomId);
             mySocket.emit('join_room', {_room: roomId});
         }
 
