@@ -54,7 +54,6 @@
          * Initialize socket listners for active room
          */
         var _initializeListeners = function() {
-            console.log('here');
             var listenerBase = 'room/' + ChatFactory.getOpenRoomId();
 
             // listens for messages & updates
@@ -110,7 +109,7 @@
                 })
                 .catch(function(err) {
                     console.log('Chat room initialization failed: ', err);
-                    // $state.go('Dashboard');
+                    $state.go('dashboard');
                 });
         })();
     }

@@ -15,7 +15,6 @@
             var newUser = new UserAuthFactory(user);
 
             newUser.$save( function(response) {
-                console.log("here", response);
                 if(response.state == 'success') {
                     $state.go('authenticate.login');
                 }

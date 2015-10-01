@@ -5,7 +5,8 @@
         .module('meanChat.chat', [
             'ui.router'
         ])
-        .config(config);
+        .config(config)
+        .run(run);
 
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
 
@@ -55,5 +56,16 @@
                     }
                 }
             });
-    } 
+    }; 
+
+    run.$inject = ['$rootScope', '$state', 'ChatFactory'];
+
+    function run($rootScope, $state, ChatFactory) {
+        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            if(toState.name == 'chat' && ! ChatFactory.getOpenRoomId() ) {
+                event.preventDefault();
+                $state.go('dashboard');
+            }
+        });
+    }
 })();
