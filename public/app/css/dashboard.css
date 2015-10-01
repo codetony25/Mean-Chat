@@ -9,6 +9,10 @@
 	align-self: flex-end;
 }
 
+.sidebar .sidebar-nav {
+	height: 54px;
+}
+
 .sidebar .sidebar-nav .nav-button {
 	position: relative;
 	padding: 16px 32px;
