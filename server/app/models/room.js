@@ -9,10 +9,10 @@ var uniqueValidator = require('mongoose-unique-validator');
  * Moongoose-Validator Validations
  */
 var roomValidator = [
-    validate({
-        validator: 'isAlphanumeric',
-        message: 'Room names should contain alpha-numeric characters only'
-    }),
+    // validate({
+    //     validator: 'isAlphanumeric',
+    //     message: 'Room names should contain alpha-numeric characters only'
+    // }),
     validate({
         validator: 'isLength',
         arguments: [3, 20],
@@ -40,10 +40,12 @@ var RoomSchema = new mongoose.Schema({
         ref: 'User'
     },
     _admins: [{ 
-    	type: String 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'    
     }],
     _blocked: [{ 
-    	type: String 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }],
 	invite: {
         type: Boolean,
@@ -59,10 +61,10 @@ var RoomSchema = new mongoose.Schema({
     	validator: topicValidator,
     	default: 'A topic has not been set.'
     },
-    count: {
-    	type: Number,
-    	default: 0
-    }
+    _users: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 });
 
 mongoose.model('Room', RoomSchema);

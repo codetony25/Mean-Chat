@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="./bower_components/angular-material/angular-material.css">
 	<link rel="stylesheet" href="./css/styles.css">
 	<link rel="stylesheet" href="./css/dashboard.css">
+	<link rel="stylesheet" href="./css/chatroom.css">
 </head>
 
 <body layout="column">
@@ -34,29 +35,36 @@
 	<!-- Third Party Dependencies -->
 	<script src="./bower_components/angular-socket-io/socket.js"></script>
 	<script src="./bower_components/angular-draganddrop/angular-drag-and-drop-lists.js"></script>
-	<script src="./bower_components/angular-scroll-glue/src/scrollglue.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 
 	<!-- App Modules -->
 	<script src="./app.module.js"></script>
-	<script src="./app/components/home-page/home-page.module.js"></script>
-	<script src="./app/components/chat/chat.module.js"></script>
-	<script src="./app/components/user-authentication/user-authentication.module.js"></script>
+	<script src="./app/components/user-auth/user-auth.module.js"></script>
 	<script src="./app/components/dashboard/dashboard.module.js"></script>
+	<script src="./app/components/chat/chat.module.js"></script>
+	<script src="./app/components/home-page/home-page.module.js"></script>
 
 	<!-- App Factories -->
-	<script src="./app/components/sockets/socket-factory.js"></script>
-	<script src="./app/components/user-authentication/user-authentication-factory.js"></script>
+	<script src="./app/components/user-auth/user-auth-factory.js"></script>
 	<script src="./app/components/dashboard/dashboard-factory.js"></script>
-
+	<script src="./app/components/chat/chat-factory.js"></script>
+	<script src="./app/components/sockets/socket-factory.js"></script>
+	<script src="./app/components/shared/session-factory.js"></script>
+	<script src="./app/components/chat/message-factory.js"></script>
 
 	<!-- App Controller -->
+	<script src="./app/components/user-auth/user-auth-controller.js"></script>
+	<script src="./app/components/dashboard/dashboard-controller.js"></script>
 	<script src="./app/components/chat/chat-controller.js"></script>
 	<script src="./app/components/home-page/home-page-controller.js"></script>
-	<script src="./app/components/user-authentication/user-authentication-controller.js"></script>
-	<script src="./app/components/dashboard/dashboard-controller.js"></script>
 
-	<script src="./app/components/user-authentication/server-error-directive.js"></script>
+	<!-- Development Testing -->
+	<script src="./app/components/test-sockets/test.module.js"></script>
+	<script src="./app/components/test-sockets/test-controller.js"></script>
+
+
+	<script src="./app/components/shared/scroll-directive.js"></script>
+	<script src="./app/components/user-auth/form-validation-directive.js"></script>
 	
 </body>
 </html>

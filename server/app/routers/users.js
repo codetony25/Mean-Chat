@@ -1,44 +1,89 @@
+/**
+ * Module dependencies
+ */
 var express = require('express');
-
+var router = express.Router();
 var passport = require('passport');
-var User = require('mongoose').model('User');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
+mongoose.Promise = require('q').Promise;
 
-module.exports = function() {
-  var router = express.Router();
+/**
+ * Expose
+ */
+router.get('/', function(req,res,next) {
+    res.json("ok");
+});
 
-  router.get('/', function(req,res,next) {
-
-  });
-
-  // Register
-  router.post('/', function( req, res, next) {
+// Register/create user
+router.post('/', function( req, res, next) {
     var user = new User(req.body);
 
     user.save( function(err) {
-      if(err) {
-        return res.status(401).json(err);
-      }
+        if(err) {
+            return res.status(401).json(err);
+        }
 
-      return res.json({state: 'success'});
+        return res.json({state: 'success'});
     })
-  });
+});
 
-  router.post('/login', passport.authenticate('local', {
+router.get('/logout', function(req, res) {
+    req.logout();
+    // Send back response
+})
+
+router.post('/login', passport.authenticate('local', {
     successRedirect: '/users/success',
     failureRedirect: '/users/failure'
-  }));
+}));
 
-  router.get('/success', function(req, res) {
-    return res.send({state: 'success', user: req.user ? req.user : null } );
-  });
+router.get('/success', function(req, res) {
 
-  router.get('/failure', function(req, res){
+    var user = {
+        _id: req.user._id,
+        username: req.user.username,
+        email: req.user.email
+    } || null;
+   
+   return res.json({state: 'success', user: user } );
+});
+
+router.get('/failure', function(req, res){
     res.status(401).json({ 
-      errors: {
-        login: { message: 'Invalid username or password' }
-      }
+        errors: {
+            login: { message: 'Invalid username or password' }
+        }
     });
-  });
+});
 
-  return router;
-}
+router.get('/:id', function(req, res, next) {
+
+    User.findById(req.params.id)
+        .select('-password -__v')
+            .populate({
+                path: 'active_rooms',
+                options: { sort: '-_id' }
+            })
+            .populate({
+                path: 'favorite_rooms',
+                options: { sort: '-_id' }
+            })
+            .populate({
+                path: 'recent_rooms',
+                options: { sort: '-_id' }
+            })
+            .populate({
+                path: 'created_rooms',
+                options: { sort: '-_id' }
+            })
+        .exec()
+        .then( function(user) {
+            return res.json({state: 'success', user: user});
+        })
+        .catch(function(err) {
+            return res.status(400).json(err);
+        });
+})
+
+module.exports = router;

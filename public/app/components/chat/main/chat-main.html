@@ -1,0 +1,20 @@
+<md-content layout-padding flex scroll-bottom="Chat.messages" class="chat-box">
+	<ul>
+		<li ng-repeat="message in Chat.messages"
+		    dnd-draggable="message"
+		    dnd-moved="Chat.addToQuestions(message)"
+		    dnd-effect-allowed="move"
+		    class="dragOverlay"
+		    >
+		    {{ message.username }} ({{message.time | date: 'medium'}}): {{ message.message }}
+		</li>
+	</ul>
+</md-content>
+<div class="chat-bar">
+	<md-input-container>
+		<form name="Chat.messageForm" ng-submit="Chat.sendMessage(Chat.userMessage)">
+			<label>Enter message</label>
+			<input ng-model="Chat.userMessage" name="Chat.userMessage">
+		</form>
+	</md-input-container>
+</div>

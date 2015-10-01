@@ -1,0 +1,51 @@
+Client Emitters
+=-=-=-=-=-=-=-=-=
+
+'new_message'
+Sends a message to the server to be displayed to all
+	_room: 			the room id to send it to
+	message: 		the message content
+	resource_type:	the message resource type
+
+'leave_room'
+Should emit when a user leaves a room for good. This will display a
+message to all the users in the room. It will also trigger the clients
+'left_room' listener when successfull for other visual updating.
+	_room:			the room id to leave
+
+'join_room'
+Should emit when a user joins a room that isn't in his active rooms. 
+The server will respond to 'joined_room' if the join is successfull
+and update the room with a join message.
+	_room:			the room id to join
+
+'get_room'
+Asks the server to emit a room object to 'room_update_<<roomId>>' if it exists and the user is active in it
+	_room:			the room id
+
+'get_user'
+Asks the server to emit the user object to 'user_update' for the currently logged in user.
+	<<no data needed>>
+
+'msg_vote'
+Emits a message to the server to be up or down voted. It will only succeed if the user hasn't already performed that action, and is active in the room the message belongs to.
+	_room: room id the user performed the action in
+	_message: message id to be upvoted
+	vote: either 'up' or 'down'
+
+'favorite_room'
+Will toggle whether or not the room is a favorite of the user's. Must be active in the room for it to work so they can't favorite blocked rooms or rooms that don't exist, etc.
+	_room: room id to be favorited/unfavorited
+
+'room_created'
+Should emit the room id of a successfully created room to the server so the server can emit to 'new_room' with a new room object
+	_room: room id of the newly created room
+
+'get_profile'
+Emits a user id to the server. The server will send back a user object populated with data for profile viewing. Listen on 'user_profile'.
+	_user: the user id of the profile we want
+
+'block_user'
+Emits a user id to the server to toggle whether or not that user will be blocked or unblocked from a room. The server will emit a room upadte with the updated blocked users.
+	_user: the user id to toggle block on
+	_room: the room the user will be blocked/unblocked from

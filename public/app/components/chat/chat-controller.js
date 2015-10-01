@@ -1,5 +1,5 @@
 (function() {
-  'use strict';
+    'use strict';
 
   angular
     .module('meanChat.chat')
@@ -7,65 +7,92 @@
     .directive('dndColor', questionColor)
     .directive('dragOverlay', overlayDrag);
 
-  function ChatController() {
-    console.log("Chat Controller loaded"); 
+    ChatController.$inject = ['ChatFactory', 'mySocket', 'MessageFactory', '$state'];
 
-//Dummy Data for chat and chat questions drag and drop
 
-		this.lists = {"chatList": [
-		  {
-		    "chat": "I am awesome"
-		  },
-		  {
-		    "chat": "Yes, I am."
-		  },
-		  {
-		    "chat": "Team Tony is Awesome!"
-		  },
-		  {
-		    "chat": "I need water."
-		  },
-		  {
-		    "chat": "I want a sandwhich!"
-		  },
-		  {
-		    "chat": "I am awesome"
-		  },
-		  {
-		    "chat": "Yes, I am."
-		  },
-		  {
-		    "chat": "Team Tony is Awesome! Team Tony is Awesome! Team Tony is Awesome! Team Tony is Awesome! Team Tony is Awesome! Team Tony is Awesome! Team Tony is Awesome! Team Tony is Awesome!"
-		  },
-		  {
-		    "chat": "I need water."
-		  },
-		  {
-		    "chat": "I want a sandwhich!"
-		  }
 
-		], "chatQuestions": [
-			 //Chat Questions dragged here
-			 {
-			 	"chat": "Hello World!"
-			 }
-		]}
+    /* @ngInject */
+    function ChatController(ChatFactory, mySocket, MessageFactory, $state) {
+        console.log('ChatController loaded');
 
-		//Dummy text for users:
+        var _this = this;
 
-		this.addToQuestions = function(item) {
-			console.log('From List: ', item);
-			this.lists.chatQuestions.push(item);
-			console.log('Updated List: ', this.lists.chatQuestions);
+        this.sendMessage = function(message) {
+            mySocket.emit('new_message', {
+                _room: _this.openRoomId,
+                message: message,
+                resource_type: 'Message'
+            });
+            _clearMessage();
+        }
+
+
+        //Dummy Data to add a question
+		this.chatQuestions = [
+			//Chat Questions dragged here
+				{
+					"username" : "The great Tony",
+				 	"message" : "Hello World!"
+				}
+			]
+
+		//Adds a question to our dummy data for questions
+		this.addToQuestions = function(message) {
+			this.chatQuestions.push(message);
 		}
 
-		this.removeQuestion = function(item, index) {
-			console.log('Item to remove', item);
-			this.lists.chatQuestions.splice(index, 1);
-			console.log('Updated List: ', this.lists.chatQuestions);
+		//Removes a question if the trash can is clicked
+		this.removeQuestion = function(message, index) {
+			this.chatQuestions.splice(index, 1);
 		}
 
-	}
+        function _getRoomInfo() {
+
+            ChatFactory.get({id: _this.openRoomId}).$promise.then(function(data) {
+                _this._roomInfo = data.content;
+                console.log('ChatController:_getRoomInfo success - ', _this._roomInfo);
+            })
+            .catch(function(err) {
+                console.log('ChatController:_getRoomInfo error - ', err);
+            });
+        }
+
+        function _getMessages() {
+            MessageFactory.query({ _room: _this.openRoomId }, function(response) {
+                console.log('ChatController:_getMessages success - ', response);
+                _this.messages = response.content;
+            }, function( err ) {
+                console.log('ChatController:_getMessages error - ', err);
+            })
+        }
+
+        function _clearMessage() {
+            _this.messageForm.$setPristine();
+            _this.userMessage = '';
+        }
+
+        function _init() {
+            _this.sidebarTitle = $state.current.data.sidebarTitle;
+            _this.openRoomId = ChatFactory.getOpenRoom()._id;
+            _getMessages();
+            _getRoomInfo();
+
+            mySocket.on('room_' + _this.openRoomId, function(data) {
+                _this.messages.push(data);
+            });
+
+            mySocket.on('room_' + _this.openRoomId, function(data) {
+                _this._roomInfo = data;
+            })
+        }
+
+
+        _init();
+    }
+
+
+
+    //Remember to put directives in their own files!
 
 	//Question Color Directive
 	function questionColor() {
@@ -99,5 +126,7 @@
 			}
 		}
 	}
+
+
 
 })();

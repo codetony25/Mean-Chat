@@ -1,0 +1,14 @@
+.chat-bar {
+	height: 54px;
+	max-height: 54px !important;
+}
+
+.chat-bar md-input-container {
+	padding-bottom: 0px;
+}
+
+.sidebar-header {
+	background-color: #303F9F;
+	color: #C5CAE9;
+	height: 40px;
+}

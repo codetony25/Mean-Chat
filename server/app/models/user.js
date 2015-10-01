@@ -95,26 +95,32 @@ var UserSchema = new mongoose.Schema({
 	*/
 	last_activity: Date, // To check activity and prevent spamming
     active_rooms: [{
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room'
     }],
     recent_rooms: [{
-    	type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room'
     }],
     favorite_rooms: [{
-    	type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room'
     }],
-    upvotes: {
-    	type: Number,
-    	default: 0
-    },
-    downvotes: {
-    	type: Number,
-    	default: 0
-    },
+    created_rooms: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room'
+    }],
     message_count: {
     	type: Number,
     	default: 0
-    }
+    },
+    // Upvotes and downvotes hold an array of user ids that have voted
+    _upvotes: [{
+    	type: String
+    }],
+    _downvotes: [{
+    	type: String
+    }]
 });
 
 UserSchema.pre('save', function(next) {
@@ -139,5 +145,14 @@ UserSchema.methods.hashPassword = function(password) {
 UserSchema.methods.validatePassword = function(password) {
 	return bcrypt.compareSync(password, this.password);
 };
+
+UserSchema.virtual('created').get(function() {
+    return mongoose.Types.ObjectId(this._id).getTimestamp();
+});
+
+
+UserSchema.set('toJSON', {
+    virtuals: true
+});
 
 mongoose.model('User', UserSchema);
