@@ -41,32 +41,37 @@ module.exports = function(io) {
             // Make sure the user isn't blocked and isn't already in the room
             Room.findOne({_id: data._room, _blocked: {$ne: userId}}, function(err, room) {
                 if (!err && room) {
-                    // If the user isn't already on the list, add him to the list
-                    if (room._users.indexOf(userId) == -1) {        
-                        // Create a new system message to send to the room
-                        var message = new Message({
-                            _owner: userId,
-                            _room: data._room,
-                            resource_type: 'System',
-                            time: Date.now(),
-                            message: user.username + ' has joined the room.'
-                        });
-                        // Attempt to save the message
-                        message.save(function(err) {
-                            if (!err) {
-                                // If there are no errors, emit the message to the room
-                                io.emit('room/' + data._room + '/message', message);
-                            } else {
-                                //There was an error saving the message for some reason
-                                // Probably shouldn't display it to the room
+                    User.findOne({_id: userId}, function(err, user) {
+                        if (!err & user) {
+                            // If the user isn't already on the list, add him to the list
+                            if (room._users.indexOf(userId) == -1) {        
+                                // Create a new system message to send to the room
+                                var message = new Message({
+                                    _owner: userId,
+                                    _room: data._room,
+                                    resource_type: 'System',
+                                    time: Date.now(),
+                                    message: user.username + ' has joined the room.'
+                                });
+                                // Attempt to save the message
+                                message.save(function(err) {
+                                    if (!err) {
+                                        // If there are no errors, emit the message to the room
+                                        io.emit('room/' + data._room + '/message', message);
+                                    } else {
+                                        //There was an error saving the message for some reason
+                                        // Probably shouldn't display it to the room
+                                    }
+                                });
                             }
-                        });
-                    }
 
-                    // If the room doesn't already exist as an active room, make it an active room
-                    User.update({_id: userId}, {$addToSet: { active_rooms: data._room }, $addToSet: { recent_rooms: data._room}}, function(err) { });
-                    // Add the user to the rooms list of users
-                    Room.update({_id: data._room}, {$addToSet: { _users: userId}}, {new: true}, function(err, room) { });
+                            // If the room doesn't already exist as an active room, make it an active room
+                            User.update({_id: userId}, {$addToSet: { active_rooms: data._room }, $addToSet: { recent_rooms: data._room}}, function(err) { });
+                            // Add the user to the rooms list of users
+                            Room.update({_id: data._room}, {$addToSet: { _users: userId}}, {new: true}, function(err, room) { });
+
+                        }
+                    });
                 } else {
                     // Couldn't join the room
                 }                    
