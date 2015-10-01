@@ -25,7 +25,7 @@
             // return openRoomObj;
 
             return {
-                _id: '560ce0f42b817f2c354513a9'
+                _id: '560d79491b6577e78d0e01d2'
             }
         }
 

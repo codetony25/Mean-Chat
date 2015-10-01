@@ -44,7 +44,8 @@
             .state('chat.resources-list', {
                 views: {
                     'sidebar-content@chat': {
-                    templateUrl: 'app/components/chat/sidebar/resources-list.html'                    }
+                    templateUrl: 'app/components/chat/sidebar/resources-list.html'                    
+                  }
                 }
             })
             ;

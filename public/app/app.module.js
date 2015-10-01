@@ -7,6 +7,7 @@
             'ngMessages',
             'ngMaterial',
             'ngResource',
+            'dndLists',
             'meanChat.home-page',
             'meanChat.chat',
             'meanChat.userAuth',
