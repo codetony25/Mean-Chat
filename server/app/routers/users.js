@@ -4,7 +4,9 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var User = require('mongoose').model('User');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
+mongoose.Promise = require('q').Promise;
 
 /**
  * Expose
@@ -57,13 +59,31 @@ router.get('/failure', function(req, res){
 
 router.get('/:id', function(req, res, next) {
 
-    User.findById(req.params.id).select('-password -__v').populate('active_rooms favorite_rooms recent_rooms created_rooms').exec(function(err, user) {
-        if (err) {
+    User.findById(req.params.id)
+        .select('-password -__v')
+            .populate({
+                path: 'active_rooms',
+                options: { sort: '-_id' }
+            })
+            .populate({
+                path: 'favorite_rooms',
+                options: { sort: '-_id' }
+            })
+            .populate({
+                path: 'recent_rooms',
+                options: { sort: '-_id' }
+            })
+            .populate({
+                path: 'created_rooms',
+                options: { sort: '-_id' }
+            })
+        .exec()
+        .then( function(user) {
+            return res.json({state: 'success', user: user});
+        })
+        .catch(function(err) {
             return res.status(400).json(err);
-        }
-        return res.json({state: 'success', user: user});
-    });
-
+        });
 })
 
 module.exports = router;

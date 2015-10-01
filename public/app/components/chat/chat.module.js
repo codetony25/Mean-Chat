@@ -29,7 +29,24 @@
                         templateUrl: 'app/components/chat/sidebar/sidebar-nav.html'
                     }
                 },
-                data: { requiresLogin: true }
-            });
+                data: { 
+                    requiresLogin: true,
+                    sidebarTitle: 'Users List'
+                }
+            })
+            .state('chat.users-list', {
+                views: {
+                    'sidebar-content@chat': {
+                        templateUrl: 'app/components/chat/sidebar/users-list.html'
+                    }
+                }
+            })
+            .state('chat.resources-list', {
+                views: {
+                    'sidebar-content@chat': {
+                    templateUrl: 'app/components/chat/sidebar/resources-list.html'                    }
+                }
+            })
+            ;
     } 
 })();

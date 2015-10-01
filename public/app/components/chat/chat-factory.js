@@ -9,14 +9,24 @@
 
     /* @ngInject */
     function ChatFactory($resource) {
+        console.log('ChatFactory loaded');
+
         var factory = $resource('/rooms/:id', { id: '@_id' }, {
-          update: { method: 'PUT', isArray: false }
+            update: { method: 'PUT', isArray: false }
         });
 
-        var openRoomId;
+        var openRoomObj;
 
-        factory.setOpenRoom = function(roomId) {
-            openRoomId = roomId;
+        factory.setOpenRoom = function(roomObj) {
+            openRoomObj = roomObj;
+        }
+
+        factory.getOpenRoom = function() {
+            // return openRoomObj;
+
+            return {
+                _id: '560ce0f42b817f2c354513a9'
+            }
         }
 
         return factory;

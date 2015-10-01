@@ -42,6 +42,7 @@ module.exports = function(io) {
         socket.on('room/auth/req', function(data) {
             // Make sure the user isn't blocked and isn't already in the room
             Room.findOne({_id: data._room, _users: {$ne: userId}, _blocked: {$ne: userId}}, function(err, room) {
+
                 if (!err && room) {
                     User.findOne({_id: userId}, function(err, user) {                        
                         // If the room doesn't already exist as an active room, make it an active room
@@ -100,7 +101,6 @@ module.exports = function(io) {
         socket.on('room/user/exit', function(data) {
             // Find the room and pull the user from the _users list
             Room.findOneAndUpdate({_id: data._room, _users: userId}, {$pull: {_users: userId}}, {new: true}, function(err, room) {
-                console.log(room);
                 if (!err && room) {
                     // Pull the room from the users active rooms
                     User.findOneAndUpdate({_id: userId}, {$pull: {active_rooms: data._room}}, {new: true, select: '-password'}, function(err, user) {

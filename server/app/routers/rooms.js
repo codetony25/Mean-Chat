@@ -6,8 +6,8 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Room = mongoose.model('Room');
 var User = mongoose.model('User');
-
 mongoose.Promise = require('q').Promise;
+
 /**
  * Protect routes that require authentication.
  *
@@ -34,7 +34,7 @@ router.use(isAuthenticated);
  * Expose
  */
 router.get('/', function(req, res, next) {
-    console.log(req.body);
+    console.log('here');
 });
 
 router.post('/', function(req, res, next) {
@@ -57,12 +57,30 @@ router.post('/', function(req, res, next) {
             return user.save();
         })
         .then( function(user) {
-            res.json({success: true});
+            res.json({
+                success: true,
+                content: newRoom
+            });
         })
         .catch(function(err) {
-            console.log(err);
-            res.status(400).json(err);
+            console.log('/rooms post err', err);
+            return res.status(400).json(err);
         });
+});
+
+router.get('/:id', function(req, res, next) {
+
+    Room.findById(req.params.id).populate('_users', '_id username').exec()
+        .then( function(room) {
+            return res.json({
+                sucess: true,
+                content: room
+            });
+        })
+        .catch(function(err) {
+            return res.status(400).json(err);
+        });
+    
 });
 
 module.exports = router;

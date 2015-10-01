@@ -42,7 +42,7 @@
 
     function _init() {
         _user = SessionFactory.getUser();
-        console.log('Current User: ', _user);
+        console.log('UserAuthFactory:init - ', _user);
         if( _user ) {
             _isLoggedIn = true;
         }
