@@ -53,7 +53,7 @@
          * Socket listener for room join authorizations
          */
         mySocket.on('room/auth/success', function(roomObj) {
-            console.log('DashboardController:socket(room/auth/success) - ', roomObj);
+            console.log('DashboardController:socket(room/auth/success) - ', roomObj._room);
             ChatFactory.setOpenRoomId(roomObj._room);
             $state.go('chat');
         });

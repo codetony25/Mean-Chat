@@ -21,7 +21,7 @@
          * When user submits message, emit to server
          */
         this.sendMessage = function(message) {
-
+            console.log('Emitting message from room ', ChatFactory.getOpenRoomId() );
             mySocket.emit('message/new', {
                 _room: ChatFactory.getOpenRoomId(),
                 message: message,
@@ -55,15 +55,17 @@
          */
         var _initializeListeners = function() {
             var listenerBase = 'room/' + ChatFactory.getOpenRoomId();
-
+            console.log('Initialized Chat Socket listeners. Base: ', listenerBase);
+            
             // listens for messages & updates
             mySocket.on(listenerBase + '/message', function(data) {
-                console.log(data);
+                console.log('Socket: /message', data);;
                 _this.messages.push(data);
             });
 
             // listens for user joins & updates
             mySocket.on(listenerBase + '/user/joined', function(userData) {
+                console.log('Socket: user/joined', userData);
                 _this._usersList.push(userData);
             });
 
@@ -84,6 +86,7 @@
 
 
         var _init = (function() {
+            console.log('CHAT init ', ChatFactory.getOpenRoomId());
             // _this.sidebarTitle = $state.current.data.sidebarTitle;
             // Promises
             var getRoomInfo = ChatFactory.get({ _id: ChatFactory.getOpenRoomId() }).$promise;
@@ -95,13 +98,13 @@
                     // Room Info
                     _this._usersList = response[0].content._users;
                     _this._roomInfo = response[0].content;
-
+                    console.log('Room Info: ', response[0].content);
                     // Messages
                     _this.messages = response[1].content;
-
+                    console.log('Messages  ', response[1].content);
                     // Roomslist
                     _this.roomsList = response[2].content;
-
+                    console.log('Roomslist: ', response[2].content);
                     _initializeListeners();
 
                     // notify server user has joined the room

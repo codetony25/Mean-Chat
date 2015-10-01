@@ -17,7 +17,7 @@
             .state('dashboard', {
                 url: '/dashboard',
                 views: {
-                    '@': {
+                    'main-content': {
                         templateUrl: 'app/components/shared/main-layout.html',
                         controller: 'DashboardController as Dashboard'
                     },

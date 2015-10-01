@@ -8,7 +8,6 @@
             'ngMaterial',
             'ngResource',
             'dndLists',
-            'meanChat.home-page',
             'meanChat.chat',
             'meanChat.userAuth',
             'meanChat.dashboard',
@@ -34,6 +33,17 @@
         .warnPalette('red');
 
         $urlRouterProvider.otherwise('/');
+
+        $stateProvider
+            .state('/', {
+                url: '/',
+                views: {
+                    'main-content': {
+                        templateUrl: 'app/components/main/home-page.html',
+                        controller: 'MainController as Main'
+                    }
+                }
+            })
     } 
 
     run.$inject = ['$rootScope', '$state', 'UserAuthFactory'];
