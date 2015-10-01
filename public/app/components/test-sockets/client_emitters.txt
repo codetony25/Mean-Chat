@@ -15,10 +15,24 @@ User requests authorization from server to join a room
 	_room:			Room ID
 
 
+'room/user/join'
+User successfully joined a chat room
+
+	_room:			Room ID
+
 'room/user/exit'
 User exists a chat room
 
 	_room:			Room ID
+
+
+
+
+
+
+
+
+
 
 
 'leave_room'

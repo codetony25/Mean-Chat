@@ -18,26 +18,19 @@
          */
         this.sendMessage = function(message) {
             mySocket.emit('message/new', {
-                _room: _this.openRoomId,
+                _room: ChatFactory.getOpenRoomId(),
                 message: message,
                 resource_type: 'Text'
             });
             _clearMessage();
         }
 
-        var _init = function() {
-            // _this.sidebarTitle = $state.current.data.sidebarTitle;
-            _this.openRoomId = ChatFactory.getOpenRoomId();
-            _getMessages();
-            _getRoomInfo();
-            _initializeListeners();            
-        }
-
         /**
          * [_getRoomInfo description]
          */
         var _getRoomInfo = function() {
-            ChatFactory.get({id: _this.openRoomId}).$promise.then(function(data) {
+            ChatFactory.get({ _id: ChatFactory.getOpenRoomId() }).$promise.then(function(data) {
+                _this._usersList = data.content._users;
                 _this._roomInfo = data.content;
                 console.log('ChatController:_getRoomInfo success - ', _this._roomInfo);
             })
@@ -50,16 +43,29 @@
          * Initialize socket listners for active room
          */
         var _initializeListeners = function() {
-            mySocket.on('room/' + _this.openRoomId +'/message', function(data) {
+            var listenerBase = 'room/' + _this.openRoomId;
+
+            // listens for messages & updates
+            mySocket.on(listenerBase + '/message', function(data) {
                 _this.messages.push(data);
+            });
+
+            // listens for user joins & updates
+            mySocket.on(listenerBase + '/user/joined', function(userData) {
+                _this._usersList.push(userData);
+            });
+
+            // listens for user exit & removes from list
+            mySocket.on(listenerBase + '/user/exited', function(userData) {
+
             });
         }
 
         /**
-         * [_getMessages description]
+         * 
          */
         var _getMessages = function() {
-            MessageFactory.query({ _room: _this.openRoomId }, function(response) {
+            MessageFactory.query({ _room: ChatFactory.getOpenRoomId() }, function(response) {
                 console.log('ChatController:_getMessages success - ', response);
                 _this.messages = response.content;
             }, function( err ) {
@@ -68,11 +74,21 @@
         }
 
         /**
-         * [_clearMessage description]
+         * Clears message form upon submit
          */
         var _clearMessage = function() {
             _this.messageForm.$setPristine();
             _this.userMessage = '';
+        }
+
+        var _init = function() {
+            // _this.sidebarTitle = $state.current.data.sidebarTitle;
+            _getMessages();
+            _getRoomInfo();
+            _initializeListeners();
+
+            // notify server user has joined the room
+            mySocket.emit('room/user/join', { _room: ChatFactory.getOpenRoomId() })
         }
 
         /**

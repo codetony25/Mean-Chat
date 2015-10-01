@@ -5,20 +5,20 @@ Client Listeners
 'room/auth/success'
 	Server authorizes user to join a room
 
-	_room:			Room ID to join
+	_id:			Room ID to join
 
 
 'room/:id/user/joined'
 	Notification that a user has joined the room
 
-	_user:			User ID
+	_id:			User ID
 	username:		Username
 
 
 'room/:id/user/exited'
 	Notification that a user has exited the room
 
-	_user:			User ID
+	_id:			User ID
 	username:		Username
 
 

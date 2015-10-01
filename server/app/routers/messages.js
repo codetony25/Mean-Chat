@@ -4,6 +4,26 @@ var Message = require('mongoose').model('Message');
 var mongoose = require('mongoose');
 mongoose.Promise = require('q').Promise;
 
+/**
+ * Protect routes that require authentication.
+ *
+ * If user is authenticated in the session, call next().
+ * Method is added to the request object by passport.
+ */
+var isAuthenticated = function(req, res, next) {
+    if(req.isAuthenticated()) {
+        return next();
+    }
+
+    return res.redirect('/#login');
+}
+
+//Register authentication middleware
+router.use(isAuthenticated);
+
+/**
+ * Expose
+ */
 router.get('/', function(req, res) {
 
 });

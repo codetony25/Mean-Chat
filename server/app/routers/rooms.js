@@ -15,11 +15,6 @@ mongoose.Promise = require('q').Promise;
  * Method is added to the request object by passport.
  */
 var isAuthenticated = function(req, res, next) {
-    // allow all GET requests
-    // if(req.method === "GET") {
-    //     return next();
-    // }
-
     if(req.isAuthenticated()) {
         return next();
     }
@@ -34,7 +29,31 @@ router.use(isAuthenticated);
  * Expose
  */
 router.get('/', function(req, res, next) {
-    console.log('here');
+    console.log('GET ROUTE', req.params);
+    Room.find().select('name topic').then(function(rooms) {
+        return res.json({
+            success: true,
+            content: rooms
+        });
+    })
+    .catch(function(err) {
+        return res.status(401).json(err);
+    });
+});
+
+router.get('/:id', function(req, res, next) {
+    console.log('GET ID ROUTE', req.params.id);
+    Room.findById(req.params.id).populate('_users', '_id username').exec()
+        .then( function(room) {
+            return res.json({
+                sucess: true,
+                content: room
+            });
+        })
+        .catch(function(err) {
+            return res.status(400).json(err);
+        });
+    
 });
 
 router.post('/', function(req, res, next) {
@@ -66,21 +85,6 @@ router.post('/', function(req, res, next) {
             console.log('/rooms post err', err);
             return res.status(400).json(err);
         });
-});
-
-router.get('/:id', function(req, res, next) {
-
-    Room.findById(req.params.id).populate('_users', '_id username').exec()
-        .then( function(room) {
-            return res.json({
-                sucess: true,
-                content: room
-            });
-        })
-        .catch(function(err) {
-            return res.status(400).json(err);
-        });
-    
 });
 
 module.exports = router;

@@ -13,15 +13,6 @@
 
         var _this = this;
 
-        function _getUserInfo() {
-            DashboardFactory.fetchUserInfo( function(response) {
-                if(response.state == 'success') {
-                    console.log('DashboardController:getUserInfo(success)- ', response.user);
-                    _this.userInfo = response.user;
-                }
-            })
-        }
-
         /**
          * Creates a new chat room. Handler for form submission
          *
@@ -48,12 +39,12 @@
         }
 
         /**
-         * Allows user to join a room.
+         * User requests to join a room. 
          *
          * Socket event: Requests authorization from the server
          */
         this.loadRoom = function(roomId) {
-            console.log('DashboardController:socket(join_room)', roomId);
+            console.log('DashboardController:socket(room/auth/req)', roomId);
             mySocket.emit('room/auth/req', {_room: roomId});
         };
 
@@ -61,22 +52,45 @@
         /**
          * Socket listener for room join authorizations
          */
-        mySocket.on('room/auth/success', function(roomId) {
-            console.log('DashboardController:socket(joined_room) -', roomId);
-            ChatFactory.setOpenRoom(roomId);
+        mySocket.on('room/auth/success', function(roomObj) {
+            console.log('DashboardController:socket(room/auth/success) - ', roomObj);
+            ChatFactory.setOpenRoomId(roomObj._room);
             $state.go('chat');
         });
 
+        /**
+         * Clears New Room Form upon submission
+         */
         function _clearNewRoomForm() {
             _this.newRoomForm.$setPristine();
             _this.newRoomForm.$setUntouched();
             _this.newRoomForm.formData = '';
         }
-        
-        var _init = function _init() {
-            _this.getUserInfo();
+
+        /**
+         * Retrieves current user's info to populate dashboard
+         */
+        var _getUserInfo = function() {
+            DashboardFactory.fetchUserInfo( function(response) {
+                if(response.state == 'success') {
+                    console.log('DashboardController:getUserInfo(success)- ', response.user);
+                    _this.userInfo = response.user;
+                }
+            })
         }
 
-        _init();
+        var _getChatRoomsList = function() {
+            ChatFactory.get().$promise.then(function(response) {
+                _this.roomsList = response.content;
+            })
+            .catch( function(err) {
+                console.log('Error', err);
+            });
+        }
+        
+        var _init = (function() {
+            _getChatRoomsList();
+            _getUserInfo();
+        })();
     }
 })();
