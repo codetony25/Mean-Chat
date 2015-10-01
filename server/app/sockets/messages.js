@@ -13,7 +13,7 @@ module.exports = function(io) {
 	    /**
         * Recieving a new message from the client
         */
-        socket.on('new_message', function(data) {
+        socket.on('message/new', function(data) {
             // Get the user
             User.findOne({_id: userId}, function(err, user) {
                 if (!err && user) {
@@ -43,13 +43,11 @@ module.exports = function(io) {
                             message.save(function(err) {
                                 if (!err) {
                                     // If there are no errors, emit the message to the room
-                                    io.emit('room_' + data._room, message);
-                                    // Emit an event to those that have the room docked
-                                    io.emit('docked_' + data._room);
+                                    io.emit('room/' + data._room + '/message', message);
                                     // Once we've emitted to the room, update the users message count and last activity
                                     User.findOneAndUpdate({_id: userId}, { $inc: {message_count: 1}, last_activity: Date.now()}, {new: true, select: '-password -__v'}, function(err, user) { 
                                         if (!err && user) {
-                                            socket.emit('user_update', user);
+                                            // socket.emit('user_update', user);
                                         } 
                                     });
                                 } else {
