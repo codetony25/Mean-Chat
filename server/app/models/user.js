@@ -103,6 +103,9 @@ var UserSchema = new mongoose.Schema({
     favorite_rooms: [{
     	type: String
     }],
+    created_rooms: [{
+    	type: String
+    }],
     message_count: {
     	type: Number,
     	default: 0

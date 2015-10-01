@@ -100,6 +100,18 @@
             mySocket.emit('get_user');
         }
 
+        this.roomCreated = function() {
+            /**
+            * When a new room is successfully created, emit the roomId
+            * to the server so the server can update everyone's room list
+            *
+            * The server will emit back to new_room if it finds the new room object
+            */
+            mySocket.emit('room_created', {
+                _room: '560ae3776c83c0004e8c637d'
+            });
+        }
+
         /**
         * Dynamic listeners for room messages
         */
@@ -139,6 +151,15 @@
         */
         mySocket.on('left_room', function(room) {
             console.log('You have successfully left room: ', room._id);
+        });
+
+        /**
+        * Recieves a new room object when a new room is created
+        */
+        mySocket.on('new_room', function(room) {
+            console.log('A new room has been created');
+            console.log('---------------------------');
+            console.log(room);
         });
 
     }

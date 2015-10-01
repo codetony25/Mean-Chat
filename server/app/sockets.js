@@ -216,6 +216,17 @@ module.exports.listen = function(app){
         });
 
         /**
+        * When a new room has been created, the owner emits to the server, the server finds the new room and emits to all
+        */
+        socket.on('room_created', function(data) {
+            Room.findOne({_id: data._room}, function(err, room) {
+                if (!err && room) {
+                    io.emit('new_room', room);
+                }
+            });
+        });
+
+        /**
         * Emits room data to the client as long as he's active in that room
         */
         socket.on('get_room', function(data) {
