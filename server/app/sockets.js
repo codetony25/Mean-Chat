@@ -94,8 +94,10 @@ module.exports.listen = function(app){
         * When user joins a new room that isn't active
         */
         socket.on('join_room', function(data) {
+
             // Make sure the user isn't blocked and isn't already in the room
             Room.findOne({_id: data._room, _users: {$ne: userId}, _blocked: {$ne: userId}}, function(err, room) {
+
                 if (!err && room) {
                     User.findOne({_id: userId}, function(err, userInfo) {                        
                         // If the room doesn't already exist as an active room, make it an active room
@@ -154,7 +156,6 @@ module.exports.listen = function(app){
         socket.on('leave_room', function(data) {
             // Find the room and pull the user from the _users list
             Room.findOneAndUpdate({_id: data._room, _users: userId}, {$pull: {_users: userId}}, {new: true}, function(err, room) {
-                console.log(room);
                 if (!err && room) {
                     // emit to all that the room object has changed
                     io.emit('room_update_' + data._room, room);

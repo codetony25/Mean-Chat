@@ -11,6 +11,7 @@
             'meanChat.chat',
             'meanChat.userAuth',
             'meanChat.dashboard',
+            'meanChat.message',
             'meanChat.test',
             'btford.socket-io'
         ])

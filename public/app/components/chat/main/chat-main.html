@@ -1,32 +1,11 @@
 <md-content layout-padding flex>
-	<p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
+	<p ng-repeat="message in Chat.messages">{{ message.username }} ({{message.time | date: 'medium'}}): {{ message.message }}</p>
 </md-content>
 <div class="chat-bar">
 	<md-input-container>
-		<label>Enter message</label>
-			<input>
+		<form name="Chat.messageForm" ng-submit="Chat.sendMessage(Chat.userMessage)">
+			<label>Enter message</label>
+			<input ng-model="Chat.userMessage" name="Chat.userMessage">
+		</form>
 	</md-input-container>
 </div>

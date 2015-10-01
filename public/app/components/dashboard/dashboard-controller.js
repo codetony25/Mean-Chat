@@ -5,24 +5,23 @@
         .module('meanChat.dashboard')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['DashboardFactory', 'ChatFactory', 'UserAuthFactory', '$state'];
+    DashboardController.$inject = ['DashboardFactory', 'ChatFactory', 'UserAuthFactory', '$state', 'mySocket'];
 
     /* @ngInject */
-    function DashboardController(DashboardFactory, ChatFactory, UserAuthFactory, $state) {
+    function DashboardController(DashboardFactory, ChatFactory, UserAuthFactory, $state, mySocket) {
         var _this = this;
+
+        mySocket.on('joined_room', function(roomObj) {
+            console.log('Socket listener(joined_room):', roomObj);
+            ChatFactory.setOpenRoom(roomObj);
+            $state.go('chat');
+        })
 
         this.getUserInfo = function() {
             DashboardFactory.fetchUserInfo( function(response) {
                 if(response.state == 'success') {
+                    console.log('On Dashboard load: ', response.user);
                     _this.userInfo = response.user;
-
-                    // Fake data
-                    _this.userInfo.active_rooms = [
-                        {
-                            _id: '560c93349d49749c1bf1c574',
-                            name: 'testroom5'
-                        }
-                    ]
                 }
             })
         }
@@ -38,7 +37,9 @@
 
             newRoom.$save()
                 .then( function(response) { 
-                    console.log(response); 
+                    mySocket.emit('room_created', { _room: response.content._id }); 
+                    _this.userInfo.created_rooms.push(response.content);
+                    _clearNewRoomForm();
                 })
                 .catch( function(err) { 
                     console.log('Err:', err); 
@@ -46,8 +47,14 @@
         }
 
         this.loadRoom = function(roomId) {
-            ChatFactory.setOpenRoom(roomId);
-            $state.go('chat');
+            console.log('Socket emit (join_room)', roomId);
+            mySocket.emit('join_room', {_room: roomId});
+        }
+
+        function _clearNewRoomForm() {
+            _this.newRoomForm.$setPristine();
+            _this.newRoomForm.$setUntouched();
+            _this.newRoomForm.formData = '';
         }
         
         var _init = function _init() {

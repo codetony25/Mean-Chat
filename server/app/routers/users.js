@@ -61,6 +61,7 @@ router.get('/:id', function(req, res, next) {
         if (err) {
             return res.status(400).json(err);
         }
+        console.log(user);
         return res.json({state: 'success', user: user});
     });
 
