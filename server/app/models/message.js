@@ -21,6 +21,9 @@ var MessageSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
     },
+    username: {
+    	type: String
+    },
     message: {
         type: String,
         required: true,
@@ -37,7 +40,10 @@ var MessageSchema = new mongoose.Schema({
     }],
     _downvotes: [{
     	type: String
-    }]
+    }],
+    time: {
+    	type: Date
+    }
 });
 
 mongoose.model('Message', MessageSchema);

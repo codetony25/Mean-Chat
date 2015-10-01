@@ -40,44 +40,50 @@ module.exports.listen = function(app){
         * Recieving a new message from the client
         */
         socket.on('new_message', function(data) {
-            // Make sure the user is active in the room
-            Room.findOne({_id: data._room, _users: userId}, function(err, room) {
-                if (!err && room) {
-                    // Encode the message to prevent xss/script injection
-                    var msg = entities.encode(data.message);
+            // Get the user
+            User.findOne({_id: userId}, function(err, user) {
+                if (!err && user) {
+                    // Make sure the user is active in the room
+                    Room.findOne({_id: data._room, _users: userId}, function(err, room) {
+                        if (!err && room) {
+                            // Encode the message to prevent xss/script injection
+                            var msg = entities.encode(data.message);
 
-                    // After encoding check for BBCode markup
-                    msg = msg.replace('[b]','<b>').replace('[/b]','</b>');
-                    msg = msg.replace('[i]','<i>').replace('[/i]','</i>');
-                    msg = msg.replace('[u]','<u>').replace('[/u]','</u>');
-                    msg = msg.replace('[s]','<s>').replace('[/s]','</s>');
+                            // After encoding check for BBCode markup
+                            msg = msg.replace('[b]','<b>').replace('[/b]','</b>');
+                            msg = msg.replace('[i]','<i>').replace('[/i]','</i>');
+                            msg = msg.replace('[u]','<u>').replace('[/u]','</u>');
+                            msg = msg.replace('[s]','<s>').replace('[/s]','</s>');
 
-                    // Create the message object to save
-                    var message = new Message({
-                        _owner: userId,
-                        _room: data._room,
-                        time: Date.now(),
-                        message: msg,
-                        resource_type: data.resource_type
-                    });
-
-                    // Attempt to save the message
-                    message.save(function(err) {
-                        if (!err) {
-                            // If there are no errors, emit the message to the room
-                            io.emit('room_' + data._room, message);
-                            // Emit an event to those that have the room docked
-                            io.emit('docked_' + data._room);
-                            // Once we've emitted to the room, update the users message count and last activity
-                            User.findOneAndUpdate({_id: userId}, { $inc: {message_count: 1}, last_activity: Date.now()}, {new: true, select: '-password -__v'}, function(err, user) { 
-                                if (!err && user) {
-                                    socket.emit('user_update', user);
-                                } 
+                            // Create the message object to save
+                            var message = new Message({
+                                _owner: userId,
+                                _room: data._room,
+                                username: user.username,
+                                time: Date.now(),
+                                message: msg,
+                                resource_type: data.resource_type
                             });
-                        } else {
-                            //There was an error saving the message for some reason
-                            // Probably shouldn't display it to the room
-                            console.log(err);
+
+                            // Attempt to save the message
+                            message.save(function(err) {
+                                if (!err) {
+                                    // If there are no errors, emit the message to the room
+                                    io.emit('room_' + data._room, message);
+                                    // Emit an event to those that have the room docked
+                                    io.emit('docked_' + data._room);
+                                    // Once we've emitted to the room, update the users message count and last activity
+                                    User.findOneAndUpdate({_id: userId}, { $inc: {message_count: 1}, last_activity: Date.now()}, {new: true, select: '-password -__v'}, function(err, user) { 
+                                        if (!err && user) {
+                                            socket.emit('user_update', user);
+                                        } 
+                                    });
+                                } else {
+                                    //There was an error saving the message for some reason
+                                    // Probably shouldn't display it to the room
+                                    console.log(err);
+                                }
+                            });
                         }
                     });
                 }
@@ -184,7 +190,29 @@ module.exports.listen = function(app){
         * Toggles a room as favorite and emits the updated user object
         */
         socket.on('favorite_room', function(data) {
-            User.findOne({_id: userId})
+            // Make sure the room exists
+            Room.findOne({_id: data._room}, function(err, room) {
+                if (!err && room) {
+                    User.findOne({_id: userId}, function(err, user) {
+                        if (!err && user) {
+                            if ((idx = user.favorite_rooms.indexOf(data._room)) != -1) {
+                                // It is a favorite already, remove it
+                                user.favorite_rooms.splice(idx, 1);
+                            } else {
+                                // It's not a favoite, so add it
+                                user.favorite_rooms.push(data._room);
+                            }
+                            // Now update the user
+                            User.findOneAndUpdate({_id: userId}, {favorite_rooms: user.favorite_rooms}, {new: true, select: '-password'}, function(err, user) {
+                                if (!err && user) {
+                                    // Send the updated user object back
+                                    socket.emit('user_update', user);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         });
 
         /**
