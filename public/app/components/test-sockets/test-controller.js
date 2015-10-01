@@ -20,7 +20,7 @@
                 message: 'I said something.',
                 resource_type: 'Text'
             });
-        }
+        }   
 
         this.leaveRoom = function() {
             /**
@@ -109,6 +109,12 @@
             */
             mySocket.emit('room_created', {
                 _room: '560ae3776c83c0004e8c637d'
+            });
+        }
+
+        this.getProfile = function() {
+            mySocket.emit('get_profile', {
+                _user: '560b28f4d1d914a81a85c92d'
             });
         }
 

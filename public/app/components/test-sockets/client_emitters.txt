@@ -40,3 +40,7 @@ Will toggle whether or not the room is a favorite of the user's. Must be active 
 'room_created'
 Should emit the room id of a successfully created room to the server so the server can emit to 'new_room' with a new room object
 	_room: room id of the newly created room
+
+'get_profile'
+Emits a user id to the server. The server will send back a user object populated with data for profile viewing. Listen on 'user_profile'.
+	_user: the user id of the profile we want

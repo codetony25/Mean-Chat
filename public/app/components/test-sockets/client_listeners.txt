@@ -10,6 +10,9 @@ Listens for new messages to the specific room id
 Listens for any changes to a specific room
 	Receives a room object
 
+'docked_<<room id>>'
+Doesn't receive any data, just listens if there's activity in any of the docked rooms to update the ephemeral count
+
 'user_update'
 Listens for any changes made to the currently logged in user
 	Receives a user object without password
@@ -25,3 +28,7 @@ The server will emit a room here to just this user when he has successfully left
 'new_room'
 The server emits to this listener for all users whe a new room has been created.
 	Receives the new room object
+
+'user_profile'
+The server emits here when a user requests another users profile
+	Receives the user object with only fields needed to display a profile
