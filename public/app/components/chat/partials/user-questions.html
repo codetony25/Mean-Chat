@@ -1,0 +1,17 @@
+<h3 class="md-subhead">User Questions</h3>
+
+<ul class="questions" dnd-list="Chat.lists.chatQuestions" id="blurme">
+    <li ng-repeat="item in Chat.lists.chatQuestions track by $index"
+        class="dndColor"
+        >
+        <div class="left"><strong>Tony: </strong> {{item.chat}} </div>
+        <div class="right">
+			<md-button aria-label="photo" class="md-icon-button trashcan-holder" ng-click='Chat.removeQuestion(item, $index)'>
+				<md-icon class="trashcan md-warn md-raised" md-svg-src="bower_components/material-design-icons/action/svg/design/ic_delete_24px.svg"></md-icon>
+			</md-button>
+        </div>
+    </li>
+</ul>
+<div id="addOverlay" class="hidden" dnd-list="Chat.lists.chatQuestions" layout="row" layout-align="center center">
+	<md-icon class="md-warn md-raised plus" md-svg-src="bower_components/material-design-icons/content/svg/design/ic_add_48px.svg"></md-icon>
+</div>

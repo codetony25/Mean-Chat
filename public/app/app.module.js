@@ -7,6 +7,8 @@
       'ngMessages',
       'ngMaterial',
       'ngResource',
+      'dndLists',
+      'luegg.directives',
       'meanChat.home-page',
       'meanChat.chat',
       'meanChat.userAuthentication',

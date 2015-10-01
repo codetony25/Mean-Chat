@@ -1,30 +1,16 @@
 <md-content layout="row" flex="75" layout-wrap>
     <div layout="column" flex id="content">
-        <md-content layout="column" flex class="md-padding chat-box">
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
-            <p><strong>Tony: </strong> Why is tony so awesome?</p>
-            <p><strong>Nathan: </strong> Yeah, he's definately awesome!</p>
-            <p><strong>Andrew: </strong> Yup! Good Call!</p>
+        <md-content layout="column" flex class="md-padding chat-box" scroll-glue>
+	        <ul>
+			    <li ng-repeat="item in Chat.lists.chatList track by $index"
+			        dnd-draggable="item"
+			        dnd-moved="Chat.addToQuestions(item, $index)"
+			        dnd-effect-allowed="move"
+			        class="dragOverlay"
+			        >
+			        <strong>Tony: </strong> {{item.chat}}
+			    </li>
+			</ul>
         </md-content>
         <div layout="row" class="type-chat">
 			<div flex="90">
@@ -48,15 +34,15 @@
         </md-content>
         <div class="navigation">
 	        <div class="navigation-icons" layout="row" layout-align="center center">
+		        <a ui-sref="chat.questions">
+			        <md-button aria-label="label" class="md-icon-button md-accent">
+			            <md-icon md-svg-src="bower_components/material-design-icons/action/svg/design/ic_face_24px.svg"></md-icon>
+			        </md-button>
+		        </a>
 		        <a ui-sref="chat.users">
 			        <md-button aria-label="photo" class="md-icon-button md-accent">
 			            <md-icon md-svg-src="bower_components/material-design-icons/action/svg/design/ic_search_24px.svg"></md-icon>
 		        	</md-button>
-		        </a>
-		        <a ui-sref="chat.profile">
-			        <md-button aria-label="label" class="md-icon-button md-accent">
-			            <md-icon md-svg-src="bower_components/material-design-icons/action/svg/design/ic_face_24px.svg"></md-icon>
-			        </md-button>
 		        </a>
 		        <a ui-sref="chat.people">
 			        <md-button aria-label="photo" class="md-icon-button md-accent">
