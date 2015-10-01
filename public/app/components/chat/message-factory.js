@@ -1,8 +1,8 @@
 (function () {
-	'use strict';
+    'use strict';
 
     angular
-        .module('meanChat.message')
+        .module('meanChat.chat')
         .factory('MessageFactory', MessageFactory);
 
     MessageFactory.$inject = ['$resource'];

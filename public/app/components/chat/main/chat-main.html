@@ -1,4 +1,4 @@
-<md-content layout-padding flex>
+<md-content layout-padding flex scroll-bottom="Chat.messages">
 	<p ng-repeat="message in Chat.messages">{{ message.username }} ({{message.time | date: 'medium'}}): {{ message.message }}</p>
 </md-content>
 <div class="chat-bar">

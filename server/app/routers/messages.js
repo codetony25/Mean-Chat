@@ -9,9 +9,9 @@ router.get('/', function(req, res) {
 });
 
 router.get('/q', function( req, res, next) {
-    Message.find(req.query).exec()
+    Message.find(req.query).sort('_id').limit(50).exec()
         .then( function(messages) {
-console.log(messages);
+
             return res.json({
                 success: true,
                 content: messages

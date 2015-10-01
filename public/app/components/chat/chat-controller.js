@@ -52,7 +52,6 @@
 
             mySocket.on('room_' + _this.openRoomObj._id, function(data) {
                 _this.messages.push(data);
-                console.log(_this.messages);
             });
         }
 

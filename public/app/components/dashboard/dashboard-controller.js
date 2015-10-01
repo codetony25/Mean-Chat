@@ -38,7 +38,7 @@
             newRoom.$save()
                 .then( function(response) { 
                     mySocket.emit('room_created', { _room: response.content._id }); 
-                    _this.userInfo.created_rooms.push(response.content);
+                    _this.userInfo.created_rooms.unshift(response.content);
                     _clearNewRoomForm();
                 })
                 .catch( function(err) { 
