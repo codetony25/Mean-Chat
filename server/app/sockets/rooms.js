@@ -10,8 +10,6 @@ module.exports = function(io) {
 	io.on('connection', function(socket) {
         var userId = socket.request.session.passport.user;
 
-        io.emit('something/hello');
-
         /**
         * When a new room has been created, the owner emits to the server, the server finds the new room and emits to all
         */
@@ -37,26 +35,14 @@ module.exports = function(io) {
         });
 
         /**
-        * When user joins a new room that isn't active
+        * When user joins the room
         */
-        socket.on('room/auth/req', function(data) {
+        socket.on('room/user/join', function(data) {
             // Make sure the user isn't blocked and isn't already in the room
-            Room.findOne({_id: data._room, _users: {$ne: userId}, _blocked: {$ne: userId}}, function(err, room) {
-
+            Room.findOne({_id: data._room, _blocked: {$ne: userId}}, function(err, room) {
                 if (!err && room) {
-                    User.findOne({_id: userId}, function(err, user) {                        
-                        // If the room doesn't already exist as an active room, make it an active room
-                        User.update({_id: userId}, {$addToSet: { active_rooms: data._room }}, function(err) { 
-                            console.log(err)
-                        });
-                        // Add the user to the rooms list of users
-                        Room.findOneAndUpdate({_id: data._room}, {$addToSet: { _users: userId}}, {new: true}, function(err, room) { 
-                            if (!err && room) {
-                                // emit to all that the room object has changed
-                                io.emit('room/' + data._room, room + '/user/joined', {username: user.username, _id: userId});
-                                // Emit to the user so that a dynamic socket can be created
-                                socket.emit('room/auth/success', {_room: data._room});                            }
-                        });
+                    // If the user isn't already on the list, add him to the list
+                    if (room._users.indexOf(userId) == -1) {        
                         // Create a new system message to send to the room
                         var message = new Message({
                             _owner: userId,
@@ -70,28 +56,35 @@ module.exports = function(io) {
                             if (!err) {
                                 // If there are no errors, emit the message to the room
                                 io.emit('room/' + data._room + '/message', message);
-                                // Remove the room from the recently visited arrays if it exits and then push it
-                                // Last in, First out in order of most recently visited
-                                User.findOneAndUpdate({_id: userId}, {$pull: { recent_rooms: data._room }}, function(err, user) {
-                                    if (!err && user) {
-                                        User.findOneAndUpdate({_id: userId}, {$push: {recent_rooms: data._room}, $addToSet: { active_rooms: data._room}}, {select: '-password'}, function(err, user) {
-                                            if (!err && user) {
-                                                // User has changed
-                                                // socket.emit('user_update', user);
-                                            }
-                                        });
-                                    }
-                                });
                             } else {
                                 //There was an error saving the message for some reason
                                 // Probably shouldn't display it to the room
-                                console.log(err);
                             }
                         });
-                    });
+                    }
+
+                    // If the room doesn't already exist as an active room, make it an active room
+                    User.update({_id: userId}, {$addToSet: { active_rooms: data._room }, $addToSet: { recent_rooms: data._room}}, function(err) { });
+                    // Add the user to the rooms list of users
+                    Room.update({_id: data._room}, {$addToSet: { _users: userId}}, {new: true}, function(err, room) { });
                 } else {
                     // Couldn't join the room
                 }                    
+            });
+
+        });
+
+        /**
+        * When user requests authorization to join a room
+        */
+        socket.on('room/auth/req', function(data) {
+            // Make sure the user isn't blocked and isn't already in the room
+            Room.findOne({_id: data._room, _blocked: {$ne: userId}}, function(err, room) {
+                if (!err && room) {
+                    socket.emit('room/auth/success', {_room: room._id}); 
+                } else {
+                    // Couldn't join the room
+                }          
             });
         });
 
