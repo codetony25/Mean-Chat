@@ -6,9 +6,11 @@ var Message = require('mongoose').model('Message');
 var Room = require('mongoose').model('Room');
 
 module.exports = function(io) {
-    
+
 	io.on('connection', function(socket) {
         var userId = socket.request.session.passport.user;
+
+        io.emit('something/hello');
 
         /**
         * When a new room has been created, the owner emits to the server, the server finds the new room and emits to all
@@ -37,20 +39,22 @@ module.exports = function(io) {
         /**
         * When user joins a new room that isn't active
         */
-        socket.on('join_room', function(data) {
+        socket.on('room/auth/req', function(data) {
             // Make sure the user isn't blocked and isn't already in the room
             Room.findOne({_id: data._room, _users: {$ne: userId}, _blocked: {$ne: userId}}, function(err, room) {
                 if (!err && room) {
-                    User.findOne({_id: userId}, function(err, userInfo) {                        
+                    User.findOne({_id: userId}, function(err, user) {                        
                         // If the room doesn't already exist as an active room, make it an active room
-                        User.update({_id: userId}, {$addToSet: { active_rooms: data._room }}, function(err) { console.log(err)});
+                        User.update({_id: userId}, {$addToSet: { active_rooms: data._room }}, function(err) { 
+                            console.log(err)
+                        });
                         // Add the user to the rooms list of users
                         Room.findOneAndUpdate({_id: data._room}, {$addToSet: { _users: userId}}, {new: true}, function(err, room) { 
                             if (!err && room) {
                                 // emit to all that the room object has changed
-                                io.emit('room_update_' + data._room, room);
+                                io.emit('room/' + data._room, room + '/user/joined', {username: user.username, _user: userId});
                                 // Emit to the user so that a dynamic socket can be created
-                                socket.emit('joined_room', room);                            }
+                                socket.emit('room/auth/success', {_room: data._room});                            }
                         });
                         // Create a new system message to send to the room
                         var message = new Message({
@@ -58,23 +62,21 @@ module.exports = function(io) {
                             _room: data._room,
                             resource_type: 'System',
                             time: Date.now(),
-                            message: userInfo.username + ' has joined the room.'
+                            message: user.username + ' has joined the room.'
                         });
                         // Attempt to save the message
                         message.save(function(err) {
                             if (!err) {
                                 // If there are no errors, emit the message to the room
-                                io.emit('room_' + data._room, message);
-                                // Emit an event to those that have the room docked
-                                io.emit('docked_' + data._room);
+                                io.emit('room/' + data._room + '/message', message);
                                 // Remove the room from the recently visited arrays if it exits and then push it
                                 // Last in, First out in order of most recently visited
                                 User.findOneAndUpdate({_id: userId}, {$pull: { recent_rooms: data._room }}, function(err, user) {
                                     if (!err && user) {
-                                        User.findOneAndUpdate({_id: userId}, {$push: {recent_rooms: data._room}}, {select: '-password'}, function(err, user) {
+                                        User.findOneAndUpdate({_id: userId}, {$push: {recent_rooms: data._room}, $addToSet: { active_rooms: data._room}}, {select: '-password'}, function(err, user) {
                                             if (!err && user) {
                                                 // User has changed
-                                                socket.emit('user_update', user);
+                                                // socket.emit('user_update', user);
                                             }
                                         });
                                     }
@@ -95,19 +97,16 @@ module.exports = function(io) {
         /**
         * Listens for when a user closes a room
         */
-        socket.on('leave_room', function(data) {
+        socket.on('room/user/exit', function(data) {
             // Find the room and pull the user from the _users list
             Room.findOneAndUpdate({_id: data._room, _users: userId}, {$pull: {_users: userId}}, {new: true}, function(err, room) {
                 console.log(room);
                 if (!err && room) {
-                    // emit to all that the room object has changed
-                    io.emit('room_update_' + data._room, room);
-                    // emit to the user that he has successfully left the room
-                    socket.emit('left_room', room);
                     // Pull the room from the users active rooms
                     User.findOneAndUpdate({_id: userId}, {$pull: {active_rooms: data._room}}, {new: true, select: '-password'}, function(err, user) {
                         if (!err && user) {
-                            socket.emit('user_update', user);
+                            // emit to all that the user has exited
+                            io.emit('room/' + data._room, room + '/user/exited', {username: user.username, _user: user._id});
                             var message = new Message({
                                 _owner: userId,
                                 _room: data._room,
@@ -117,7 +116,7 @@ module.exports = function(io) {
                             });
                             message.save(function(err) {
                                 if (!err) {
-                                    io.emit('room_' + data._room, message);
+                                    io.emit('room/' + data._room + '/message', message);
                                 } else {
                                     console.log(err);
                                 }

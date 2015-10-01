@@ -15,7 +15,7 @@
             * the server will emit to room_<<roomid>> with the message object to 
             * be displayed to all users active
             */
-            mySocket.emit('new_message', {
+            mySocket.emit('message/new', {
                 _room: '560ae3776c83c0004e8c637d',
                 message: 'I said something.',
                 resource_type: 'Text'
@@ -26,7 +26,7 @@
             /**
             * Should emit when a user leaves a room for good
             */
-            mySocket.emit('leave_room', {
+            mySocket.emit('room/user/exit', {
                 _room: '560ae3776c83c0004e8c637d'
             });
         }
@@ -35,7 +35,7 @@
             /**
             * Should emit when a user joins a new room  that isn't in his active rooms
             */
-            mySocket.emit('join_room', {
+            mySocket.emit('room/auth/req', {
                 _room: '560ae3776c83c0004e8c637d'
             });
         }
@@ -127,7 +127,7 @@
         /**
         * Dynamic listeners for room messages
         */
-        mySocket.on('room_560ae3776c83c0004e8c637d', function(message) {
+        mySocket.on('room/560ae3776c83c0004e8c637d/message', function(message) {
             console.log('room_<<some id>> message received');
             console.log('---------------------------------');
             console.log(message);
@@ -154,15 +154,8 @@
         /**
         * Response to successfully joining a room
         */
-        mySocket.on('joined_room', function(room) {
-            console.log('You have successfully joined room: ', room._id);
-        });
-
-        /**
-        * Response to successfully leaving a room
-        */
-        mySocket.on('left_room', function(room) {
-            console.log('You have successfully left room: ', room._id);
+        mySocket.on('room/auth/success', function(room) {
+            console.log('You have successfully joined room: ', room);
         });
 
         /**
@@ -182,6 +175,11 @@
             console.log('---------------------');
             console.log(user);
         });
+
+
+        mySocket.on('room/83942834uodas/get', function() {
+            console.log('i saw this');
+        })
 
     }
 
