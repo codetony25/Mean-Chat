@@ -66,7 +66,7 @@
          */
         var _getMessages = function() {
             MessageFactory.query({ _room: ChatFactory.getOpenRoomId() }, function(response) {
-                console.log('ChatController:_getMessages success - ', response);
+                console.log('ChatController:_getMessages success');
                 _this.messages = response.content;
             }, function( err ) {
                 console.log('ChatController:_getMessages error - ', err);

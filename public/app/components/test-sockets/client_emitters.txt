@@ -20,6 +20,7 @@ User successfully joined a chat room
 
 	_room:			Room ID
 
+
 'room/user/exit'
 User exists a chat room
 

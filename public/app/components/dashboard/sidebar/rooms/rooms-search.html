@@ -1,13 +1,13 @@
 <md-input-container layout-padding>
-	<label for="">Search by name or topic</label>
+	<label >Search by name or topic</label>
 	<input ng-model="rooms.filter">
 </md-input-container>
-<md-content flex>
+<md-content flex layout-padding>
 	<md-list>
-		<md-list-item class="md-2-line" ng-repeat-start="room in Dashboard.roomsList" ng-click="Dashboard.loadRoom(room._id)">
+		<md-list-item class="md-2-line" ng-repeat-start="room in Dashboard.roomsList | filter:rooms.filter" ng-click="Dashboard.loadRoom(room._id)">
 			<div class="md-list-item-text">
-				<h4 ng-bind="room.name"></h4>
-				<h5 ng-bind="room.topic"></h5>
+				<h3 ng-bind="room.name"></h3>
+				<p ng-bind="room.topic"></p>
 			</div>
 		</md-list-item>
 		<md-divider ng-repeat-end></md-divider>
