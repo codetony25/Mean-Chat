@@ -94,11 +94,9 @@ module.exports.listen = function(app){
         * When user joins a new room that isn't active
         */
         socket.on('join_room', function(data) {
-            console.log(data);
-            Room.findOne({_id: data._room}, function(err, room) {
-                // Make sure the user isn't blocked and isn't already in the room
-
-                if ((room._blocked.indexOf(userId) == -1) && (room._users.indexOf(userId) == -1)) {
+            // Make sure the user isn't blocked and isn't already in the room
+            Room.findOne({_id: data._room, _users: {$ne: userId}, _blocked: {$ne: userId}}, function(err, room) {
+                if (!err && room) {
                     User.findOne({_id: userId}, function(err, userInfo) {                        
                         // If the room doesn't already exist as an active room, make it an active room
                         User.update({_id: userId}, {$addToSet: { active_rooms: data._room }}, function(err) { console.log(err)});
@@ -143,10 +141,10 @@ module.exports.listen = function(app){
                                 console.log(err);
                             }
                         });
-                    });                    
+                    });
                 } else {
-                    // The user is blocked or already in the room, emit some failure back
-                }
+                    // Couldn't join the room
+                }                    
             });
         });
 
@@ -211,6 +209,17 @@ module.exports.listen = function(app){
                             });
                         }
                     });
+                }
+            });
+        });
+
+        /**
+        * On request, sends back profile information of a specific user
+        */
+        socket.on('get_profile', function(data) {
+            User.findOne({_id: data._user}).select('username favorite_rooms active_rooms message_count last_activity _upvotes _downvotes').populate('favorite_rooms active_rooms').exec(function(err, user) {
+                if (!err && user) {
+                    socket.emit('user_profile', user);
                 }
             });
         });

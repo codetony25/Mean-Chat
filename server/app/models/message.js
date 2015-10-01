@@ -15,7 +15,8 @@ var messageValidator = [
 
 var MessageSchema = new mongoose.Schema({
     _owner: {
-    	type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     _room: {
         type: mongoose.Schema.Types.ObjectId,
