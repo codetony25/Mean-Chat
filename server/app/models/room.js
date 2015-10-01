@@ -9,10 +9,10 @@ var uniqueValidator = require('mongoose-unique-validator');
  * Moongoose-Validator Validations
  */
 var roomValidator = [
-    validate({
-        validator: 'isAlphanumeric',
-        message: 'Room names should contain alpha-numeric characters only'
-    }),
+    // validate({
+    //     validator: 'isAlphanumeric',
+    //     message: 'Room names should contain alpha-numeric characters only'
+    // }),
     validate({
         validator: 'isLength',
         arguments: [3, 20],

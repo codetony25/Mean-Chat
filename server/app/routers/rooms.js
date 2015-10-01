@@ -3,8 +3,11 @@
  */
 var express = require('express');
 var router = express.Router();
-var Room = require('mongoose').model('Room');
+var mongoose = require('mongoose');
+var Room = mongoose.model('Room');
+var User = mongoose.model('User');
 
+mongoose.Promise = require('q').Promise;
 /**
  * Protect routes that require authentication.
  *
@@ -25,18 +28,41 @@ var isAuthenticated = function(req, res, next) {
 }
 
 //Register authentication middleware
-// router.use(isAuthenticated);
+router.use(isAuthenticated);
 
 /**
  * Expose
  */
 router.get('/', function(req, res, next) {
-
+    console.log(req.body);
 });
 
 router.post('/', function(req, res, next) {
     var newRoom = new Room(req.body);
-    console.log(newRoom);
+
+    // Creator is automatically an admin of the room
+    newRoom._admins.push(newRoom._owner);
+    
+    // Verify user IDs in session and request match
+    if( newRoom._owner.toString() != req.user._id.toString() ) {
+        res.status(401).json({error: 'Unauthorized request'});
+    }
+
+    newRoom.save()
+        .then( function(room) {
+            return User.findById(room._owner).exec();
+        })
+        .then( function(user) {
+            user.created_rooms.push(newRoom._id);
+            return user.save();
+        })
+        .then( function(user) {
+            res.json({success: true});
+        })
+        .catch(function(err) {
+            console.log(err);
+            res.status(400).json(err);
+        });
 });
 
 module.exports = router;

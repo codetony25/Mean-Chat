@@ -10,4 +10,4 @@
   function HomePageController() {
     console.log("HomePage Controller loaded");
   }
-})();
+})(); 

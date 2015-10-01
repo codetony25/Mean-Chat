@@ -1,104 +1,106 @@
-<div layout="row" layout-padding>
-	<div class="stats-card md-whiteframe-2dp">
-		<div flex="30" class="left"><i class="material-icons">chat</i></div>
-		<div flex="70" class="right"><span ng-bind="Dashboard.userInfo.message_count"></span> <small>messages</small></div>
+<div layout-padding>
+	<div layout="row" layout-padding>
+		<div class="stats-card md-whiteframe-2dp">
+			<div flex="30" class="left"><i class="material-icons">chat</i></div>
+			<div flex="70" class="right"><span ng-bind="Dashboard.userInfo.message_count"></span> <small>messages</small></div>
+		</div>
+		<div class="stats-card md-whiteframe-2dp">
+			<div flex="30" class="left"><i class="material-icons">thumb_up</i></div>
+			<div flex="70" class="right"><span ng-bind="Dashboard.userInfo._upvotes.length"></span> <small>up votes</small></div>
+		</div>
+		<div class="stats-card md-whiteframe-2dp">
+			<div flex="30" class="left"><i class="material-icons">thumb_down</i></div>
+			<div flex="70" class="right"><span ng-bind="Dashboard.userInfo._downvotes.length"></span> <small>down votes</small></div>
+		</div>
+		<div class="stats-card md-whiteframe-2dp">
+			<div flex="30" class="left"><i class="material-icons">web</i></div>
+			<div flex="70" class="right"><span ng-bind="Dashboard.userInfo.active_rooms.length + Dashboard.userInfo.recent_room.length"></span> <small>rooms visited</small></div>
+		</div>
 	</div>
-	<div class="stats-card md-whiteframe-2dp">
-		<div flex="30" class="left"><i class="material-icons">thumb_up</i></div>
-		<div flex="70" class="right"><span ng-bind="Dashboard.userInfo.upvotes"></span> <small>up votes</small></div>
-	</div>
-	<div class="stats-card md-whiteframe-2dp">
-		<div flex="30" class="left"><i class="material-icons">thumb_down</i></div>
-		<div flex="70" class="right"><span ng-bind="Dashboard.userInfo.downvotes"></span> <small>down votes</small></div>
-	</div>
-	<div class="stats-card md-whiteframe-2dp">
-		<div flex="30" class="left"><i class="material-icons">web</i></div>
-		<div flex="70" class="right"><span ng-bind="Dashboard.userInfo.active_rooms.length + Dashboard.userInfo.recent_room.length"></span> <small>rooms visited</small></div>
-	</div>
-</div>
-<div layout="row" layout-padding>
-	<div layout="column" class="rooms-list active md-whiteframe-2dp">
-		<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2><span>Active Rooms</span></h2>
-				<span flex></span>
-				<md-button class="md-icon-button">
-		          <md-icon><i class="material-icons md-36">more_vert</i></md-icon>
-		        </md-button>
-			</div>
-		</md-toolbar>
-		<md-content>
-			<md-list>
-				<md-list-item ng-click="" ng-repeat-start="active_room in Dashboard.userInfo.active_rooms">
-					<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
-					<p ng-bind="active_room.name"></p>
-				</md-list-item>
-				<md-divider ng-repeat-end></md-divider>
-			</md-list>
-		</md-content>
-	</div>
+	<div layout="row" layout-padding>
+		<div layout="column" class="rooms-list active md-whiteframe-2dp">
+			<md-toolbar>
+				<div class="md-toolbar-tools">
+					<h2><span>Active Rooms</span></h2>
+					<span flex></span>
+					<md-button class="md-icon-button">
+			          <md-icon><i class="material-icons md-36">more_vert</i></md-icon>
+			        </md-button>
+				</div>
+			</md-toolbar>
+			<md-content>
+				<md-list>
+					<md-list-item ng-click="Dashboard.loadRoom(active_room._id)" ng-repeat-start="active_room in Dashboard.userInfo.active_rooms">
+						<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
+						<p ng-bind="active_room.name"></p>
+					</md-list-item>
+					<md-divider ng-repeat-end></md-divider>
+				</md-list>
+			</md-content>
+		</div>
 
-	<div layout="column" class="rooms-list my-rooms md-whiteframe-2dp">
-		<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2><span>My Rooms</span></h2>
-				<span flex></span>
-				<md-button class="md-icon-button">
-		          <md-icon><i class="material-icons md-36">more_vert</i></md-icon>
-		        </md-button>
-			</div>
-		</md-toolbar>
-		<md-content>
-			<md-list>
-				<md-list-item ng-click="" ng-repeat-start="active_room in Dashboard.userInfo.active_rooms">
-					<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
-					<p ng-bind="active_room"></p> <!-- ng-if -->
-				</md-list-item>
-				<md-divider ng-repeat-end></md-divider>
-			</md-list>
-		</md-content>
+		<div layout="column" class="rooms-list my-rooms md-whiteframe-2dp">
+			<md-toolbar>
+				<div class="md-toolbar-tools">
+					<h2><span>My Rooms</span></h2>
+					<span flex></span>
+					<md-button class="md-icon-button">
+			          <md-icon><i class="material-icons md-36">more_vert</i></md-icon>
+			        </md-button>
+				</div>
+			</md-toolbar>
+			<md-content>
+				<md-list>
+					<md-list-item ng-click="" ng-repeat-start="active_room in Dashboard.userInfo.active_rooms">
+						<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
+						<p ng-bind="active_room"></p> <!-- ng-if -->
+					</md-list-item>
+					<md-divider ng-repeat-end></md-divider>
+				</md-list>
+			</md-content>
+		</div>
 	</div>
-</div>
-<div layout="row" layout-padding>
-	<div layout="column" class="rooms-list recent md-whiteframe-2dp">
-		<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2><span>Recently Visited</span></h2>
-				<span flex></span>
-				<md-button class="md-icon-button">
-		          <md-icon><i class="material-icons md-36">more_vert</i></md-icon>
-		        </md-button>
-			</div>
-		</md-toolbar>
-		<md-content>
-			<md-list>
-				<md-list-item ng-click="" ng-repeat-start="recent_room in Dashboard.userInfo.recent_rooms">
-					<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
-					<p ng-bind="recent_room.name"></p>
-				</md-list-item>
-				<md-divider ng-repeat-end></md-divider>
-			</md-list>
-		</md-content>
-	</div>
+	<div layout="row" layout-padding>
+		<div layout="column" class="rooms-list recent md-whiteframe-2dp">
+			<md-toolbar>
+				<div class="md-toolbar-tools">
+					<h2><span>Favorite Rooms</span></h2>
+					<span flex></span>
+					<md-button class="md-icon-button">
+			          <md-icon><i class="material-icons md-36">more_vert</i></md-icon>
+			        </md-button>
+				</div>
+			</md-toolbar>
+			<md-content>
+				<md-list>
+					<md-list-item ng-click="" ng-repeat-start="recent_room in Dashboard.userInfo.recent_rooms">
+						<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
+						<p ng-bind="recent_room.name"></p>
+					</md-list-item>
+					<md-divider ng-repeat-end></md-divider>
+				</md-list>
+			</md-content>
+		</div>
 
-	<div layout="column" class="rooms-list last md-whiteframe-2dp">
-		<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2><span>Something Rooms</span></h2>
-				<span flex></span>
-				<md-button class="md-icon-button">
-		          <md-icon><i class="material-icons md-36">more_vert</i></md-icon>
-		        </md-button>
-			</div>
-		</md-toolbar>
-		<md-content>
-			<md-list>
-				<md-list-item ng-click="" ng-repeat-start="recent_room in Dashboard.userInfo.favorite_rooms">
-					<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
-					<p ng-bind="recent_room.name"></p>
-				</md-list-item>
-				<md-divider ng-repeat-end></md-divider>
-			</md-list>
-		</md-content>
+		<div layout="column" class="rooms-list last md-whiteframe-2dp">
+			<md-toolbar>
+				<div class="md-toolbar-tools">
+					<h2><span>Something Rooms</span></h2>
+					<span flex></span>
+					<md-button class="md-icon-button">
+			          <md-icon><i class="material-icons md-36">more_vert</i></md-icon>
+			        </md-button>
+				</div>
+			</md-toolbar>
+			<md-content>
+				<md-list>
+					<md-list-item ng-click="" ng-repeat-start="recent_room in Dashboard.userInfo.favorite_rooms">
+						<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
+						<p ng-bind="recent_room.name"></p>
+					</md-list-item>
+					<md-divider ng-repeat-end></md-divider>
+				</md-list>
+			</md-content>
+		</div>
 	</div>
 </div>
