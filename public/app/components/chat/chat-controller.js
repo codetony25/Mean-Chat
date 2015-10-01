@@ -5,10 +5,11 @@
         .module('meanChat.chat')
         .controller('ChatController', ChatController);
 
-    function ChatController() {
+    ChatController.$inject = ['ChatFactory', 'mySocket'];
+
+    /* @ngInject */
+    function ChatController(ChatFactory, mySocket) {
         console.log("Chat Controller loaded"); 
-
+        
     }
-
-
 })();

@@ -5,10 +5,10 @@
         .module('meanChat.dashboard')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['DashboardFactory', 'ChatFactory', 'UserAuthFactory'];
+    DashboardController.$inject = ['DashboardFactory', 'ChatFactory', 'UserAuthFactory', '$state'];
 
     /* @ngInject */
-    function DashboardController(DashboardFactory, ChatFactory, UserAuthFactory) {
+    function DashboardController(DashboardFactory, ChatFactory, UserAuthFactory, $state) {
         var _this = this;
 
         this.getUserInfo = function() {
@@ -43,6 +43,11 @@
                 .catch( function(err) { 
                     console.log('Err:', err); 
                 });
+        }
+
+        this.loadRoom = function(roomId) {
+            ChatFactory.setOpenRoom(roomId);
+            $state.go('chat');
         }
         
         var _init = function _init() {

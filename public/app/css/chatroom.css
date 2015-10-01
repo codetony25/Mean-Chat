@@ -1,0 +1,8 @@
+.chat-bar {
+	height: 54px;
+	max-height: 54px !important;
+}
+
+.chat-bar md-input-container {
+	padding-bottom: 0px;
+}
