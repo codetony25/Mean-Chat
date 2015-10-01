@@ -53,7 +53,7 @@ module.exports = function(io) {
                         Room.findOneAndUpdate({_id: data._room}, {$addToSet: { _users: userId}}, {new: true}, function(err, room) { 
                             if (!err && room) {
                                 // emit to all that the room object has changed
-                                io.emit('room/' + data._room, room + '/user/joined', {username: user.username, _user: userId});
+                                io.emit('room/' + data._room, room + '/user/joined', {username: user.username, _id: userId});
                                 // Emit to the user so that a dynamic socket can be created
                                 socket.emit('room/auth/success', {_room: data._room});                            }
                         });
@@ -106,7 +106,7 @@ module.exports = function(io) {
                     User.findOneAndUpdate({_id: userId}, {$pull: {active_rooms: data._room}}, {new: true, select: '-password'}, function(err, user) {
                         if (!err && user) {
                             // emit to all that the user has exited
-                            io.emit('room/' + data._room, room + '/user/exited', {username: user.username, _user: user._id});
+                            io.emit('room/' + data._room, room + '/user/exited', {username: user.username, _id: user._id});
                             var message = new Message({
                                 _owner: userId,
                                 _room: data._room,
