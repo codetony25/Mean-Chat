@@ -9,7 +9,7 @@
 
     /* @ngInject */
     function mySocket(socketFactory) {
-        console.log('socketFactory loaded');
+        // console.log('socketFactory loaded');
         var myIoSocket = io.connect();
 
         mySocket = socketFactory({

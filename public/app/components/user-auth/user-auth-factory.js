@@ -9,7 +9,7 @@
 
   /* @ngInject */
   function UserAuthFactory($resource, SessionFactory, $http) {
-    console.log('UserAuthFactory loaded');
+    // console.log('UserAuthFactory loaded');
 
     var factory = $resource('/users/:id', { id: '@_id' }, {
       update: { method: 'PUT', isArray: false },
@@ -42,7 +42,7 @@
 
     function _init() {
         _user = SessionFactory.getUser();
-        console.log('UserAuthFactory:init - ', _user);
+        // console.log('UserAuthFactory:init - ', _user);
         if( _user ) {
             _isLoggedIn = true;
         }

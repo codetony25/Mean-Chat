@@ -9,7 +9,7 @@
 
     /* @ngInject */
     function DashboardFactory(UserAuthFactory) {
-        console.log('DashboardFactory loaded');
+        // console.log('DashboardFactory loaded');
 
         var factory = {};
 

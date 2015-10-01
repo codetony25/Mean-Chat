@@ -9,7 +9,7 @@
 
     /* @ngInject */
     function DashboardController(DashboardFactory, ChatFactory, UserAuthFactory, $state, mySocket) {
-        console.log('DashboardController loaded');
+        // console.log('DashboardController loaded');
 
         var _this = this;
 
@@ -73,7 +73,7 @@
         var _getUserInfo = function() {
             DashboardFactory.fetchUserInfo( function(response) {
                 if(response.state == 'success') {
-                    console.log('DashboardController:getUserInfo(success)- ', response.user);
+                    // console.log('DashboardController:getUserInfo(success)- ', response.user);
                     _this.userInfo = response.user;
                 }
             })

@@ -29,7 +29,6 @@ router.use(isAuthenticated);
  * Expose
  */
 router.get('/', function(req, res, next) {
-    console.log('GET ROUTE', req.params);
     Room.find().select('name topic').then(function(rooms) {
         return res.json({
             success: true,
@@ -42,7 +41,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-    console.log('GET ID ROUTE', req.params.id);
     Room.findById(req.params.id).populate('_users', '_id username').exec()
         .then( function(room) {
             return res.json({

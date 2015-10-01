@@ -45,9 +45,15 @@
                 views: {
                     'sidebar-content@chat': {
                         templateUrl: 'app/components/chat/sidebar/resources-list.html'                    
-                    }
+                    }               
                 }
             })
-            ;
+            .state('chat.room-options', {
+                views: {
+                    'sidebar-content@chat': {
+                        templateUrl: 'app/components/chat/sidebar/room-options.html'
+                    }
+                }
+            });
     } 
 })();
