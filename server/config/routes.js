@@ -5,7 +5,7 @@ var config = require('./config');
 var routes = require(config.serverRoot + '/app/routers/index');
 var users = require(config.serverRoot + '/app/routers/users');
 var messages = require(config.serverRoot + '/app/routers/messages');
-// var rooms = require(config.serverRoot + '/app/routers/rooms');
+var rooms = require(config.serverRoot + '/app/routers/rooms');
 
 /**
  * Expose
@@ -14,7 +14,7 @@ module.exports = function(app) {
 	app.use('/', routes);
 	app.use('/users', users);
 	app.use('/messages', messages);
-	// app.use('/rooms', rooms);
+	app.use('/rooms', rooms);
 
 	// catch 404 and forward to error handler
 	// app.use(function(req, res, next) {

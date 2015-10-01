@@ -25,7 +25,7 @@ var isAuthenticated = function(req, res, next) {
 }
 
 //Register authentication middleware
-// router.use(isAuthenticated);
+router.use(isAuthenticated);
 
 /**
  * Expose
@@ -36,7 +36,22 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     var newRoom = new Room(req.body);
-    console.log(newRoom);
+    newRoom._admins.push(newRoom._owner);
+    
+    if( newRoom._owner.toString() != req.user._id.toString() ) {
+        res.status(401).json({error: 'Unauthorized request'});
+    }
+
+    newRoom.save( function(err, room) {
+        if(err) {
+            return res.status(500).json(err);
+        }
+
+        return res.json({
+            success: true,
+            content: room
+        })
+    })
 });
 
 module.exports = router;

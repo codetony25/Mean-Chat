@@ -13,7 +13,6 @@
 
         this.userRegistration = function(user){
             var newUser = new UserAuthFactory(user);
-            console.log('UserAuth controller - userRegistration', newUser);
 
             newUser.$save( function(response) {
                 console.log("here", response);
@@ -21,17 +20,14 @@
                     $state.go('authenticate.login');
                 }
             }, function(err) {
-                console.log(err);
                 _this.registrationErrors = err.data.errors;
             });
         };
 
         this.userLogin = function(user) {
             var user = new UserAuthFactory(user);
-            console.log('UserAuthController - login');
 
             user.$login( function(response) {
-                console.log('here');
                 if(response.state == 'success') { 
                     UserAuthFactory.setUser(response.user);
                     $state.go('dashboard');
