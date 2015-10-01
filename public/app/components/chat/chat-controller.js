@@ -21,6 +21,7 @@
          * When user submits message, emit to server
          */
         this.sendMessage = function(message) {
+
             mySocket.emit('message/new', {
                 _room: ChatFactory.getOpenRoomId(),
                 message: message,
@@ -53,10 +54,12 @@
          * Initialize socket listners for active room
          */
         var _initializeListeners = function() {
-            var listenerBase = 'room/' + _this.openRoomId;
+            console.log('here');
+            var listenerBase = 'room/' + ChatFactory.getOpenRoomId();
 
             // listens for messages & updates
             mySocket.on(listenerBase + '/message', function(data) {
+                console.log(data);
                 _this.messages.push(data);
             });
 
@@ -80,9 +83,9 @@
             _this.userMessage = '';
         }
 
+
         var _init = (function() {
             // _this.sidebarTitle = $state.current.data.sidebarTitle;
-
             // Promises
             var getRoomInfo = ChatFactory.get({ _id: ChatFactory.getOpenRoomId() }).$promise;
             var getMessages = MessageFactory.query({ _room: ChatFactory.getOpenRoomId() }).$promise;
@@ -92,9 +95,7 @@
                 .then(function(response) {
                     // Room Info
                     _this._usersList = response[0].content._users;
-                    console.log(_this._usersList);
                     _this._roomInfo = response[0].content;
-                    delete _this._roomInfo._users;
 
                     // Messages
                     _this.messages = response[1].content;
