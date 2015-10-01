@@ -95,13 +95,20 @@ var UserSchema = new mongoose.Schema({
 	*/
 	last_activity: Date, // To check activity and prevent spamming
     active_rooms: [{
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room'
     }],
     recent_rooms: [{
-    	type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room'
     }],
     favorite_rooms: [{
-    	type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room'
+    }],
+    created_rooms: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room'
     }],
     created_rooms: [{
         type: String

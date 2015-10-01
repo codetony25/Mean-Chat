@@ -56,23 +56,14 @@ router.get('/failure', function(req, res){
 });
 
 router.get('/:id', function(req, res, next) {
-    User.findById(req.params.id, '-password -__v')
-        .populate('created_room')
-        .exec( function(err, user) {
-            if(err){
-                console.log(err);
-                return res.status(400).json(err);
-            }
-            return res.json({state: 'success', user: user });
+
+    User.findById(req.params.id).select('-password -__v').populate('active_rooms favorite_rooms recent_rooms created_rooms').exec(function(err, user) {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({state: 'success', user: user});
     });
 
-
-    // User.findById(req.params.id, '-password -__v', function(err, user) {
-    //     if(err){
-    //         return res.status(400).json(err);
-    //     }
-    //     return res.json({state: 'success', user: user });
-    // })
 })
 
 module.exports = router;

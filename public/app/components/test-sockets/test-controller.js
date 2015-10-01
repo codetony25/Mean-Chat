@@ -20,7 +20,7 @@
                 message: 'I said something.',
                 resource_type: 'Text'
             });
-        }
+        }   
 
         this.leaveRoom = function() {
             /**
@@ -62,6 +62,17 @@
             });
         }
 
+        this.favoriteRoom = function() {
+            /**
+            * Mark or unmark a room as a favorite.
+            * This emitter will toggle whether the room is a favorite or not
+            * and an updated user object will be emitted to user_update
+            */
+            mySocket.emit('favorite_room', {
+                _room: '560ae3776c83c0004e8c637d'
+            });
+        }
+
         this.getRoom = function() {
             /**
             * get_room fires a request for updated room data
@@ -75,6 +86,37 @@
             });
         }
 
+        this.getUser = function() {
+            /**
+            * get_user fires a request to update the logged in
+            * users information and sends the updated user object
+            * back to mySocket.on('user_update')
+            * Most actions will automatically fire to this socket to update
+            * the user, but this will also be available for special cases.
+            *
+            * Note that you don't need to pass a user ID. We will only be sending
+            * back the logged in user information.
+            */
+            mySocket.emit('get_user');
+        }
+
+        this.roomCreated = function() {
+            /**
+            * When a new room is successfully created, emit the roomId
+            * to the server so the server can update everyone's room list
+            *
+            * The server will emit back to new_room if it finds the new room object
+            */
+            mySocket.emit('room_created', {
+                _room: '560ae3776c83c0004e8c637d'
+            });
+        }
+
+        this.getProfile = function() {
+            mySocket.emit('get_profile', {
+                _user: '560b28f4d1d914a81a85c92d'
+            });
+        }
 
         /**
         * Dynamic listeners for room messages
@@ -102,6 +144,30 @@
             console.log('---------------------------------------');
             console.log(user);
         });
+
+        /**
+        * Response to successfully joining a room
+        */
+        mySocket.on('joined_room', function(room) {
+            console.log('You have successfully joined room: ', room._id);
+        });
+
+        /**
+        * Response to successfully leaving a room
+        */
+        mySocket.on('left_room', function(room) {
+            console.log('You have successfully left room: ', room._id);
+        });
+
+        /**
+        * Recieves a new room object when a new room is created
+        */
+        mySocket.on('new_room', function(room) {
+            console.log('A new room has been created');
+            console.log('---------------------------');
+            console.log(room);
+        });
+
     }
 
 })();

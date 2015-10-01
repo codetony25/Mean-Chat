@@ -40,10 +40,12 @@ var RoomSchema = new mongoose.Schema({
         ref: 'User'
     },
     _admins: [{ 
-    	type: String 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'    
     }],
     _blocked: [{ 
-    	type: String 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }],
 	invite: {
         type: Boolean,
@@ -60,7 +62,8 @@ var RoomSchema = new mongoose.Schema({
     	default: 'A topic has not been set.'
     },
     _users: [{
-    	type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }]
 });
 

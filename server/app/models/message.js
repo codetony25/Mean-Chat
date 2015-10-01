@@ -15,11 +15,15 @@ var messageValidator = [
 
 var MessageSchema = new mongoose.Schema({
     _owner: {
-    	type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     _room: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
+    },
+    username: {
+    	type: String
     },
     message: {
         type: String,
@@ -37,7 +41,10 @@ var MessageSchema = new mongoose.Schema({
     }],
     _downvotes: [{
     	type: String
-    }]
+    }],
+    time: {
+    	type: Date
+    }
 });
 
 mongoose.model('Message', MessageSchema);
