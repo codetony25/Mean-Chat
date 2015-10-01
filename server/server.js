@@ -15,6 +15,6 @@ var server = app.listen(config.port, function() {
   console.log('Mean Chat app server running on port ' + config.port);
 });
 
-var io = require('./app/sockets').listen(server);
+var io = require('./app/sockets/sockets').listen(server);
 
 module.exports = app;

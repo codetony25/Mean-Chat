@@ -44,3 +44,8 @@ Should emit the room id of a successfully created room to the server so the serv
 'get_profile'
 Emits a user id to the server. The server will send back a user object populated with data for profile viewing. Listen on 'user_profile'.
 	_user: the user id of the profile we want
+
+'block_user'
+Emits a user id to the server to toggle whether or not that user will be blocked or unblocked from a room. The server will emit a room upadte with the updated blocked users.
+	_user: the user id to toggle block on
+	_room: the room the user will be blocked/unblocked from

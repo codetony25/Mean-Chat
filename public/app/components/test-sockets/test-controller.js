@@ -118,6 +118,12 @@
             });
         }
 
+        this.toggleBlock = function() {
+            mySocket.emit('block_user', {
+                _user: '560b28f4d1d914a81a85c92d',
+                _room: '560ae3776c83c0004e8c637d'
+            })
+        }
         /**
         * Dynamic listeners for room messages
         */
@@ -166,6 +172,15 @@
             console.log('A new room has been created');
             console.log('---------------------------');
             console.log(room);
+        });
+
+        /**
+        * Recieves a user profile object
+        */
+        mySocket.on('user_profile', function(user) {
+            console.log('User profile received');
+            console.log('---------------------');
+            console.log(user);
         });
 
     }
