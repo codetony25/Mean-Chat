@@ -15,18 +15,16 @@
             update: { method: 'PUT', isArray: false }
         });
 
-        var openRoomObj;
+        var roomId;
 
-        factory.setOpenRoom = function(roomObj) {
-            openRoomObj = roomObj;
+        factory.setOpenRoomId = function(roomId) {
+            roomId = roomObj;
         }
 
-        factory.getOpenRoom = function() {
-            // return openRoomObj;
+        factory.getOpenRoomId = function() {
+            var roomId = '560ce0f42b817f2c354513a9'
 
-            return {
-                _id: '560ce0f42b817f2c354513a9'
-            }
+            return roomId;
         }
 
         return factory;

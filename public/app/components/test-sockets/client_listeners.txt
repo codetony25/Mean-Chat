@@ -1,6 +1,28 @@
 Client Listeners
 =-=-=-=-=-=-=-=-=
 
+
+'room/auth/success'
+	Server authorizes user to join a room
+
+	_room:			Room ID to join
+
+
+'room/:id/user/joined'
+	Notification that a user has joined the room
+
+	_user:			User ID
+	username:		Username
+
+
+'room/:id/user/exited'
+	Notification that a user has exited the room
+
+	_user:			User ID
+	username:		Username
+
+
+
 'room_<<room id>>'
 Example: mySocket.on('room_56029324kdslasdasd', function ...)
 Listens for new messages to the specific room id

@@ -1,22 +1,24 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('meanChat')
-    .factory('mySocket', mySocket); 
+    angular
+        .module('meanChat')
+        .factory('mySocket', mySocket); 
 
-  mySocket.$inject = ['socketFactory'];
+    mySocket.$inject = ['socketFactory'];
 
-  function mySocket(socketFactory) {
-    var myIoSocket = io.connect();
+    /* @ngInject */
+    function mySocket(socketFactory) {
+        console.log('socketFactory loaded');
+        var myIoSocket = io.connect();
 
-    console.log('in the socket factory');
-    
-    mySocket = socketFactory({
-      ioSocket: myIoSocket
-    });
+        mySocket = socketFactory({
+            ioSocket: myIoSocket
+        });
+
+        
 
     return mySocket;
-  }
+    }
 
 })();

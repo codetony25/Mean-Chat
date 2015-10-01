@@ -13,13 +13,7 @@
 
         var _this = this;
 
-        mySocket.on('joined_room', function(roomObj) {
-            console.log('DashboardController:socket(joined_room) -', roomObj);
-            ChatFactory.setOpenRoom(roomObj);
-            $state.go('chat');
-        })
-
-        this.getUserInfo = function() {
+        function _getUserInfo() {
             DashboardFactory.fetchUserInfo( function(response) {
                 if(response.state == 'success') {
                     console.log('DashboardController:getUserInfo(success)- ', response.user);
@@ -28,6 +22,11 @@
             })
         }
 
+        /**
+         * Creates a new chat room. Handler for form submission
+         *
+         * Socket event: Notifies server room was created
+         */
         this.createRoom = function(formData) {
             var roomInfo = {
                 name: formData.name,
@@ -48,10 +47,25 @@
                 });
         }
 
+        /**
+         * Allows user to join a room.
+         *
+         * Socket event: Requests authorization from the server
+         */
         this.loadRoom = function(roomId) {
             console.log('DashboardController:socket(join_room)', roomId);
-            mySocket.emit('join_room', {_room: roomId});
-        }
+            mySocket.emit('room/auth/req', {_room: roomId});
+        };
+
+
+        /**
+         * Socket listener for room join authorizations
+         */
+        mySocket.on('room/auth/success', function(roomId) {
+            console.log('DashboardController:socket(joined_room) -', roomId);
+            ChatFactory.setOpenRoom(roomId);
+            $state.go('chat');
+        });
 
         function _clearNewRoomForm() {
             _this.newRoomForm.$setPristine();

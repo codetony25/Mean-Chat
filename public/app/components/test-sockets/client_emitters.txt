@@ -1,11 +1,25 @@
 Client Emitters
 =-=-=-=-=-=-=-=-=
 
-'new_message'
-Sends a message to the server to be displayed to all
-	_room: 			the room id to send it to
-	message: 		the message content
-	resource_type:	the message resource type
+'message/new'
+User submitted message emitted to server
+
+	_room: 			Room ID of the originating message
+	message:		Message content
+	resource_type:	'Text' | 'Question' | 'System'
+
+
+'room/auth/req'
+User requests authorization from server to join a room
+
+	_room:			Room ID
+
+
+'room/user/exit'
+User exists a chat room
+
+	_room:			Room ID
+
 
 'leave_room'
 Should emit when a user leaves a room for good. This will display a
