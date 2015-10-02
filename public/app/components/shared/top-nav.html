@@ -1,0 +1,53 @@
+<div id="site-title">
+	Project
+</div>
+
+<div flex id="chat-rooms" layout="row">
+	<div class="room-tile" ng-class="{'tile-{{$index}}': true}" ng-repeat="room in Main.MF.active_rooms" ng-click="Main.loadRoom(room._id)">
+		{{ room.name }}
+	</div>
+</div>
+
+<md-menu md-position-mode="target-right target">
+	<md-button aria-label="Main menu" class="md-icon-button" ng-mouseenter="Main.openMenu($mdOpenMenu, $event)">
+		<md-icon id="menu-drawer-icon" md-menu-origin md-svg-src="bower_components/material-design-icons/action/svg/design/ic_view_headline_24px.svg" aria-label="menu"></md-icon>
+	</md-button>
+
+	<md-menu-content width="4">
+		<div ng-if="Main.isLoggedIn()">
+			<md-menu-item>
+				<md-button ui-sref="dashboard">
+	            	<md-icon md-menu-align-target md-svg-src="bower_components/material-design-icons/action/svg/design/ic_dashboard_24px.svg" aria-label="menu"></md-icon>
+	            	Dashboard
+	          </md-button>
+			</md-menu-item>
+
+			<md-menu-divider></md-menu-divider>
+
+			<md-menu-item>
+				<md-button>
+	            	<md-icon md-menu-align-target md-svg-src="bower_components/material-design-icons/action/svg/design/ic_power_settings_new_24px.svg" aria-label="menu"></md-icon>
+	            	Logout
+	         	</md-button>
+			</md-menu-item>
+		</div>
+
+		<!-- Menu items for users not logged in -->
+		<div ng-if="!Main.isLoggedIn()">
+			<md-menu-item>
+				<md-button ui-sref="authenticate.login">
+	            	<md-icon md-menu-align-target md-svg-src="bower_components/material-design-icons/action/svg/design/ic_exit_to_app_24px.svg" aria-label="menu"></md-icon>
+	            	Login
+	         	</md-button>
+			</md-menu-item>
+
+			<md-menu-item>
+				<md-button ui-sref="authenticate.register">
+	            	<md-icon md-menu-align-target md-svg-src="bower_components/material-design-icons/social/svg/design/ic_person_add_24px.svg" aria-label="menu"></md-icon>
+	            	Register
+	         	</md-button>
+			</md-menu-item>
+		</div>
+	</md-menu-content>
+</md-menu>
+	

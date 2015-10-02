@@ -12,7 +12,7 @@
         // console.log('ChatFactory loaded');
 
         var factory = $resource('/rooms/:_id', { _id: '@_id' }, {
-            // get: { cache: true, method: 'get' },
+            get: { cache: true, method: 'get' },
             update: { method: 'PUT', isArray: false }
         });
 

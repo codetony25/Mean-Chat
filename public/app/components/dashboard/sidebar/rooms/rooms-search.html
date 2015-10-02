@@ -4,7 +4,7 @@
 </md-input-container>
 <md-content flex layout-padding>
 	<md-list>
-		<md-list-item class="md-2-line" ng-repeat-start="room in Dashboard.roomsList | filter:rooms.filter" ng-click="Dashboard.loadRoom(room._id)">
+		<md-list-item class="md-2-line" ng-repeat-start="room in Dashboard.roomsList | filter:rooms.filter" ng-click="Dashboard.loadRoom(room._id)" aria-label=".">
 			<div class="md-list-item-text">
 				<h3 ng-bind="room.name"></h3>
 				<p ng-bind="room.topic"></p>

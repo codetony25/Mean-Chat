@@ -7,18 +7,14 @@
 	<link rel="stylesheet" href="./bower_components/angular-material/angular-material.css">
 	<link rel="stylesheet" href="./css/styles.css">
 	<link rel="stylesheet" href="./css/dashboard.css">
+	<link rel="stylesheet" href="./css/main.css">
 	<link rel="stylesheet" href="./css/chatroom.css">
 </head>
 
-<body layout="column">
-	<!-- Top toolbar -->
-	<md-toolbar class="md-toolbar-tools">
-		<div class="md-toolbar-tools">
-			<h2><span class="md-title">Mean Chat</span></h2>
-		</div>
-	</md-toolbar>
+<body layout="column" ng-controller="MainController as Main">
+	<div id="top-nav" ui-view="nav-bar" layout="row"></div>
 	
-	<div flex layout="row" layout-wrap ui-view="main-content">
+	<div flex layout="row" layout-wrap ui-view>
 	</div>
 
 	<!-- Core Dependencies -->
@@ -50,6 +46,7 @@
 	<script src="./app/components/sockets/socket-factory.js"></script>
 	<script src="./app/components/shared/session-factory.js"></script>
 	<script src="./app/components/chat/message-factory.js"></script>
+	<script src="./app/components/main/main-factory.js"></script>
 
 	<!-- App Controller -->
 	<script src="./app/components/user-auth/user-auth-controller.js"></script>

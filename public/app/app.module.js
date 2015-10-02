@@ -38,12 +38,15 @@
             .state('/', {
                 url: '/',
                 views: {
-                    'main-content': {
-                        templateUrl: 'app/components/main/home-page.html',
-                        controller: 'MainController as Main'
+                    '': {
+                        templateUrl: 'app/components/main/home-page.html'
+                    },
+                    'nav-bar@': {
+                        templateUrl: 'app/components/shared/top-nav.html'
                     }
                 }
-            })
+                
+            });
     } 
 
     run.$inject = ['$rootScope', '$state', 'UserAuthFactory'];

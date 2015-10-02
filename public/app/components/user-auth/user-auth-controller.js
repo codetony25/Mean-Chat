@@ -35,11 +35,5 @@
                 _this.loginErrors = err.data.errors;
             });
         }
-
-        this.logout = function() {
-            UserAuthFactory.logout( function() {
-                UserAuthFactory.removeUser();
-            })
-        }
     }
 })();

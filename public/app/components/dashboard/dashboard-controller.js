@@ -5,13 +5,14 @@
         .module('meanChat.dashboard')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['DashboardFactory', 'ChatFactory', 'UserAuthFactory', '$state', 'mySocket'];
+    DashboardController.$inject = ['DashboardFactory', 'ChatFactory', 'UserAuthFactory', '$state', 'mySocket', 'MainFactory'];
 
     /* @ngInject */
-    function DashboardController(DashboardFactory, ChatFactory, UserAuthFactory, $state, mySocket) {
+    function DashboardController(DashboardFactory, ChatFactory, UserAuthFactory, $state, mySocket, MainFactory) {
         // console.log('DashboardController loaded');
 
         var _this = this;
+        _this.MF = MainFactory;
 
         /**
          * Creates a new chat room. Handler for form submission
@@ -38,25 +39,6 @@
                 });
         }
 
-        /**
-         * User requests to join a room. 
-         *
-         * Socket event: Requests authorization from the server
-         */
-        this.loadRoom = function(roomId) {
-            console.log('DashboardController:socket(room/auth/req)', roomId);
-            mySocket.emit('room/auth/req', {_room: roomId});
-        };
-
-
-        /**
-         * Socket listener for room join authorizations
-         */
-        mySocket.on('room/auth/success', function(roomObj) {
-            console.log('DashboardController:socket(room/auth/success) - ', roomObj._room);
-            ChatFactory.setOpenRoomId(roomObj._room);
-            $state.go('chat');
-        });
 
         /**
          * Clears New Room Form upon submission
@@ -75,6 +57,7 @@
                 if(response.state == 'success') {
                     // console.log('DashboardController:getUserInfo(success)- ', response.user);
                     _this.userInfo = response.user;
+                    _this.MF.active_rooms = response.user.active_rooms;
                 }
             })
         }

@@ -1,0 +1,9 @@
+@mixin room-tiles ($count, $startcolor) {
+    @for $i from 0 through $count {
+      $background-color: lighten($startcolor, $i * 3); 
+        .tile-#{$i} {
+            background: $background-color;
+        }
+    }
+}
+@include room-tiles(15, #1d288f);

@@ -37,10 +37,16 @@ var MessageSchema = new mongoose.Schema({
     },
     // Upvotes and downvotes hold an array of user ids that have voted
     _upvotes: [{
-    	type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }],
     _downvotes: [{
-    	type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    _saved: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }],
     time: {
     	type: Date
