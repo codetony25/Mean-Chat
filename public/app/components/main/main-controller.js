@@ -23,15 +23,14 @@
         }
 
         this.logout = function() {
-            UserAuthFactory.leave();
             // UserAuthFactory.logout().$promise.then( function(data) {
             //     console.log(data);
             // });
 
-            // UserAuthFactory.logout( function(response) {
-            //     c
-            //     UserAuthFactory.removeUser();
-            // });
+            UserAuthFactory.logout( function(response) {
+                
+                UserAuthFactory.removeUser();
+            });
         }
 
         /**
@@ -49,9 +48,15 @@
          */
         mySocket.on('room/auth/success', function(roomObj) {
             // console.log('DashboardController:socket(room/auth/success) - ', roomObj._room);
-            _this.MF.active_rooms.push(roomObj);
-            ChatFactory.setOpenRoomId(roomObj._room);
-            $state.go('chat');
+            UserAuthFactory.get({ _id: UserAuthFactory.getUser()._id }).$promise
+                .then(function(response){
+                    _this.MF.active_rooms = response.user.active_rooms;
+                    ChatFactory.setOpenRoomId(roomObj._room);
+                    $state.go('chat');
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
         });
     }
 })();

@@ -11,7 +11,7 @@
   function UserAuthFactory($resource, SessionFactory, $http) {
     // console.log('UserAuthFactory loaded');
 
-    var factory = $resource('/users/:id', { id: '@_id' }, {
+    var factory = $resource('/users/:_id', { _id: '@_id' }, {
       update: { method: 'PUT', isArray: false },
       login: { method: 'POST', url: '/users/login' },
       logout: { method:'GET', url: '/users/logout' }
@@ -20,6 +20,7 @@
     var _user = null;
     var _isLoggedIn = false;
 
+    // Testing in case ngresource is the issue
     factory.leave = function() {
       $http({
         method: 'GET',

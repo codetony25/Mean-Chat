@@ -20,7 +20,7 @@
 	<div layout="row" layout-padding>
 
 		<!-- Active Rooms List -->
-		<div layout="column" class="rooms-list active md-whiteframe-2dp">
+		<div layout="column" class="rooms-list-container active md-whiteframe-2dp">
 			<md-toolbar>
 				<div class="md-toolbar-tools">
 					<h2><span>Active Rooms</span></h2>
@@ -32,7 +32,7 @@
 			</md-toolbar>
 			<md-content scroll-top="Main.MF.active_rooms" layout-padding>
 				<md-list>
-					<md-list-item ng-click="Main.loadRoom(active_room._id)" ng-repeat-start="active_room in Main.MF.active_rooms">
+					<md-list-item ng-click="Main.loadRoom(active_room._id)" ng-repeat-start="active_room in Main.MF.active_rooms" class="animate-fade">
 						<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
 						<p ng-bind="active_room.name"></p>
 					</md-list-item>
@@ -42,7 +42,7 @@
 		</div>
 
 		<!-- My Rooms List -->
-		<div layout="column" class="rooms-list my-rooms md-whiteframe-2dp">
+		<div layout="column" class="rooms-list-container my-rooms md-whiteframe-2dp">
 			<md-toolbar>
 				<div class="md-toolbar-tools">
 					<h2><span>My Rooms</span></h2>
@@ -54,7 +54,7 @@
 			</md-toolbar>
 			<md-content scroll-top="Dashboard.userInfo.created_rooms" layout-padding>
 				<md-list>
-					<md-list-item ng-click="Main.loadRoom(created_room._id)" ng-repeat-start="created_room in Dashboard.userInfo.created_rooms">
+					<md-list-item ng-click="Main.loadRoom(created_room._id)" ng-repeat-start="created_room in Dashboard.userInfo.created_rooms" class="animate-fade">
 						<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
 						<p ng-bind="created_room.name"></p> <!-- ng-if -->
 					</md-list-item>
@@ -66,7 +66,7 @@
 
 	<div layout="row" layout-padding>
 		<!-- Recent Rooms List -->
-		<div layout="column" class="rooms-list recent md-whiteframe-2dp">
+		<div layout="column" class="rooms-list-container recent md-whiteframe-2dp">
 			<md-toolbar>
 				<div class="md-toolbar-tools">
 					<h2><span>Recent Rooms</span></h2>
@@ -78,7 +78,7 @@
 			</md-toolbar>
 			<md-content scroll-top="Dashboard.userInfo.recent_rooms" layout-padding>
 				<md-list>
-					<md-list-item ng-click="Main.loadRoom(recent_room._id)" ng-repeat-start="recent_room in Dashboard.userInfo.recent_rooms">
+					<md-list-item ng-click="Main.loadRoom(recent_room._id)" ng-repeat-start="recent_room in Dashboard.userInfo.recent_rooms"  class="animate-fade">
 						<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
 						<p ng-bind="recent_room.name"></p>
 					</md-list-item>
@@ -88,7 +88,7 @@
 		</div>
 
 		<!-- Favorite Rooms -->
-		<div layout="column" class="rooms-list last md-whiteframe-2dp">
+		<div layout="column" class="rooms-list-container last md-whiteframe-2dp">
 			<md-toolbar>
 				<div class="md-toolbar-tools">
 					<h2><span>Favorite Rooms</span></h2>
@@ -100,7 +100,7 @@
 			</md-toolbar>
 			<md-content scroll-top="Dashboard.userInfo.favorite_rooms" layout-padding>
 				<md-list>
-					<md-list-item ng-click="Main.loadRoom(favorite_room._id)" ng-repeat-start="favorite_room in Dashboard.userInfo.favorite_rooms">
+					<md-list-item ng-click="Main.loadRoom(favorite_room._id)" ng-repeat-start="favorite_room in Dashboard.userInfo.favorite_rooms" class="animate-fade">
 						<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
 						<p ng-bind="favorite_room.name"></p>
 					</md-list-item>

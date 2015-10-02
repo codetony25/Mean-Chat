@@ -6,6 +6,7 @@
             'ui.router',
             'ngMessages',
             'ngMaterial',
+            'ngAnimate',
             'ngResource',
             'dndLists',
             'meanChat.chat',

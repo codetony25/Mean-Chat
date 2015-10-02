@@ -13,6 +13,7 @@
 
         var _this = this;
         _this.MF = MainFactory;
+        _this.displayForm = false;
 
         /**
          * Creates a new chat room. Handler for form submission
@@ -39,6 +40,15 @@
                 });
         }
 
+        _this.showRoomForm = function() {
+            console.log("here");
+            _this.displayForm = true;
+        }
+
+        _this.hideRoomForm = function() {
+            console.log("Andrew here");
+            _this.displayForm = false;
+        }
 
         /**
          * Clears New Room Form upon submission
@@ -67,7 +77,7 @@
                 _this.roomsList = response.content;
             })
             .catch( function(err) {
-                console.log('Error', err);
+                console.log('DashboardController:_getChatRoomsList(error) -  ', err);
             });
         }
         

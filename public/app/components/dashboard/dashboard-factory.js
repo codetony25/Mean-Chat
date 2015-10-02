@@ -14,9 +14,7 @@
         var factory = {};
 
         factory.fetchUserInfo = function(callback) {
-            var user = UserAuthFactory.getUser();
-
-            UserAuthFactory.get({ id: user._id }, function(response) {
+            UserAuthFactory.get({ _id: UserAuthFactory.getUser()._id }, function(response) {
                 return callback(response);
             }, function(err) {
                 console.log('DashboardFactory:fetchUserInfo(error) - ', err);
