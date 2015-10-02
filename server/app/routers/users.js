@@ -54,15 +54,23 @@ router.get('/failure', function(req, res){
     });
 });
 
-router.get('/:id/resources/', function(req, res) {
+router.get('/:id/resources', function(req, res) {
     User.findById(req.params.id)
         .select('_resources')
-        .populate('_resources', {}, {_room: req.query.room})
+        .populate('_resources')
         .exec()
-        .then(function(err, results) {
-            return res.json({state: success, resources: results})
+        .then(function(results) {
+            var resources = [];
+            for (var i = 0, len = results._resources.length; i < len; i++) {
+                if (results._resources[i]._room.toString() == req.query.room.toString()) {
+                    resources.push(results._resources[i]);
+                }
+            }
+            console.log(resources);
+            return res.json({success: true, content: resources})
         })
         .catch(function(err) {
+            console.log(err);
             return res.status(400).json(err);
         });
 });
