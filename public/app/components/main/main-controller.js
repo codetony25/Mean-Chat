@@ -23,13 +23,12 @@
         }
 
         this.logout = function() {
-            // UserAuthFactory.logout().$promise.then( function(data) {
-            //     console.log(data);
-            // });
-
             UserAuthFactory.logout( function(response) {
-                
-                UserAuthFactory.removeUser();
+                if (response.success) {
+                    UserAuthFactory.removeUser();
+                    _this.MF.active_rooms = [];
+                    $state.go('authenticate.login');
+                }
             });
         }
 
