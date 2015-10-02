@@ -127,6 +127,7 @@ form[name="Dashboard.newRoomForm"].ng-hide-remove.ng-hide-remove-active {
 
 /* Dashboard Stats cards */
 .stats-card {
+	position: relative;
 	display: -ms-flexbox;
 	display: -webkit-flex;
 	display: flex;
@@ -150,6 +151,9 @@ form[name="Dashboard.newRoomForm"].ng-hide-remove.ng-hide-remove-active {
 .stats-card i {
 	font-size: 60px;
 	opacity: 0.5;
+	position: absolute;
+	left: 16px;
+	top: 8px;
 }
 
 .stats-card .left {
@@ -209,6 +213,10 @@ form[name="Dashboard.newRoomForm"].ng-hide-remove.ng-hide-remove-active {
 
 .rooms-list-container .md-toolbar-tools i {
 	line-height: 48px;
+}
+
+.rooms-list .favorite {
+	padding: 12px;
 }
 
 .animate-scale.ng-enter, 

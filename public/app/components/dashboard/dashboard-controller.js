@@ -67,11 +67,23 @@
                     // console.log('DashboardController:getUserInfo(success)- ', response.user);
                     _this.userInfo = response.user;
 
-                    var _isRoomInList = function(room) {
-                        return function(el) {
-                            return el._id === room._id;
-                        }
+                    console.log(response.user.favorite_rooms);
+                    console.log(response.user.active_rooms);
+
+
+                     var _isRoomInList = function(room) {
+                        return function(el) { return el._id === room._id; }
                     };
+
+                    var addFavoriteProp = function(roomObj) {
+                        if( _this.userInfo.favorite_rooms.some(_isRoomInList(roomObj._id))) {
+                            roomObj.favorite = true;
+                        } else {
+                            roomObj.favorite = false;
+                        }
+                    }
+                    
+                    _this.userInfo.active_rooms.map(addFavoriteProp);
                     
                     response.user.active_rooms.forEach( function(active_room) {
                         if( ! _this.MF.active_rooms.some(_isRoomInList(active_room)) ) {
@@ -82,9 +94,15 @@
             })
         }
 
-        mySocket.on('rooms/created', function(data) {
-            console.log('UHH');
-            _this.roomList.push(data.content);
+        this.favoriteToggle = function(room) {
+            console.log(room._id);
+            mySocket.emit('room/favorite', {_room: room._id});
+
+            room.favorite = !room.favorite;
+        }
+
+        mySocket.on('room/created', function(data) {
+            _this.roomsList.push(data);
         });
 
         var _getChatRoomsList = function() {
@@ -99,6 +117,7 @@
         var _init = (function() {
             _getChatRoomsList();
             _getUserInfo();
+            ChatFactory.setOpenRoomId(null);
         })();
     }
 })();

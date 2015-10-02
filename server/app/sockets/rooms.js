@@ -93,6 +93,7 @@ module.exports = function(io, socket, currUser) {
     * Toggles a room as favorite and emits the updated user object
     */
     socket.on('room/favorite', function(data) {
+        console.log(data);
         // Make sure the room exists
         Room.findOne({_id: data._room}, function(err, room) {
             if (!err && room) {

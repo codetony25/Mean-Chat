@@ -58,19 +58,14 @@
 
 
 /*** Animations for ngAnimate ***/
-.room-tile.ng-enter,
-.room-tile.ng-leave {
-    padding: 16px 32px;
-}
 
-
-.room-tile.ng-enter {
+.animate-fade.ng-enter {
     transition:0.25s linear all;
     opacity: 0;
 }
 
-.room-tile.ng-enter-stagger,
-.room-tile.ng-leave-stagger {
+.animate-fade.ng-enter-stagger,
+.animate-fade.ng-leave-stagger {
   /* this will have a 100ms delay between each successive leave animation */
   transition-delay: 0.1s;
 
@@ -79,16 +74,16 @@
   transition-duration: 0s;
 }
 
-.room-tile.ng-enter.ng-enter-active {
+.animate-fade.ng-enter.ng-enter-active {
   opacity: 1;
 }
 
-.room-tile.ng-leave {
+.animate-fade.ng-leave {
   transition: 0.25s linear all;
   opacity: 1;
 }
 
-.room-tile.ng-leave.ng-leave-active {
+.animate-fade.ng-leave.ng-leave-active {
   opacity: 0;
 }
 
