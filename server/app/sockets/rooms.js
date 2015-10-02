@@ -48,12 +48,6 @@ module.exports = function(io, socket, connUser) {
                                 }
                             });
                         }
-
-                        // If the room doesn't already exist as an active room, make it an active room
-                        User.update({_id: connUser._id}, {$addToSet: { active_rooms: data._room }, $addToSet: { recent_rooms: data._room}}, function(err) { });
-                        // Add the user to the rooms list of users
-                        Room.update({_id: data._room}, {$addToSet: { _users: connUser._id}}, {new: true}, function(err, room) { });
-
                     }
                 });
             } else {
@@ -68,8 +62,10 @@ module.exports = function(io, socket, connUser) {
     */
     socket.on('room/auth/req', function(data) {
         // Make sure the user isn't blocked and isn't already in the room
-        Room.findOne({_id: data._room, _blocked: {$ne: connUser._id}}, function(err, room) {
+        Room.findOneAndUpdate({_id: data._room, _blocked: {$ne: connUser._id}}, {$addToSet: {_users: connUser._id}}, {new: true}, function(err, room) {
             if (!err && room) {
+                // If the room doesn't already exist as an active room, make it an active room
+                User.update({_id: connUser._id}, {$addToSet: { active_rooms: data._room }, $addToSet: { recent_rooms: data._room}}, function(err) { });
                 socket.emit('room/auth/success', {_room: room._id}); 
             } else {
                 // Couldn't join the room
