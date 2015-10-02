@@ -60,6 +60,7 @@ module.exports = function(io, socket, currUser) {
     * Listens for when a user closes a room
     */
     socket.on('room/user/exit', function(data) {
+        console.log(data);
         // Find the room and pull the user from the _users list
         Room.findOneAndUpdate({_id: data._room, _users: currUser._id}, {$pull: {_users: currUser._id}}, {new: true}, function(err, room) {
             if (!err && room) {

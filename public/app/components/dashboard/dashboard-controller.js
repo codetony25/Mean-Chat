@@ -31,7 +31,8 @@
 
             newRoom.$save()
                 .then( function(response) { 
-                    mySocket.emit('room_created', { _room: response.content._id }); 
+                    console.log(response);
+                    mySocket.emit('room/new', { _room: response.content._id }); 
                     _this.userInfo.created_rooms.unshift(response.content);
                     _clearNewRoomForm();
                 })
@@ -41,12 +42,10 @@
         }
 
         _this.showRoomForm = function() {
-            console.log("here");
             _this.displayForm = true;
         }
 
         _this.hideRoomForm = function() {
-            console.log("Andrew here");
             _this.displayForm = false;
         }
 
@@ -82,6 +81,10 @@
                 }
             })
         }
+
+        mySocket.on('rooms/created', function(data) {
+            _this.roomList.push(data);
+        });
 
         var _getChatRoomsList = function() {
             ChatFactory.get().$promise.then(function(response) {
