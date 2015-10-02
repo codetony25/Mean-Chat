@@ -7,13 +7,14 @@
     .directive('dndColor', questionColor)
     .directive('dragOverlay', overlayDrag);
 
-    ChatController.$inject = ['ChatFactory', 'mySocket', 'MessageFactory', '$state', '$q'];
+    ChatController.$inject = ['ChatFactory', 'mySocket', 'MessageFactory', 'UserAuthFactory', '$state', '$q'];
 
 
     /* @ngInject */
-    function ChatController(ChatFactory, mySocket, MessageFactory, $state, $q) {
+    function ChatController(ChatFactory, mySocket, MessageFactory, UserAuthFactory, $state, $q) {
         // console.log('ChatController loaded');
         var _this = this;
+        _this.chatQuestions = [];
         /**
          * When user submits message, emit to server
          */
@@ -27,19 +28,22 @@
             _clearMessage();
         }
 
-		this.chatQuestions = [];
-
         //Adds a question to our dummy data for questions
         this.addToQuestions = function(message) {
-            console.log(message._id);
+            for (var key in this.chatQuestions) {
+                if (message._id === _this.chatQuestions[key]._id) {
+                    console.log('Message already exists in questions');
+                    return;
+                }
+            }
             mySocket.emit('message/resource', {_message: message._id});
-            this.chatQuestions.push(message);
+            _this.chatQuestions.push(message);
         }
 
-        //Removes a question if the trash can is clicked
+        //Removes a question if the delete is clicked
         this.removeQuestion = function(message, index) {
             mySocket.emit('message/resource', {_message: message._id});
-            this.chatQuestions.splice(index, 1);
+            _this.chatQuestions.splice(index, 1);
         }
 
 
@@ -49,6 +53,10 @@
             } else {
                 return false;
             }
+        }
+
+        this.dragoverCallback = function(event, index, external, type) {
+            console.log(index);
         }
 
         /**
@@ -93,8 +101,9 @@
             var getRoomInfo = ChatFactory.get({ _id: ChatFactory.getOpenRoomId() }).$promise;
             var getMessages = MessageFactory.query({ _room: ChatFactory.getOpenRoomId() }).$promise;
             var getChatRoomsList = ChatFactory.get().$promise;
+            var getResources = UserAuthFactory.getResources({ _id: UserAuthFactory.getUser()._id, room: ChatFactory.getOpenRoomId() }).$promise;
             
-            $q.all([getRoomInfo, getMessages, getChatRoomsList])
+            $q.all([getRoomInfo, getMessages, getChatRoomsList, getResources])
                 .then(function(response) {
                     // Room Info
                     _this._usersList = response[0].content._users;
@@ -106,7 +115,9 @@
                     // Roomslist
                     _this.roomsList = response[2].content;
                     // console.log('Roomslist: ', response[2].content);
+                    _this.chatQuestions = response[3].content;
                     _initializeListeners();
+                    console.log('ChatQuestions in promiseland: ', _this.chatQuestions);
                     console.log(_this.messages);
 
                     // notify server user has joined the room
@@ -155,6 +166,7 @@
 			}
 		}
 	}
+
 
 
 

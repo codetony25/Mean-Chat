@@ -1,4 +1,6 @@
-<md-content layout-padding flex scroll-bottom="Chat.messages" class="chat-box">
+<md-content layout-padding flex scroll-bottom="Chat.messages" class="chat-box"
+	dnd-list="this.chatMain"
+>
 	<ul>
 		<li ng-repeat="message in Chat.messages"
 		    dnd-draggable="message"

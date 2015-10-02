@@ -112,7 +112,7 @@ var UserSchema = new mongoose.Schema({
     }],
     _resources: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Room'
+        ref: 'Message'
     }],
     message_count: {
     	type: Number,
