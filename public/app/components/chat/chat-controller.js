@@ -46,14 +46,6 @@
 			this.chatQuestions.splice(index, 1);
 		}
 
-        this.showPosition = function(message) {
-            if (message == 'Text') {
-                return 'chat-username';
-            } else {
-                return false;
-            }
-        }
-
         this.showBubble = function(message) {
             if (message == 'Text') {
                 return 'bubble me';

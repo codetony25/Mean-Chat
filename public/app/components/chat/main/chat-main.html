@@ -7,7 +7,7 @@
 		    dnd-effect-allowed="move"
 		    class="dragOverlay"
 		    >
-		    <span ng-class="Chat.showPosition(message.resource_type)">{{ message.username }} ({{message.time | date: 'medium'}}): </span><span ng-class="Chat.showBubble(message.resource_type)">{{ message.message }}<span>
+		    {{ message.username }} ({{message.time | date: 'medium'}}): <span ng-class="Chat.showBubble(message.resource_type)">{{ message.message }}<span>
 		</li>
 	</ul>
 </md-content>
