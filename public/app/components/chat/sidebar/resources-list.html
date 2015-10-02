@@ -12,7 +12,10 @@
 		close-icon-url="./bower_components/material-design-icons/hardware/svg/design/ic_keyboard_arrow_right_24px.svg"
 		ng-repeat="message in Chat.chatQuestions track by $index"
 	    > 
-		    <collapsible-item class="dndColor" item-title="{{ message.username }}:  {{message.message}}">
+		    <collapsible-item class="dndColor" 
+		    			item-title="{{ message.username }}:  {{message.message}}"
+		    			dnd-draggable="message"
+		    			>
 				<p>Question: {{message.message}}</p>
 				<div class="question-options" layout="row" layout-align="center center">
 					<md-button class="md-raised md-primary">Answer</md-button>

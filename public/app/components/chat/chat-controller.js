@@ -29,14 +29,19 @@
 
 		this.chatQuestions = [];
 
-        //Adds a question to our dummy data for questions
+        //Adds a question to chatQuestions
         this.addToQuestions = function(message) {
-            console.log(message._id);
+            for (var key in this.chatQuestions) {
+                if (message._id === this.chatQuestions[key]._id) {
+                    console.log('Message already exists in questions');
+                    return;
+                }
+            }
             mySocket.emit('message/resource', {_message: message._id});
             this.chatQuestions.push(message);
         }
 
-        //Removes a question if the trash can is clicked
+        //Removes a question if the delete is clicked
         this.removeQuestion = function(message, index) {
             mySocket.emit('message/resource', {_message: message._id});
             this.chatQuestions.splice(index, 1);
@@ -49,6 +54,10 @@
             } else {
                 return false;
             }
+        }
+
+        this.dragoverCallback = function(event, index, external, type) {
+            console.log(index);
         }
 
         /**
@@ -155,6 +164,7 @@
 			}
 		}
 	}
+
 
 
 
