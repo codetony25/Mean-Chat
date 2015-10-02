@@ -215,8 +215,22 @@ form[name="Dashboard.newRoomForm"].ng-hide-remove.ng-hide-remove-active {
 	line-height: 48px;
 }
 
-.rooms-list .favorite {
-	padding: 12px;
+.favorite {
+    background: url('../img/ic_favorite_24px.svg');
+    fill:#FF4081;
+    margin: 12px;
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
+.favorite path {
+	fill:#FF4081;
+}
+
+.favorite.border {
+	background: url('../img/ic_favorite_border_24px.svg');
+	fill: #FF4081;
 }
 
 .animate-scale.ng-enter, 

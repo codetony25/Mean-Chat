@@ -35,7 +35,9 @@
 					<md-list-item ng-click="Main.loadRoom(active_room._id)" ng-repeat-start="active_room in Main.MF.active_rooms" class="animate-fade">
 						<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
 						<p ng-bind="active_room.name"></p>
-						<md-icon ng-click="Dashboard.favoriteToggle(active_room)" class="md-secondary"><i class="material-icons md-24 favorite">{{ active_room.favorite ? "favorite" : "favorite_border" }}</i></md-icon>
+						<md-icon ng-click="Dashboard.favoriteToggle(active_room)" class="md-secondary">
+							<i class="favorite" ng-class="{border: !active_room.favorite}"></i>
+						</md-icon>
 					</md-list-item>
 					<md-divider ng-repeat-end></md-divider>
 				</md-list>
@@ -78,10 +80,13 @@
 				</div>
 			</md-toolbar>
 			<md-content scroll-top="Dashboard.userInfo.recent_rooms" layout-padding>
-				<md-list>
+				<md-list class="rooms-list">
 					<md-list-item ng-click="Main.loadRoom(recent_room._id)" ng-repeat-start="recent_room in Dashboard.userInfo.recent_rooms"  class="animate-fade">
 						<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
 						<p ng-bind="recent_room.name"></p>
+						<md-icon ng-click="Dashboard.favoriteToggle(recent_room)" class="md-secondary">
+							<i class="favorite" ng-class="{border: !recent_room.favorite}"></i>
+						</md-icon>
 					</md-list-item>
 					<md-divider ng-repeat-end></md-divider>
 				</md-list>
@@ -100,10 +105,13 @@
 				</div>
 			</md-toolbar>
 			<md-content scroll-top="Dashboard.userInfo.favorite_rooms" layout-padding>
-				<md-list>
-					<md-list-item ng-click="Main.loadRoom(favorite_room._id)" ng-repeat-start="favorite_room in Dashboard.userInfo.favorite_rooms" class="animate-fade">
+				<md-list class="rooms-list">
+					<md-list-item ng-click="Main.loadRoom(favorite_room._id)" ng-repeat-start="favorite_room in Dashboard.userInfo.favorite_rooms track by $index" class="animate-fade">
 						<md-icon><i class="material-icons">chat_bubble_outline</i></md-icon>
 						<p ng-bind="favorite_room.name"></p>
+						<md-icon ng-click="Dashboard.favoriteToggle(active_room)" class="md-secondary">
+							<i class="favorite"></i>
+						</md-icon>
 					</md-list-item>
 					<md-divider ng-repeat-end></md-divider>
 				</md-list>

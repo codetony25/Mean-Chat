@@ -67,23 +67,13 @@
                     // console.log('DashboardController:getUserInfo(success)- ', response.user);
                     _this.userInfo = response.user;
 
-                    console.log(response.user.favorite_rooms);
-                    console.log(response.user.active_rooms);
+                    // console.log(response.user.favorite_rooms);
+                    // console.log(response.user.active_rooms);
+                   
+                    _this.userInfo.active_rooms.map(toggleFavoriteProp);
+                    _this.userInfo.recent_rooms.map(toggleFavoriteProp);
+                    _this.userInfo.favorite_rooms.map(toggleFavoriteProp);
 
-
-                     var _isRoomInList = function(room) {
-                        return function(el) { return el._id === room._id; }
-                    };
-
-                    var addFavoriteProp = function(roomObj) {
-                        if( _this.userInfo.favorite_rooms.some(_isRoomInList(roomObj._id))) {
-                            roomObj.favorite = true;
-                        } else {
-                            roomObj.favorite = false;
-                        }
-                    }
-                    
-                    _this.userInfo.active_rooms.map(addFavoriteProp);
                     
                     response.user.active_rooms.forEach( function(active_room) {
                         if( ! _this.MF.active_rooms.some(_isRoomInList(active_room)) ) {
@@ -94,11 +84,36 @@
             })
         }
 
+        var _isRoomInList = function(room) {
+            return function(el) { return el._id === room._id; }
+        };
+
+        var toggleFavoriteProp = function(roomObj) {
+
+            if( _this.userInfo.favorite_rooms.some(_isRoomInList(roomObj))) {
+                roomObj.favorite = true;
+            } else {
+                roomObj.favorite = false;
+            }
+        }
+
         this.favoriteToggle = function(room) {
-            console.log(room._id);
+
             mySocket.emit('room/favorite', {_room: room._id});
 
-            room.favorite = !room.favorite;
+            _this.MF.active_rooms.map(toggleFavoriteProp);
+            _this.userInfo.recent_rooms.map(toggleFavoriteProp);
+
+            // If true -> false
+            if(room.favorite) {
+                for(var idx in _this.userInfo.favorite_rooms) {
+                    if(_this.userInfo.favorite_rooms[idx]._id === room._id) {
+                        _this.userInfo.favorite_rooms.splice(idx, 1);
+                    }
+                }
+            } else {
+                _this.userInfo.favorite_rooms.push(room);
+            }
         }
 
         mySocket.on('room/created', function(data) {
