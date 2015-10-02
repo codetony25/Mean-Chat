@@ -120,14 +120,14 @@
 
     //Remember to put directives in their own files!
 
-	//Question Color Directive
+	// Question Color Directive
 	function questionColor() {
 		return {
 			restrict: 'C',
 			link: function(scope, element, attrs) {
-				var themeColors = ['#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4', '#009688', '#4CAF50'];
+				var themeColors = ['#FF5722', '#00BCD4', '#009688', '#FF4081', '#448AFF', '#FF4081', '#388E3C'];
 				var randomColor = Math.floor(Math.random() * themeColors.length);
-				element.css('background-color', themeColors[randomColor]);
+				element.find('div').css('background-color', themeColors[randomColor]);
 			},
 		}
 	}

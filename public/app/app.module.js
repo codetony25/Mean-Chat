@@ -9,6 +9,7 @@
             'ngAnimate',
             'ngResource',
             'dndLists',
+            'angAccordion',
             'meanChat.chat',
             'meanChat.userAuth',
             'meanChat.dashboard',

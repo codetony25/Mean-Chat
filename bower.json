@@ -32,7 +32,8 @@
     "angular-socket-io": "~0.7.0",
     "angular-ui-router": "ui-router#~0.2.15",
     "material-design-icons": "~2.0.0",
-    "angular-scroll-glue": "~2.0.6"
+    "angular-scroll-glue": "~2.0.6",
+    "angular-accordion": "ang-accordion#*"
   },
   "resolutions": {
     "angular": "~1.4.x"

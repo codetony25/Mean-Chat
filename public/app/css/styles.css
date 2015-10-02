@@ -335,7 +335,13 @@ textarea {
   padding: 0; }
 
 .chat-box ul li {
-  list-style: none; }
+  list-style: none;
+  padding: 8px;
+  vertical-align: middle; }
+
+.chat-username {
+  position: relative;
+  top: 10px; }
 
 .type-chat {
   width: 100%;
@@ -366,6 +372,36 @@ textarea {
   color: white;
   background-color: #80d8ff;
   padding: 10px; }
+
+.bubble {
+  background-color: #F2F2F2;
+  border-radius: 5px;
+  box-shadow: 0 0 6px #B2B2B2;
+  display: inline-block;
+  padding: 7px 18px;
+  position: relative;
+  vertical-align: top; }
+
+.bubble::before {
+  background-color: #F2F2F2;
+  content: "\00a0";
+  display: block;
+  height: 16px;
+  position: absolute;
+  top: 11px;
+  transform: rotate(29deg) skew(-35deg);
+  -moz-transform: rotate(29deg) skew(-35deg);
+  -ms-transform: rotate(29deg) skew(-35deg);
+  -o-transform: rotate(29deg) skew(-35deg);
+  -webkit-transform: rotate(29deg) skew(-35deg);
+  width: 20px; }
+
+.me {
+  margin: 5px 45px 5px 20px; }
+
+.me::before {
+  box-shadow: -2px 2px 2px 0 rgba(178, 178, 178, 0.4);
+  left: -9px; }
 
 /*=====  End of Chat Page  ======*/
 /*=====================================================
@@ -466,15 +502,27 @@ ul[dnd-list], ul[dnd-list] > li {
   color: white;
   transition: 0.2s ease-in-out; }
 
-.questions li {
-  padding: 4px;
-  font-size: 0.7em;
-  list-style: none;
-  cursor: pointer; }
+.collapsible-item {
+  margin-bottom: -1px; }
+
+.collapsible-item .title {
+  border-radius: 0;
+  background-image: none;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  padding-left: 20px;
+  padding-right: 20px; }
+
+.collapsible-item.open .title {
+  border-radius: 0; }
 
 .plus {
   width: 48px;
   height: 48px; }
+
+.questions {
+  font-size: 0.7em;
+  color: white; }
 
 .blur {
   -webkit-filter: blur(1px);

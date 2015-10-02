@@ -6,7 +6,7 @@
 		    dnd-effect-allowed="move"
 		    class="dragOverlay"
 		    >
-		    {{ message.username }} ({{message.time | date: 'medium'}}): {{ message.message }}
+		    <span class="chat-username">{{ message.username }} ({{message.time | date: 'medium'}}): </span><span class="bubble me">{{ message.message }}<span>
 		</li>
 	</ul>
 </md-content>

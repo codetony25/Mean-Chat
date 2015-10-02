@@ -5,22 +5,23 @@
 </md-content>
 
 <md-content flex>
-	<ul class="questions" dnd-list="Chat.chatQuestions" id="blurme">
-	    <li ng-repeat="message in Chat.chatQuestions track by $index"
-	        class="dndColor"
-	        >
-	        <div class="left"><strong>{{ message.username }}: </strong> {{message.message}} </div>
-	        <div class="right">
-				<md-button aria-label="photo" 
-						   class="md-icon-button trashcan-holder" 
-						   ng-click='Chat.removeQuestion(message, $index)'>
-					<md-icon class="trashcan md-warn md-raised" 
-							 md-svg-src="bower_components/material-design-icons/action/svg/design/ic_delete_24px.svg">
-					</md-icon>
-				</md-button>
-	        </div>
-	    </li>
-	</ul>
+	<div class="questions" dnd-list="Chat.chatQuestions" id="blurme">
+		<ang-accordion 
+		icon-position="right"
+		open-icon-url="./bower_components/material-design-icons/hardware/svg/design/ic_keyboard_arrow_down_24px.svg"
+		close-icon-url="./bower_components/material-design-icons/hardware/svg/design/ic_keyboard_arrow_right_24px.svg"
+		ng-repeat="message in Chat.chatQuestions track by $index"
+	    > 
+		    <collapsible-item class="dndColor" item-title="{{ message.username }}:  {{message.message}}">
+				<p>Question: {{message.message}}</p>
+				<div class="question-options" layout="row" layout-align="center center">
+					<md-button class="md-raised md-primary">Answer</md-button>
+					<md-button class="md-raised md-warn" ng-click='Chat.removeQuestion(message, $index)'>Delete</md-button>
+				</div>
+		    </collapsible-item> 
+		    <!-- More collapsible items -->
+		</ang-accordion>
+	</div>
 	<div id="addOverlay" 
 		 class="hidden" 
 		 dnd-list="Chat.chatQuestions" 
@@ -31,3 +32,14 @@
 		</md-icon>
 	</div>
 </md-content>
+
+<!-- <div class="left"><strong>{{ message.username }}: </strong> {{message.message}} </div>
+<div class="right">
+	<md-button aria-label="photo" 
+			   class="md-icon-button trashcan-holder" 
+			   ng-click='Chat.removeQuestion(message, $index)'>
+		<md-icon class="trashcan md-warn md-raised" 
+				 md-svg-src="bower_components/material-design-icons/action/svg/design/ic_delete_24px.svg">
+		</md-icon>
+	</md-button>
+</div> -->
