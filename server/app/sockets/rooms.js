@@ -65,7 +65,7 @@ module.exports = function(io, socket, connUser) {
         Room.findOneAndUpdate({_id: data._room, _blocked: {$ne: connUser._id}}, {$addToSet: {_users: connUser._id}}, {new: true}, function(err, room) {
             if (!err && room) {
                 // If the room doesn't already exist as an active room, make it an active room
-                User.update({_id: connUser._id}, {$addToSet: { active_rooms: data._room }, $addToSet: { recent_rooms: data._room}}, function(err) { });
+                User.update({_id: connUser._id}, {$addToSet: { active_rooms: data._room, recent_rooms: data._room}}, function(err) { });
                 socket.emit('room/auth/success', {_room: room._id}); 
             } else {
                 // Couldn't join the room
