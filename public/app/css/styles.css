@@ -271,6 +271,54 @@ textarea {
 .material-icons.md-light.md-inactive {
   color: rgba(255, 255, 255, 0.3); }
 
+.tile-0 {
+  background: #1d288f; }
+
+.tile-1 {
+  background: #202c9c; }
+
+.tile-2 {
+  background: #222fa8; }
+
+.tile-3 {
+  background: #2533b5; }
+
+.tile-4 {
+  background: #2736c2; }
+
+.tile-5 {
+  background: #2a3acf; }
+
+.tile-6 {
+  background: #3242d5; }
+
+.tile-7 {
+  background: #3f4ed8; }
+
+.tile-8 {
+  background: #4c5adb; }
+
+.tile-9 {
+  background: #5865dd; }
+
+.tile-10 {
+  background: #6571e0; }
+
+.tile-11 {
+  background: #727de2; }
+
+.tile-12 {
+  background: #7f89e5; }
+
+.tile-13 {
+  background: #8b94e8; }
+
+.tile-14 {
+  background: #98a0ea; }
+
+.tile-15 {
+  background: #a5aced; }
+
 /*=================================
 =            Chat Page            =
 =================================*/
