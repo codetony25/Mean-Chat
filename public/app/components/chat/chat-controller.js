@@ -10,12 +10,10 @@
     ChatController.$inject = ['ChatFactory', 'mySocket', 'MessageFactory', '$state', '$q'];
 
 
-
     /* @ngInject */
     function ChatController(ChatFactory, mySocket, MessageFactory, $state, $q) {
         // console.log('ChatController loaded');
         var _this = this;
-
         /**
          * When user submits message, emit to server
          */
@@ -48,6 +46,13 @@
 			this.chatQuestions.splice(index, 1);
 		}
 
+        this.showBubble = function(message) {
+            if (message == 'Text') {
+                return 'bubble me';
+            } else {
+                return false;
+            }
+        }
 
         /**
          * Initialize socket listners for active room
@@ -105,6 +110,7 @@
                     _this.roomsList = response[2].content;
                     // console.log('Roomslist: ', response[2].content);
                     _initializeListeners();
+                    console.log(_this.messages);
 
                     // notify server user has joined the room
                     mySocket.emit('room/user/join', { _room: ChatFactory.getOpenRoomId() })
