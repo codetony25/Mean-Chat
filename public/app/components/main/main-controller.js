@@ -46,20 +46,21 @@
         /**
          * Socket listener for room join authorizations
          */
-        mySocket.on('room/auth/success', function(roomObj) {
-            console.log(roomObj);
+        mySocket.on('room/auth/success', function(room) {
 
-            // console.log('DashboardController:socket(room/auth/success) - ', roomObj._room);
-            UserAuthFactory.get({ _id: UserAuthFactory.getUser()._id }).$promise
-                .then(function(response){
-                    _this.MF.active_rooms = response.user.active_rooms;
-                    console.log(_this.MF.active_rooms);
-                    ChatFactory.setOpenRoomId(roomObj._room);
-                    $state.go('chat');
-                })
-                .catch(function(err) {
-                    console.log(err);
-                });
+            if( ! _this.MF.active_rooms.some(_isRoomInList(room)) ) {
+                _this.MF.active_rooms.push(room);
+            }
+
+            ChatFactory.setOpenRoomId(room._id);
+
+            $state.go('chat');
         });
+
+        var _isRoomInList = function(room) {
+            return function(el) {
+                return el._id === room._id;
+            }
+        };
     }
 })();
