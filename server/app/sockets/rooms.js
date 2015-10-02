@@ -10,10 +10,10 @@ module.exports = function(io, socket, currUser) {
     /**
     * When a new room has been created, the owner emits to the server, the server finds the new room and emits to all
     */
-    socket.on('room_created', function(data) {
+    socket.on('room/new', function(data) {
         Room.findOne({_id: data._room}, function(err, room) {
             if (!err && room) {
-                io.emit('new_room', room);
+                io.emit('room/created', room);
             }
         });
     });
