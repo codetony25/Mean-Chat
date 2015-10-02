@@ -22,7 +22,6 @@ module.exports = function(io, socket, currUser) {
     * When user requests authorization to join a room
     */
     socket.on('room/auth/req', function(data) {
-        console.log(data);
         // Make sure the user isn't blocked and isn't already in the room
         Room.findOneAndUpdate({_id: data._room, _blocked: {$ne: currUser._id}}, {$addToSet: {_users: currUser._id}}, function(err, room) {
             if (!err && room) {

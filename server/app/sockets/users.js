@@ -50,18 +50,23 @@ module.exports = function(io, socket, currUser) {
     socket.on('disconnect', function() {
         Room.find({_users: currUser._id}, function(err, rooms) {
             if (!err && rooms) {
-                rooms.forEach(function(room) {
-                    var message = new Message({_owner: currUser._id, _room: room._id, resource_type: 'System', time: Date.now(), message: currUser.username + ' has left the room.' });
-                    // Attempt to save the message
-                    message.save(function(err) {
-                        if (!err) {
-                            // If there are no errors, emit the message to the room
-                            io.emit('room/' + room._id + '/message', message);
-                        } 
-                    });
+                Room.update({_users: currUser._id}, {$pull: {_users: currUser._id}}, {multi: true}, function(err) {
+                    console.log(rooms);
+                    if (!err && rooms) {
+                        rooms.forEach(function(room) {
+                            var message = new Message({_owner: currUser._id, _room: room._id, resource_type: 'System', time: Date.now(), message: currUser.username + ' has left the room.' });
+                            // Attempt to save the message
+                            message.save(function(err) {
+                                if (!err) {
+                                    // If there are no errors, emit the message to the room
+                                    io.emit('room/' + room._id + '/message', message);
+                                } 
+                            });
+                        });
+                    }
                 });
             }
-        })
+        });
     });
 
 }
