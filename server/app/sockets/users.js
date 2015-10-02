@@ -51,7 +51,6 @@ module.exports = function(io, socket, currUser) {
         Room.find({_users: currUser._id}, function(err, rooms) {
             if (!err && rooms) {
                 Room.update({_users: currUser._id}, {$pull: {_users: currUser._id}}, {multi: true}, function(err) {
-                    console.log(rooms);
                     if (!err && rooms) {
                         rooms.forEach(function(room) {
                             var message = new Message({_owner: currUser._id, _room: room._id, resource_type: 'System', time: Date.now(), message: currUser.username + ' has left the room.' });
