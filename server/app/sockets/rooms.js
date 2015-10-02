@@ -67,6 +67,7 @@ module.exports = function(io, socket, connUser) {
     * When user requests authorization to join a room
     */
     socket.on('room/auth/req', function(data) {
+        console.log(data);
         // Make sure the user isn't blocked and isn't already in the room
         Room.findOne({_id: data._room, _blocked: {$ne: connUser._id}}, function(err, room) {
             if (!err && room) {

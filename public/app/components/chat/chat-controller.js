@@ -97,13 +97,13 @@
                     // Room Info
                     _this._usersList = response[0].content._users;
                     _this._roomInfo = response[0].content;
-                    // console.log('Room Info: ', response[0].content);
+                    console.log('Users List: ', _this._usersList);
                     // Messages
                     _this.messages = response[1].content;
-                    // console.log('Messages  ', response[1].content);
+                    console.log('Messages: ', response[1].content);
                     // Roomslist
                     _this.roomsList = response[2].content;
-                    // console.log('Roomslist: ', response[2].content);
+                    console.log('Roomslist: ', response[2].content);
                     _initializeListeners();
 
                     // notify server user has joined the room

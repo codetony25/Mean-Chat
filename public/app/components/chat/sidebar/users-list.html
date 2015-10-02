@@ -1,7 +1,7 @@
 <md-content flex="75" layout="column" class="sidebar-header" layout-padding>{{ Chat._roomInfo.name }}</md-content>
 <md-content flex layout-padding>
 	<md-list>
-		<md-list-item ng-repeat-start="user in Chat._roomInfo._users">
+		<md-list-item ng-repeat-start="user in Chat._usersList">
 			<md-icon md-svg-src="bower_components/material-design-icons/action/svg/design/ic_account_circle_24px.svg"  class="s24"></md-icon>
 			<p ng-bind="user.username"></p>
 		</md-list-item>

@@ -38,6 +38,7 @@ module.exports.listen = function(app){
 
         // Don't add any listeners if we can't find the user
         User.findById({_id: userId}, function(err, user) {
+
             if (!err && user) {
                 require('./users.js')(io, socket, user);
                 require('./rooms.js')(io, socket, user);

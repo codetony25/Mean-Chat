@@ -5,9 +5,9 @@
         .module('meanChat')
         .controller('MainController', MainController);
 
-    MainController.$inject = ['UserAuthFactory', 'MainFactory', 'ChatFactory', 'mySocket', '$state'];
+    MainController.$inject = ['UserAuthFactory', 'MainFactory', 'ChatFactory', '$state'];
 
-    function MainController(UserAuthFactory, MainFactory, ChatFactory, mySocket, $state) {
+    function MainController(UserAuthFactory, MainFactory, ChatFactory, $state) {
         var _this = this;
         _this.MF = MainFactory;
 
@@ -34,8 +34,7 @@
          * Socket event: Requests authorization from the server
          */
         this.loadRoom = function(roomId) {
-            console.log(roomId);
-            // console.log('DashboardController:socket(room/auth/req)', roomId);
+            console.log('DashboardController:socket(room/auth/req)', roomId);
             mySocket.emit('room/auth/req', {_room: roomId});
         };
 
@@ -43,7 +42,9 @@
          * Socket listener for room join authorizations
          */
         mySocket.on('room/auth/success', function(roomObj) {
+            console.log(roomObj);
             // console.log('DashboardController:socket(room/auth/success) - ', roomObj._room);
+            _this.MF.active_rooms.push(roomObj);
             ChatFactory.setOpenRoomId(roomObj._room);
             $state.go('chat');
         });

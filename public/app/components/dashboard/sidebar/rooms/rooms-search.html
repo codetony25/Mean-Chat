@@ -4,7 +4,7 @@
 </md-input-container>
 <md-content flex layout-padding>
 	<md-list>
-		<md-list-item class="md-2-line" ng-repeat-start="room in Dashboard.roomsList | filter:rooms.filter" ng-click="Dashboard.loadRoom(room._id)" aria-label=".">
+		<md-list-item class="md-2-line" ng-repeat-start="room in Dashboard.roomsList | filter:rooms.filter" ng-click="Main.loadRoom(room._id)" aria-label=".">
 			<div class="md-list-item-text">
 				<h3 ng-bind="room.name"></h3>
 				<p ng-bind="room.topic"></p>
@@ -14,7 +14,7 @@
 	</md-list>
 </md-content>
 
-<!-- <form name="Dashboard.newRoomForm" class="md-whiteframe-2dp" ng-submit="Dashboard.newRoomForm.$valid && Dashboard.createRoom(Dashboard.newRoomForm.formData)" novalidate>
+<form name="Dashboard.newRoomForm" class="md-whiteframe-2dp" ng-submit="Dashboard.newRoomForm.$valid && Dashboard.createRoom(Dashboard.newRoomForm.formData)" novalidate>
 	<md-content layout="column">
 		<md-button class="md-fab md-mini">
             <i class="material-icons" style="display: flex; align-self: center; margin-left: 2px">close</i>
@@ -29,4 +29,4 @@
 		</md-input-container>
 		<md-button class="md-raised md-primary" ng-disabled="Dashboard.newRoomForm.$invalid">Submit</md-button>
 	</md-content>
-</form> -->
+</form>
