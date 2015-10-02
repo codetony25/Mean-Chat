@@ -11,6 +11,7 @@ module.exports = function(io, socket, currUser) {
     * Recieving a new message from the client
     */
     socket.on('message/new', function(data) {
+
         // Get the user
         User.findOne({_id: currUser._id}, function(err, user) {
             if (!err && user) {
