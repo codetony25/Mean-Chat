@@ -68,8 +68,8 @@ module.exports = function(io, socket, currUser) {
 			if (!err && message) {
 				User.findOne({_id: currUser._id}, function(err, user) {
 					if (!err && user) {
-						if ((idx = user._resources.indexOf(currUser._id)) == -1) {
-							user._resources.push(currUser._id);
+						if ((idx = user._resources.indexOf(data._message)) == -1) {
+							user._resources.push(data._message);
 						} else {
 							user._resources.slice(idx, 1);
 						}
