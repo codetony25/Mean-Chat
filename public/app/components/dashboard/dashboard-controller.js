@@ -57,7 +57,6 @@
                 if(response.state == 'success') {
                     // console.log('DashboardController:getUserInfo(success)- ', response.user);
                     _this.userInfo = response.user;
-                    console.log(response.user);
                     _this.MF.active_rooms = response.user.active_rooms;
                 }
             })

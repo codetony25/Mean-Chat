@@ -14,11 +14,22 @@
     var factory = $resource('/users/:id', { id: '@_id' }, {
       update: { method: 'PUT', isArray: false },
       login: { method: 'POST', url: '/users/login' },
-      logout: { method:'POST', url: '/users/logout' }
+      logout: { method:'GET', url: '/users/logout' }
     });
 
     var _user = null;
     var _isLoggedIn = false;
+
+    factory.leave = function() {
+      $http({
+        method: 'GET',
+        url: '/users/logout'
+      }).then(function(response) {
+        console.log(response);
+      }, function(err) {
+        console.log(err);
+      });
+    }
 
     factory.setUser = function(user) {
         SessionFactory.storeUser(user);
@@ -35,6 +46,9 @@
     }
 
     factory.removeUser = function() {
+        console.log(_user);
+        console.log(SessionFactory.getUser());
+
         _user = null;
         _isLoggedIn = false;
         SessionFactory.destroyUser();

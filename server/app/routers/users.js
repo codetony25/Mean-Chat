@@ -11,10 +11,6 @@ mongoose.Promise = require('q').Promise;
 /**
  * Expose
  */
-router.get('/', function(req,res,next) {
-    res.json("ok");
-});
-
 // Register/create user
 router.post('/', function( req, res, next) {
     var user = new User(req.body);
@@ -28,9 +24,9 @@ router.post('/', function( req, res, next) {
     })
 });
 
-router.get('/logout', function(req, res) {
-    req.logout();
-    // Send back response
+router.get('/logout', function(req, res, next) {
+    // req.logout();
+    return res.redirect('/');
 })
 
 router.post('/login', passport.authenticate('local', {
@@ -39,7 +35,6 @@ router.post('/login', passport.authenticate('local', {
 }));
 
 router.get('/success', function(req, res) {
-
     var user = {
         _id: req.user._id,
         username: req.user.username,

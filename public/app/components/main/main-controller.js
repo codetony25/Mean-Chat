@@ -23,9 +23,15 @@
         }
 
         this.logout = function() {
-            UserAuthFactory.logout( function() {
-                UserAuthFactory.removeUser();
-            });
+            UserAuthFactory.leave();
+            // UserAuthFactory.logout().$promise.then( function(data) {
+            //     console.log(data);
+            // });
+
+            // UserAuthFactory.logout( function(response) {
+            //     c
+            //     UserAuthFactory.removeUser();
+            // });
         }
 
         /**
@@ -34,7 +40,7 @@
          * Socket event: Requests authorization from the server
          */
         this.loadRoom = function(roomId) {
-            // console.log('DashboardController:socket(room/auth/req)', roomId);
+            console.log('DashboardController:socket(room/auth/req)', roomId);
             mySocket.emit('room/auth/req', {_room: roomId});
         };
 
@@ -42,7 +48,6 @@
          * Socket listener for room join authorizations
          */
         mySocket.on('room/auth/success', function(roomObj) {
-            console.log(roomObj);
             // console.log('DashboardController:socket(room/auth/success) - ', roomObj._room);
             _this.MF.active_rooms.push(roomObj);
             ChatFactory.setOpenRoomId(roomObj._room);
