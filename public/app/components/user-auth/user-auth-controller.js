@@ -5,10 +5,10 @@
         .module('meanChat.userAuth')
         .controller('UserAuthController', UserAuthController);
 
-    UserAuthController.$inject = ['UserAuthFactory', '$state'];
+    UserAuthController.$inject = ['UserAuthFactory', '$state', 'mySocket'];
 
     /* @ngInject */
-    function UserAuthController(UserAuthFactory, $state) {
+    function UserAuthController(UserAuthFactory, $state, mySocket) {
         var _this = this;
 
         this.userRegistration = function(user){
@@ -29,6 +29,7 @@
             user.$login( function(response) {
                 if(response.state == 'success') { 
                     UserAuthFactory.setUser(response.user);
+                    mySocket.emit('user_logged_in', response.user);
                     $state.go('dashboard');
                 }
             }, function(err) {

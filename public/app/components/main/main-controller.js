@@ -5,9 +5,9 @@
         .module('meanChat')
         .controller('MainController', MainController);
 
-    MainController.$inject = ['UserAuthFactory', 'MainFactory', 'ChatFactory', '$state'];
+    MainController.$inject = ['UserAuthFactory', 'MainFactory', 'ChatFactory', 'mySocket', '$state'];
 
-    function MainController(UserAuthFactory, MainFactory, ChatFactory, $state) {
+    function MainController(UserAuthFactory, MainFactory, ChatFactory, mySocket, $state) {
         var _this = this;
         _this.MF = MainFactory;
 
@@ -34,7 +34,7 @@
          * Socket event: Requests authorization from the server
          */
         this.loadRoom = function(roomId) {
-            console.log('DashboardController:socket(room/auth/req)', roomId);
+            // console.log('DashboardController:socket(room/auth/req)', roomId);
             mySocket.emit('room/auth/req', {_room: roomId});
         };
 
