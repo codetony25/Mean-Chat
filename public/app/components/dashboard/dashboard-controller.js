@@ -101,11 +101,23 @@
 
             mySocket.emit('room/favorite', {_room: room._id});
 
-            _this.MF.active_rooms.map(toggleFavoriteProp);
-            _this.userInfo.recent_rooms.map(toggleFavoriteProp);
+            // _this.MF.active_rooms.map(toggleFavoriteProp);
+            // _this.userInfo.recent_rooms.map(toggleFavoriteProp);
 
             // If true -> false
             if(room.favorite) {
+                _this.MF.active_rooms.map(function(obj) {
+                    if(obj._id === room._id) {
+                        obj.favorite = false;
+                    }
+                })
+
+                _this.userInfo.recent_rooms.map(function(obj) {
+                    if(obj._id === room._id) {
+                        obj.favorite = false;
+                    }
+                })
+
                 for(var idx in _this.userInfo.favorite_rooms) {
                     if(_this.userInfo.favorite_rooms[idx]._id === room._id) {
                         _this.userInfo.favorite_rooms.splice(idx, 1);
@@ -113,6 +125,18 @@
                 }
             } else {
                 _this.userInfo.favorite_rooms.push(room);
+
+                _this.MF.active_rooms.map(function(obj) {
+                    if(obj._id === room._id) {
+                        obj.favorite = true;
+                    }
+                })
+
+                _this.userInfo.recent_rooms.map(function(obj) {
+                    if(obj._id === room._id) {
+                        obj.favorite = true;
+                    }
+                })
             }
         }
 
