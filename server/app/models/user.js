@@ -110,6 +110,10 @@ var UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
     }],
+    _resources: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room'
+    }],
     message_count: {
     	type: Number,
     	default: 0

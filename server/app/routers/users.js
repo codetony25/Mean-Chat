@@ -54,6 +54,19 @@ router.get('/failure', function(req, res){
     });
 });
 
+router.get('/:id/resources/', function(req, res) {
+    User.findById(req.params.id)
+        .select('_resources')
+        .populate('_resources', {}, {_room: req.query.room})
+        .exec()
+        .then(function(err, results) {
+            return res.json({state: success, resources: results})
+        })
+        .catch(function(err) {
+            return res.status(400).json(err);
+        });
+});
+
 router.get('/:id', function(req, res, next) {
 
     User.findById(req.params.id)

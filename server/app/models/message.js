@@ -44,10 +44,6 @@ var MessageSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-    _saved: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
     time: {
     	type: Date
     }
