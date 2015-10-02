@@ -322,11 +322,6 @@ textarea {
 /*=================================
 =            Chat Page            =
 =================================*/
-.chat h6 {
-  margin: 0;
-  padding: 4px;
-  padding-left: 4px; }
-
 .chat-box p {
   margin-bottom: 2px;
   margin-top: 2px; }
@@ -338,10 +333,6 @@ textarea {
   list-style: none;
   padding: 8px;
   vertical-align: middle; }
-
-.chat-username {
-  position: relative;
-  top: 10px; }
 
 .type-chat {
   width: 100%;
@@ -376,9 +367,8 @@ textarea {
 .bubble {
   background-color: #F2F2F2;
   border-radius: 5px;
-  box-shadow: 0 0 6px #B2B2B2;
   display: inline-block;
-  padding: 7px 18px;
+  padding: 7px 19.5px;
   position: relative;
   vertical-align: top; }
 
@@ -388,20 +378,15 @@ textarea {
   display: block;
   height: 16px;
   position: absolute;
-  top: 11px;
-  transform: rotate(29deg) skew(-35deg);
-  -moz-transform: rotate(29deg) skew(-35deg);
-  -ms-transform: rotate(29deg) skew(-35deg);
-  -o-transform: rotate(29deg) skew(-35deg);
-  -webkit-transform: rotate(29deg) skew(-35deg);
+  top: 0.5px;
+  transform: rotate(55deg) skew(-35deg);
   width: 20px; }
 
 .me {
   margin: 5px 45px 5px 20px; }
 
 .me::before {
-  box-shadow: -2px 2px 2px 0 rgba(178, 178, 178, 0.4);
-  left: -9px; }
+  left: -5px; }
 
 /*=====  End of Chat Page  ======*/
 /*=====================================================

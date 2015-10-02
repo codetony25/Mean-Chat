@@ -2,11 +2,12 @@
 	<ul>
 		<li ng-repeat="message in Chat.messages"
 		    dnd-draggable="message"
+		    dnd-disable-if="message.resource_type == 'System'"
 		    dnd-moved="Chat.addToQuestions(message)"
 		    dnd-effect-allowed="move"
 		    class="dragOverlay"
 		    >
-		    <span class="chat-username">{{ message.username }} ({{message.time | date: 'medium'}}): </span><span class="bubble me">{{ message.message }}<span>
+		    {{ message.username }} ({{message.time | date: 'medium'}}): <span ng-class="Chat.showBubble(message.resource_type)">{{ message.message }}<span>
 		</li>
 	</ul>
 </md-content>

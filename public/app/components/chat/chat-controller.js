@@ -10,12 +10,10 @@
     ChatController.$inject = ['ChatFactory', 'mySocket', 'MessageFactory', '$state', '$q'];
 
 
-
     /* @ngInject */
     function ChatController(ChatFactory, mySocket, MessageFactory, $state, $q) {
         // console.log('ChatController loaded');
         var _this = this;
-
         /**
          * When user submits message, emit to server
          */
@@ -29,25 +27,29 @@
             _clearMessage();
         }
 
-        //Dummy Data to add a question
-		this.chatQuestions = [
-			//Chat Questions dragged here
-				{
-					"username" : "The great Tony",
-				 	"message" : "Hello World!"
-				}
-			]
+		this.chatQuestions = [];
 
-		//Adds a question to our dummy data for questions
-		this.addToQuestions = function(message) {
-			this.chatQuestions.push(message);
-		}
+        //Adds a question to our dummy data for questions
+        this.addToQuestions = function(message) {
+            console.log(message._id);
+            mySocket.emit('message/resource', {_message: message._id});
+            this.chatQuestions.push(message);
+        }
 
-		//Removes a question if the trash can is clicked
-		this.removeQuestion = function(message, index) {
-			this.chatQuestions.splice(index, 1);
-		}
+        //Removes a question if the trash can is clicked
+        this.removeQuestion = function(message, index) {
+            mySocket.emit('message/resource', {_message: message._id});
+            this.chatQuestions.splice(index, 1);
+        }
 
+
+        this.showBubble = function(message) {
+            if (message == 'Text') {
+                return 'bubble me';
+            } else {
+                return false;
+            }
+        }
 
         /**
          * Initialize socket listners for active room
@@ -105,6 +107,7 @@
                     _this.roomsList = response[2].content;
                     // console.log('Roomslist: ', response[2].content);
                     _initializeListeners();
+                    console.log(_this.messages);
 
                     // notify server user has joined the room
                     mySocket.emit('room/user/join', { _room: ChatFactory.getOpenRoomId() })
