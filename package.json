@@ -31,6 +31,7 @@
     "mongoose-unique-validator": "^0.4.1",
     "mongoose-validator": "^1.2.4",
     "morgan": "^1.6.1",
+    "nodemon": "^1.7.1",
     "passport": "^0.3.0",
     "passport-facebook": "^2.0.0",
     "passport-google": "^0.3.0",
