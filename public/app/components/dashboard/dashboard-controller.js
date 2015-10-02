@@ -31,7 +31,8 @@
 
             newRoom.$save()
                 .then( function(response) { 
-                    mySocket.emit('room_created', { _room: response.content._id }); 
+                    console.log(response);
+                    mySocket.emit('room/new', { _room: response.content._id }); 
                     _this.userInfo.created_rooms.unshift(response.content);
                     _clearNewRoomForm();
                 })
@@ -41,12 +42,10 @@
         }
 
         _this.showRoomForm = function() {
-            console.log("here");
             _this.displayForm = true;
         }
 
         _this.hideRoomForm = function() {
-            console.log("Andrew here");
             _this.displayForm = false;
         }
 
@@ -67,10 +66,26 @@
                 if(response.state == 'success') {
                     // console.log('DashboardController:getUserInfo(success)- ', response.user);
                     _this.userInfo = response.user;
-                    _this.MF.active_rooms = response.user.active_rooms;
+
+                    var _isRoomInList = function(room) {
+                        return function(el) {
+                            return el._id === room._id;
+                        }
+                    };
+                    
+                    response.user.active_rooms.forEach( function(active_room) {
+                        if( ! _this.MF.active_rooms.some(_isRoomInList(active_room)) ) {
+                            _this.MF.active_rooms.push(active_room);
+                        }
+                    });
                 }
             })
         }
+
+        mySocket.on('rooms/created', function(data) {
+            console.log('UHH');
+            _this.roomList.push(data.content);
+        });
 
         var _getChatRoomsList = function() {
             ChatFactory.get().$promise.then(function(response) {

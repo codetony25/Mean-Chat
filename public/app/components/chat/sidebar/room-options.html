@@ -1,12 +1,9 @@
-<md-content flex="75" layout="column" class="sidebar-header" layout-padding>
-	<md-input-container>
-		<input>
-	</md-input-container>
-	
+<md-content flex="75" layout="column" class="sidebar-header">
+	<input class="input-filter" ng-class="{ focus: focused }" ng-model="rooms.filter" placeholder="Filter" ng-focus="focused=true" ng-blur="focused=false">
 </md-content>
 <md-content flex layout-padding>
 	<md-list>
-		<md-list-item class="md-2-line" ng-repeat-start="room in Chat.roomsList | filter:rooms.filter" ng-click="Chat.loadRoom(room._id)" aria-label=".">
+		<md-list-item class="animate-scale md-2-line" ng-repeat-start="room in Chat.roomsList | filter:rooms.filter" ng-click="Main.loadRoom(room._id)" aria-label=".">
 			<div class="md-list-item-text">
 				<h3 ng-bind="room.name"></h3>
 				<p ng-bind="room.topic"></p>

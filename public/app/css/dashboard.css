@@ -211,39 +211,6 @@ form[name="Dashboard.newRoomForm"].ng-hide-remove.ng-hide-remove-active {
 	line-height: 48px;
 }
 
-/*** Animations for ngAnimate ***/
-/* The starting CSS styles for the enter animation */
-.animate-fade.ng-enter {
-	transition:0.25s linear all;
-	opacity: 0;
-}
-
-.animate-fade.ng-enter-stagger,
-.animate-fade.ng-leave-stagger {
-  /* this will have a 100ms delay between each successive leave animation */
-  transition-delay: 0.1s;
-
-  /* As of 1.4.4, this must always be set: it signals ngAnimate
-    to not accidentally inherit a delay property from another CSS class */
-  transition-duration: 0s;
-}
-
-/* The finishing CSS styles for the enter animation */
-.animate-fade.ng-enter.ng-enter-active {
-	opacity: 1;
-}
-
-.animate-fade.ng-leave {
-	transition: 0.25s linear all;
-	opacity: 1;
-}
-
-.animate-fade.ng-leave.ng-leave-active {
-	opacity: 0;
-}
-
-
-
 .animate-scale.ng-enter, 
 .animate-scale.ng-leave { 
     -webkit-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;

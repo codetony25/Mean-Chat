@@ -20,10 +20,7 @@
                         templateUrl: 'app/components/shared/main-layout.html',
                         controller: 'ChatController as Chat'
                     },
-                    'nav-bar@': {
-                        templateUrl: 'app/components/shared/top-nav.html'
-                    },
-                    'nav-bar@': {
+                    'nav-bar': {
                         templateUrl: 'app/components/shared/top-nav.html'
                     },
                     'content@chat': {

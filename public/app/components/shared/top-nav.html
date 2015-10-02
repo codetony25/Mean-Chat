@@ -1,10 +1,11 @@
 <div id="site-title">
 	Project
 </div>
-
 <div flex id="chat-rooms" layout="row">
-	<div class="room-tile" ng-class="{'tile-{{$index}}': true}" ng-repeat="room in Main.MF.active_rooms" ng-click="Main.loadRoom(room._id)">
+	<div class="room-tile animate-fade" ng-class="{'tile-{{$index}}': true}" ng-repeat="room in Main.MF.active_rooms" ng-click="!Main.closingRoom && Main.loadRoom(room._id)" md-ink-ripple>
+		<md-icon md-menu-align-target md-svg-src="bower_components/material-design-icons/action/svg/design/ic_launch_48px.svg" aria-label="menu" style="left: 8px;"></md-icon>
 		{{ room.name }}
+		<md-icon md-menu-align-target md-svg-src="bower_components/material-design-icons/content/svg/design/ic_clear_24px.svg" aria-label="menu" data-action="close" ng-click="Main.closeRoom(room._id)"></md-icon>
 	</div>
 </div>
 

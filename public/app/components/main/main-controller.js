@@ -5,13 +5,14 @@
         .module('meanChat')
         .controller('MainController', MainController);
 
-    MainController.$inject = ['UserAuthFactory', 'MainFactory', 'ChatFactory', 'mySocket', '$state'];
+    MainController.$inject = ['UserAuthFactory', 'MainFactory', 'ChatFactory', 'mySocket', '$state', '$q'];
 
-    function MainController(UserAuthFactory, MainFactory, ChatFactory, mySocket, $state) {
+    function MainController(UserAuthFactory, MainFactory, ChatFactory, mySocket, $state, $q) {
         var _this = this;
-        _this.MF = MainFactory;
-
         var originatorEvent;
+
+        _this.MF = MainFactory;
+        _this.closingRoom = false;
 
         this.openMenu = function($mdOpenMenu, event) {
             originatorEvent = event;
@@ -23,13 +24,12 @@
         }
 
         this.logout = function() {
-            // UserAuthFactory.logout().$promise.then( function(data) {
-            //     console.log(data);
-            // });
-
             UserAuthFactory.logout( function(response) {
-                
-                UserAuthFactory.removeUser();
+                if (response.success) {
+                    UserAuthFactory.removeUser();
+                    _this.MF.active_rooms = [];
+                    $state.go('authenticate.login');
+                }
             });
         }
 
@@ -39,24 +39,58 @@
          * Socket event: Requests authorization from the server
          */
         this.loadRoom = function(roomId) {
-            console.log('DashboardController:socket(room/auth/req)', roomId);
-            mySocket.emit('room/auth/req', {_room: roomId});
+            if( ChatFactory.getOpenRoomId() !== roomId ) {
+                console.log('DashboardController:socket(room/auth/req)', roomId);
+                mySocket.emit('room/auth/req', {_room: roomId});
+                return;
+            } 
+
+            return console.log('DashboardController denied loadRoom request: Same room');
         };
 
         /**
          * Socket listener for room join authorizations
          */
-        mySocket.on('room/auth/success', function(roomObj) {
-            // console.log('DashboardController:socket(room/auth/success) - ', roomObj._room);
-            UserAuthFactory.get({ _id: UserAuthFactory.getUser()._id }).$promise
-                .then(function(response){
-                    _this.MF.active_rooms = response.user.active_rooms;
-                    ChatFactory.setOpenRoomId(roomObj._room);
-                    $state.go('chat');
-                })
-                .catch(function(err) {
-                    console.log(err);
-                });
+        mySocket.on('room/auth/success', function(room) {
+            console.log('MainController:socket(room/auth/success)', room);
+
+            var _isRoomInList = function(room) {
+                return function(el) {
+                    return el._id === room._id;
+                }
+            };
+
+            if( ! _this.MF.active_rooms.some(_isRoomInList(room)) ) {
+                _this.MF.active_rooms.push(room);
+            }
+
+            ChatFactory.setOpenRoomId(room._id);
+
+            $state.go('chat', {}, {reload: true});
         });
+
+        this.closeRoom = function(roomId) {
+            this.closingRoom = true;
+
+            for(var idx in _this.MF.active_rooms) {
+                if(_this.MF.active_rooms[idx]._id === roomId) {
+                    
+                    console.log('ID being checked, ', _this.MF.active_rooms[idx]._id, ' at index of ', idx);
+
+                    mySocket.emit( 'room/user/exit', {_room: roomId});
+                    _this.MF.active_rooms.splice(idx, 1);
+                    this.closingRoom = false;
+
+                    if( ChatFactory.getOpenRoomId() === roomId ) {
+                        $state.go('dashboard');
+                    }
+                    ChatFactory.setOpenRoomId(null);
+
+                    return;
+                }
+            }
+
+            this.closingRoom = false;
+        }
     }
 })();
