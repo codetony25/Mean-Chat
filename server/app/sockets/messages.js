@@ -69,11 +69,10 @@ module.exports = function(io, socket, currUser) {
 				User.findOne({_id: currUser._id}, function(err, user) {
 					if (!err && user) {
 						if ((idx = user._resources.indexOf(data._message)) == -1) {
-							user._resources.push(data._message);
+							User.update({_id: currUser._id}, {$addToSet: {_resources: data._message}}, function(err) {});
 						} else {
-							user._resources.slice(idx, 1);
+							User.update({_id: currUser._id}, {$pull: {_resources: data._message}}, function(err) {});
 						}
-						User.update({_id: currUser._id}, {_resources: user._resources}, function(err) {});
 					}
 				});
 			}
