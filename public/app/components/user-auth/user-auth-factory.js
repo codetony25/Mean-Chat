@@ -14,7 +14,9 @@
     var factory = $resource('/users/:_id', { _id: '@_id' }, {
       update: { method: 'PUT', isArray: false },
       login: { method: 'POST', url: '/users/login' },
-      logout: { method:'GET', url: '/users/logout' }
+      logout: { method:'GET', url: '/users/logout' },
+      getResources: { method: 'GET', url:'/users/:_id/resources/' }
+
     });
 
     var _user = null;
