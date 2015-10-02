@@ -66,12 +66,16 @@ module.exports = function(io, socket, currUser) {
 	socket.on('message/resource', function(data) {
 		Message.findOne({_id: data._message}, function(err, message) {
 			if (!err && message) {
-				if ((idx = message._saved.indexOf(currUser._id)) == -1) {
-					message._saved.push(currUser._id);
-				} else {
-					message._saved.slice(idx, 1);
-				}
-				Message.update({_id: data._message}, {_saved: message._saved}, function(err) {});
+				User.findOne({_id: currUser._id}, function(err, user) {
+					if (!err && user) {
+						if ((idx = user._resources.indexOf(currUser._id)) == -1) {
+							user._resources.push(currUser._id);
+						} else {
+							user._resources.slice(idx, 1);
+						}
+						User.update({_id: currUser._id}, {_resources: user._resources}, function(err) {});
+					}
+				});
 			}
 		});
 	});
