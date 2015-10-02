@@ -67,7 +67,7 @@ module.exports = function(io, socket, currUser) {
             if (!err && room) {
                 // If the room doesn't already exist as an active room, make it an active room
                 User.update({_id: currUser._id}, {$addToSet: { active_rooms: data._room, recent_rooms: data._room}}, function(err) { });
-                socket.emit('room/auth/success', {_room: room._id}); 
+                socket.emit('room/auth/success', {_id: room._id, name: room.name, topic: room.topic}); 
             } else {
                 // Couldn't join the room
             }          

@@ -47,10 +47,13 @@
          * Socket listener for room join authorizations
          */
         mySocket.on('room/auth/success', function(roomObj) {
+            console.log(roomObj);
+
             // console.log('DashboardController:socket(room/auth/success) - ', roomObj._room);
             UserAuthFactory.get({ _id: UserAuthFactory.getUser()._id }).$promise
                 .then(function(response){
                     _this.MF.active_rooms = response.user.active_rooms;
+                    console.log(_this.MF.active_rooms);
                     ChatFactory.setOpenRoomId(roomObj._room);
                     $state.go('chat');
                 })
