@@ -83,7 +83,8 @@
         }
 
         mySocket.on('rooms/created', function(data) {
-            _this.roomList.push(data);
+            console.log('UHH');
+            _this.roomList.push(data.content);
         });
 
         var _getChatRoomsList = function() {

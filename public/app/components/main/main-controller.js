@@ -84,7 +84,7 @@
                     if( ChatFactory.getOpenRoomId() === roomId ) {
                         $state.go('dashboard');
                     }
-                    ChatFactory.setOpenRoomId = null;
+                    ChatFactory.setOpenRoomId(null);
 
                     return;
                 }
