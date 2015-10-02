@@ -5,7 +5,7 @@ var User = require('mongoose').model('User');
 var Message = require('mongoose').model('Message');
 var Room = require('mongoose').model('Room');
 
-module.exports = function(io, socket, connUser) {
+module.exports = function(io, socket, currUser) {
 
     /**
     * When a new room has been created, the owner emits to the server, the server finds the new room and emits to all
@@ -23,15 +23,15 @@ module.exports = function(io, socket, connUser) {
     */
     socket.on('room/user/join', function(data) {
         // Make sure the user isn't blocked and isn't already in the room
-        Room.findOne({_id: data._room, _blocked: {$ne: connUser._id}}, function(err, room) {
+        Room.findOne({_id: data._room, _blocked: {$ne: currUser._id}}, function(err, room) {
             if (!err && room) {
-                User.findOne({_id: connUser._id}, function(err, user) {
+                User.findOne({_id: currUser._id}, function(err, user) {
                     if (!err && user) {
                         // If the user isn't already on the list, add him to the list
-                        if (room._users.indexOf(connUser._id) == -1) {   
+                        if (room._users.indexOf(currUser._id) == -1) {   
                             // Create a new system message to send to the room
                             var message = new Message({
-                                _owner: connUser._id,
+                                _owner: currUser._id,
                                 _room: data._room,
                                 resource_type: 'System',
                                 time: Date.now(),
@@ -63,10 +63,10 @@ module.exports = function(io, socket, connUser) {
     socket.on('room/auth/req', function(data) {
         console.log(data);
         // Make sure the user isn't blocked and isn't already in the room
-        Room.findOneAndUpdate({_id: data._room, _blocked: {$ne: connUser._id}}, {$addToSet: {_users: connUser._id}}, {new: true}, function(err, room) {
+        Room.findOneAndUpdate({_id: data._room, _blocked: {$ne: currUser._id}}, {$addToSet: {_users: currUser._id}}, {new: true}, function(err, room) {
             if (!err && room) {
                 // If the room doesn't already exist as an active room, make it an active room
-                User.update({_id: connUser._id}, {$addToSet: { active_rooms: data._room, recent_rooms: data._room}}, function(err) { });
+                User.update({_id: currUser._id}, {$addToSet: { active_rooms: data._room, recent_rooms: data._room}}, function(err) { });
                 socket.emit('room/auth/success', {_room: room._id}); 
             } else {
                 // Couldn't join the room
@@ -79,15 +79,15 @@ module.exports = function(io, socket, connUser) {
     */
     socket.on('room/user/exit', function(data) {
         // Find the room and pull the user from the _users list
-        Room.findOneAndUpdate({_id: data._room, _users: connUser._id}, {$pull: {_users: connUser._id}}, {new: true}, function(err, room) {
+        Room.findOneAndUpdate({_id: data._room, _users: currUser._id}, {$pull: {_users: currUser._id}}, {new: true}, function(err, room) {
             if (!err && room) {
                 // Pull the room from the users active rooms
-                User.findOneAndUpdate({_id: connUser._id}, {$pull: {active_rooms: data._room}}, {new: true, select: '-password'}, function(err, user) {
+                User.findOneAndUpdate({_id: currUser._id}, {$pull: {active_rooms: data._room}}, {new: true, select: '-password'}, function(err, user) {
                     if (!err && user) {
                         // emit to all that the user has exited
                         io.emit('room/' + data._room, room + '/user/exited', {username: user.username, _id: user._id});
                         var message = new Message({
-                            _owner: connUser._id,
+                            _owner: currUser._id,
                             _room: data._room,
                             resource_type: 'System',
                             time: Date.now(),
@@ -113,7 +113,7 @@ module.exports = function(io, socket, connUser) {
         // Make sure the room exists
         Room.findOne({_id: data._room}, function(err, room) {
             if (!err && room) {
-                User.findOne({_id: connUser._id}, function(err, user) {
+                User.findOne({_id: currUser._id}, function(err, user) {
                     if (!err && user) {
                         if ((idx = user.favorite_rooms.indexOf(data._room)) != -1) {
                             // It is a favorite already, remove it
@@ -123,7 +123,7 @@ module.exports = function(io, socket, connUser) {
                             user.favorite_rooms.push(data._room);
                         }
                         // Now update the user
-                        User.findOneAndUpdate({_id: connUser._id}, {favorite_rooms: user.favorite_rooms}, {new: true, select: '-password'}, function(err, user) {
+                        User.findOneAndUpdate({_id: currUser._id}, {favorite_rooms: user.favorite_rooms}, {new: true, select: '-password'}, function(err, user) {
                             if (!err && user) {
                                 // Send something back eventually
                             }

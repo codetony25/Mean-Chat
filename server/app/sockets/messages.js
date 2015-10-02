@@ -5,17 +5,17 @@ var User = require('mongoose').model('User');
 var Message = require('mongoose').model('Message');
 var Room = require('mongoose').model('Room');
 
-module.exports = function(io, socket, connUser) {
+module.exports = function(io, socket, currUser) {
 
     /**
     * Recieving a new message from the client
     */
     socket.on('message/new', function(data) {
         // Get the user
-        User.findOne({_id: connUser._id}, function(err, user) {
+        User.findOne({_id: currUser._id}, function(err, user) {
             if (!err && user) {
                 // Make sure the user is active in the room
-                Room.findOne({_id: data._room, _users: connUser._id}, function(err, room) {
+                Room.findOne({_id: data._room, _users: currUser._id}, function(err, room) {
                     if (!err && room) {
                         // Encode the message to prevent xss/script injection
                         var msg = entities.encode(data.message);
@@ -28,7 +28,7 @@ module.exports = function(io, socket, connUser) {
 
                         // Create the message object to save
                         var message = new Message({
-                            _owner: connUser._id,
+                            _owner: currUser._id,
                             _room: data._room,
                             username: user.username,
                             time: Date.now(),
@@ -42,7 +42,7 @@ module.exports = function(io, socket, connUser) {
                                 // If there are no errors, emit the message to the room
                                 io.emit('room/' + data._room + '/message', message);
                                 // Once we've emitted to the room, update the users message count and last activity
-                                User.findOneAndUpdate({_id: connUser._id}, { $inc: {message_count: 1}, last_activity: Date.now()}, {new: true, select: '-password -__v'}, function(err, user) { 
+                                User.findOneAndUpdate({_id: currUser._id}, { $inc: {message_count: 1}, last_activity: Date.now()}, {new: true, select: '-password -__v'}, function(err, user) { 
                                     if (!err && user) {
                                         // socket.emit('user_update', user);
                                     } 
