@@ -46,6 +46,13 @@
          * Socket listener for room join authorizations
          */
         mySocket.on('room/auth/success', function(room) {
+            console.log('MainController:socket(room/auth/success)', room);
+
+            var _isRoomInList = function(room) {
+                return function(el) {
+                    return el._id === room._id;
+                }
+            };
 
             if( ! _this.MF.active_rooms.some(_isRoomInList(room)) ) {
                 _this.MF.active_rooms.push(room);
@@ -53,13 +60,7 @@
 
             ChatFactory.setOpenRoomId(room._id);
 
-            $state.go('chat');
+            $state.go('chat', {}, {reload: true});
         });
-
-        var _isRoomInList = function(room) {
-            return function(el) {
-                return el._id === room._id;
-            }
-        };
     }
 })();

@@ -28,10 +28,10 @@
                         templateUrl: 'app/components/dashboard/main/dashboard-main.html'
                     },
                     'sidebar-content@dashboard': {
-                        templateUrl: 'app/components/dashboard/sidebar/rooms/rooms-search.html'
+                        templateUrl: 'app/components/dashboard/sidebar/profile/profile.html'
                     },
                     'sidebar-nav@dashboard': {
-                        templateUrl: 'app/components/dashboard/sidebar/rooms/sidebar-nav.html'
+                        templateUrl: 'app/components/dashboard/sidebar/profile/sidebar-nav.html'
                     }
                 },
                 data: { requiresLogin: true }

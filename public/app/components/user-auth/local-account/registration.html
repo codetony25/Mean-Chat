@@ -41,7 +41,7 @@
 
 		<md-input-container>
 			<label>Password re-prompt</label>
-			<input type="password" ng-model="user.confirm_password" name="confirm_password" ng-equals="user.password">
+			<input type="password" ng-model="user.confirm_password" name="confirm_password" ng-equals="user.password" required>
 			<div ng-messages="UserAuth.registrationForm.confirm_password.$touched && UserAuth.registrationForm.confirm_password.$error">
 				<div ng-message="equals">Your passwords must match</div>
 			</div>

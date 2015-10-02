@@ -67,7 +67,18 @@
                 if(response.state == 'success') {
                     // console.log('DashboardController:getUserInfo(success)- ', response.user);
                     _this.userInfo = response.user;
-                    _this.MF.active_rooms = response.user.active_rooms;
+
+                    var _isRoomInList = function(room) {
+                        return function(el) {
+                            return el._id === room._id;
+                        }
+                    };
+                    
+                    response.user.active_rooms.forEach( function(active_room) {
+                        if( ! _this.MF.active_rooms.some(_isRoomInList(active_room)) ) {
+                            _this.MF.active_rooms.push(active_room);
+                        }
+                    });
                 }
             })
         }

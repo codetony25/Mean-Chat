@@ -8,6 +8,8 @@
     function MainFactory() {
         var factory = {};
 
+        factory.active_rooms = [];
+
         return factory;
     }
 })();
