@@ -5,7 +5,7 @@ var User = require('mongoose').model('User');
 var Message = require('mongoose').model('Message');
 var Room = require('mongoose').model('Room');
 
-module.exports = function(io, socket, connUser) {
+module.exports = function(io, socket, currUser) {
 
     /**
     * On request, sends back profile information of a specific user
@@ -22,9 +22,9 @@ module.exports = function(io, socket, connUser) {
     * Toggles blocking a user in a room if you are the user_admin for that room
     */
     socket.on('block_user', function(data) {
-        Room.findOne({_id: data._room, _admins: connUser._id}, function(err, room) {
+        Room.findOne({_id: data._room, _admins: currUser._id}, function(err, room) {
             // if there are no errors, the room is found and the user isn't trying to block himself
-            if (!err && room && (connUser._id != data._user)) {
+            if (!err && room && (currUser._id != data._user)) {
                 if ((idx = room._blocked.indexOf(data._user)) != -1) {
                     // If already blocked, then unblock
                     room._blocked.splice(idx, 1);
@@ -42,6 +42,26 @@ module.exports = function(io, socket, connUser) {
                 // Couldn't find the room or the user isn't an admin
             }
         });
+    });
+
+    /**
+    * When a socket disconnects, have the user leave the room but it can stay in his active rooms
+    */
+    socket.on('disconnect', function() {
+        Room.find({_users: currUser._id}, function(err, rooms) {
+            if (!err && rooms) {
+                rooms.forEach(function(room) {
+                    var message = new Message({_owner: currUser._id, _room: room._id, resource_type: 'System', time: Date.now(), message: currUser.username + ' has left the room.' });
+                    // Attempt to save the message
+                    message.save(function(err) {
+                        if (!err) {
+                            // If there are no errors, emit the message to the room
+                            io.emit('room/' + room._id + '/message', message);
+                        } 
+                    });
+                });
+            }
+        })
     });
 
 }
