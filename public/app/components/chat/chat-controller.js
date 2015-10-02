@@ -39,7 +39,7 @@
         //Removes a question if the trash can is clicked
         this.removeQuestion = function(message, index) {
             mySocket.emit('message/resource', {_message: message._id});
-            this.chatQuestions.slice(index, 1);
+            this.chatQuestions.splice(index, 1);
         }
 
 
