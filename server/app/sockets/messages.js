@@ -59,48 +59,60 @@ module.exports = function(io, socket, connUser) {
         });
     });
 
-    socket.on('msg_vote', function(data) {
-        // Find the message
-        Message.findOne({_id: data._message, _room: data._room}, function(err, message) {
-            if (!err) {
-                if (data.vote == 'up') {
-                    // Make sure the user hasn't already upvoted this
-                    if (message._upvotes.indexOf(connUser._id) == -1) {
-                        // Hasn't already upvoted this. Add user to upvotes, and remove user if he's in downvotes
-                        Message.update({_id: message._id}, {$push: { _upvotes: connUser._id }, $pull: { _downvotes: connUser._id }}, function(err) {});
-                        // Also remove it from the users information to change his personal upvote and downvote count
-                        User.findOneAndUpdate({_id: connUser._id}, {$push: { _upvotes: message._id }, $pull: { _downvotes: message._id }}, { new: true, select: '-password' }, 
-                            function(err, user) {
-                                if (!err) {
-                                    socket.emit('user_update', user);
-                                }
-                        });                           
-                        io.emit('msg_votechange', message);
-                    } else {
-                        // Already upvoted so do nothing
-                    }
-                } else if (data.vote == 'down') {
-                    // Make sure the user hasn't already downvoted this
-                    if (message._downvotes.indexOf(connUser._id) == -1) {
-                        // Hasn't already upvoted this. Add user to upvotes, and remove user if he's in downvotes
-                        Message.update({_id: message._id}, {$push: { _downvotes: connUser._id }, $pull: { _upvotes: connUser._id }}, function(err) { console.log(err)});
-                        // Also remove it from the users information to change his personal upvote and downvote count
-                        User.findOneAndUpdate({_id: connUser._id}, {$push: { _downvotes: message._id }, $pull: { _upvotes: message._id }}, { new: true, select: '-password' }, 
-                            function(err, user) {
-                                if (!err) {
-                                    socket.emit('user_update', user);
-                                }
-                        });                           
-                        io.emit('msg_votechange', message);
-                    } else {
-                        // Already downvoted so do nothing
-                    }
-                }
-            } else {
-                // Couldn't find the message
-            }
-        })
+	/**
+	* Toggles whether or not a user has saved a message as a resource
+	*/
+	socket.on('message/resource', function(data) {
+		Message.findOne({_id: data._message}, function(err, message) {
+			if (!err && message) {
+				if ((idx = message._saved.indexOf(currUser._id)) == -1) {
+					message._saved.push(currUser._id);
+				} else {
+					message._saved.slice(idx, 1);
+				}
+				Message.update({_id: data._message}, {_saved: message._saved}, function(err) {});
+			}
+		});
+	});
 
+	/**
+	* Deletes a message from the room -
+	* The user must be an admin to delete it
+	*/
+	socket.on('message/delete', function(data) {
+		Message.findOne({_id: data._message}, function(err, message) {
+			if (!err && message) {
+				Room.findOne({_id: message._room, _admins: currUser._id}, function(err, room) {
+					if (!err && room) {
+						message.delete(function(err) {
+							if (!err) {
+								// Emits the message Id back to the room
+								io.emit('room/' + room._id + '/message/deleted', {_id: message._id});
+							}
+						});
+					}
+				});
+			}
+		});
+	});
+
+	/**
+	* Upvotes/Downvotes a message and emits the new message object to the room
+	*/
+    socket.on('message/vote', function(data) {
+    	if (data && data.vote == 'up') {
+    		Message.findOneAndUpdate({_id: data._message, $ne: { _upvotes: currUser._id}}, {$addToSet: {_upvotes: currUser._id}}, {new: true}, function(err, message) {
+    			if (!err && message) {
+    				io.emit('room/' + message._room + '/message/update', message);
+    			}
+    		});
+    	} else if (data && data.vote == 'down') {
+    		Message.findOneAndUpdate({_id: data._message, $ne: { _downvotes: currUser._id}}, {$addToSet: {_downvotes: currUser._id}}, {new: true}, function(err, message) {
+    			if (!err && message) {
+    				io.emit('room/' + message._room + '/message/update', message);
+    			}
+    		});
+    	}
     });
 
 }

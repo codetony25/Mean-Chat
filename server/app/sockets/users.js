@@ -10,24 +10,10 @@ module.exports = function(io, socket, connUser) {
     /**
     * On request, sends back profile information of a specific user
     */
-    socket.on('get_profile', function(data) {
+    socket.on('user', function(data) {
         User.findOne({_id: data._user}).select('username favorite_rooms active_rooms message_count last_activity _upvotes _downvotes').populate('favorite_rooms active_rooms').exec(function(err, user) {
             if (!err && user) {
-                socket.emit('user_profile', user);
-            }
-        });
-    });
-
-
-    /**
-    * Emits the user data back to the client on request
-    */
-    socket.on('get_user', function() {
-        User.findOne({_id: connUser._id}, {}, {select: '-password'}, function(err, user) {
-            if (!err && user) {
-                socket.emit('user_update', user);
-            } else {
-                // If there's an error or we can't find the user we should probably disconnect the user and destroy the session
+                socket.emit('user/profile', user);
             }
         });
     });

@@ -38,31 +38,31 @@ module.exports.listen = function(app){
 
         // Don't add any listeners if we can't find the user
         User.findById({_id: userId}, function(err, user) {
-           
-            require('./users.js')(io, socket, user);
-            require('./rooms.js')(io, socket, user);
-            require('./messages.js')(io, socket, user);
+            if (!err && user) {
+                require('./users.js')(io, socket, user);
+                require('./rooms.js')(io, socket, user);
+                require('./messages.js')(io, socket, user);
 
-            /**
-            * When a socket disconnects, have the user leave the room but it can stay in his active rooms
-            */
-            socket.on('disconnect', function() {
-                Room.find({_users: userId}, function(err, rooms) {
-                    if (!err && rooms) {
-                        rooms.forEach(function(room) {
-                            var message = new Message({_owner: userId, _room: room._id, resource_type: 'System', time: Date.now(), message: user.username + ' has joined the room.' });
-                            // Attempt to save the message
-                            message.save(function(err) {
-                                if (!err) {
-                                    // If there are no errors, emit the message to the room
-                                    io.emit('room/' + room._id + '/message', message);
-                                } 
+                /**
+                * When a socket disconnects, have the user leave the room but it can stay in his active rooms
+                */
+                socket.on('disconnect', function() {
+                    Room.find({_users: userId}, function(err, rooms) {
+                        if (!err && rooms) {
+                            rooms.forEach(function(room) {
+                                var message = new Message({_owner: userId, _room: room._id, resource_type: 'System', time: Date.now(), message: user.username + ' has joined the room.' });
+                                // Attempt to save the message
+                                message.save(function(err) {
+                                    if (!err) {
+                                        // If there are no errors, emit the message to the room
+                                        io.emit('room/' + room._id + '/message', message);
+                                    } 
+                                });
                             });
-                        });
-                    }
-                })
-            });
-
+                        }
+                    })
+                });
+            }
         });
 
     });
