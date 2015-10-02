@@ -27,25 +27,17 @@
             _clearMessage();
         }
 
-        //Dummy Data to add a question
-		this.chatQuestions = [
-			//Chat Questions dragged here
-				{
-					"username" : "The great Tony",
-				 	"message" : "Hello World!"
-				}
-			]
-
 		//Adds a question to our dummy data for questions
 		this.addToQuestions = function(message) {
-			this.chatQuestions.push(message);
+            socket.emit('message/resource', {_message: message._id});
 		}
 
 		//Removes a question if the trash can is clicked
 		this.removeQuestion = function(message, index) {
-			this.chatQuestions.splice(index, 1);
+			socket.emit('message/resource', {_message: message._id});
 		}
 
+        //Shows class to add a bubble if it is a text message
         this.showBubble = function(message) {
             if (message == 'Text') {
                 return 'bubble me';
