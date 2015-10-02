@@ -16,7 +16,7 @@
             * be displayed to all users active
             */
             mySocket.emit('message/new', {
-                _room: '560ae3776c83c0004e8c637d',
+                _room: '560dbb72f57da9e450191842',
                 message: 'I said something.',
                 resource_type: 'Text'
             });
@@ -27,7 +27,7 @@
             * Should emit when a user leaves a room for good
             */
             mySocket.emit('room/user/exit', {
-                _room: '560ae3776c83c0004e8c637d'
+                _room: '560dbb72f57da9e450191842'
             });
         }
 
@@ -35,8 +35,8 @@
             /**
             * Should emit when a user joins a new room  that isn't in his active rooms
             */
-            mySocket.emit('room/auth/req', {
-                _room: '560ae3776c83c0004e8c637d'
+            mySocket.emit('room/user/join', {
+                _room: '560dbb72f57da9e450191842'
             });
         }
 
@@ -45,7 +45,7 @@
             * Should Emit when a user clicks to upvote a message
             */
             mySocket.emit('msg_vote', {
-                _room: '560ae3776c83c0004e8c637d',
+                _room: '560dbb72f57da9e450191842',
                 _message: '560c334f6fc86bbc2f2e4368',
                 vote: 'up'
             });
@@ -56,7 +56,7 @@
             * Should emit when a user clicks to downvote a message
             */
             mySocket.emit('msg_vote', {
-                _room: '560ae3776c83c0004e8c637d',
+                _room: '560dbb72f57da9e450191842',
                 _message: '560c334f6fc86bbc2f2e4368',
                 vote: 'down'
             });
@@ -69,7 +69,7 @@
             * and an updated user object will be emitted to user_update
             */
             mySocket.emit('favorite_room', {
-                _room: '560ae3776c83c0004e8c637d'
+                _room: '560dbb72f57da9e450191842'
             });
         }
 
@@ -82,7 +82,7 @@
             * the user is active in the room
             */
             mySocket.emit('get_room', {
-                _room: '560ae3776c83c0004e8c637d'
+                _room: '560dbb72f57da9e450191842'
             });
         }
 
@@ -108,7 +108,7 @@
             * The server will emit back to new_room if it finds the new room object
             */
             mySocket.emit('room_created', {
-                _room: '560ae3776c83c0004e8c637d'
+                _room: '560dbb72f57da9e450191842'
             });
         }
 
@@ -121,13 +121,13 @@
         this.toggleBlock = function() {
             mySocket.emit('block_user', {
                 _user: '560b28f4d1d914a81a85c92d',
-                _room: '560ae3776c83c0004e8c637d'
+                _room: '560dbb72f57da9e450191842'
             })
         }
         /**
         * Dynamic listeners for room messages
         */
-        mySocket.on('room/560ae3776c83c0004e8c637d/message', function(message) {
+        mySocket.on('room/560dbb72f57da9e450191842/message', function(message) {
             console.log('room_<<some id>> message received');
             console.log('---------------------------------');
             console.log(message);
@@ -136,7 +136,7 @@
         /**
         * Dynamic listener for room upadtes
         */
-        mySocket.on('room_update_560ae3776c83c0004e8c637d', function(room) {
+        mySocket.on('room_update_560dbb72f57da9e450191842', function(room) {
             console.log('room_update_<<some id>> update received');
             console.log('---------------------------------------');
             console.log(room);

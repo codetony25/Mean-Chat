@@ -19,19 +19,6 @@ module.exports = function(io, socket, connUser) {
     });
 
     /**
-    * Emits room data to the client as long as he's active in that room
-    */
-    socket.on('get_room', function(data) {
-        Room.findOne({_id: data._room, _users: connUser._id}, function(err, room) {
-            if (!err && room)  {
-                socket.emit('room_update_' + data._room, room);
-            } else {
-                // there was an error or the room doesn't exist
-            }
-        });
-    });
-
-    /**
     * When user joins the room
     */
     socket.on('room/user/join', function(data) {
@@ -39,9 +26,9 @@ module.exports = function(io, socket, connUser) {
         Room.findOne({_id: data._room, _blocked: {$ne: connUser._id}}, function(err, room) {
             if (!err && room) {
                 User.findOne({_id: connUser._id}, function(err, user) {
-                    if (!err & user) {
+                    if (!err && user) {
                         // If the user isn't already on the list, add him to the list
-                        if (room._users.indexOf(connUser._id) == -1) {        
+                        if (room._users.indexOf(connUser._id) == -1) {   
                             // Create a new system message to send to the room
                             var message = new Message({
                                 _owner: connUser._id,
