@@ -15,7 +15,6 @@
 		    <collapsible-item class="dndColor" 
 		    			item-title="{{ message.username }}:  {{message.message}}"
 		    			dnd-draggable="message"
-
 		    			dnd-moved="Chat.removeQuestion(message, $index)"
 		    			>
 				<p>Question: {{message.message}}</p>
@@ -37,14 +36,3 @@
 		</md-icon>
 	</div>
 </md-content>
-
-<!-- <div class="left"><strong>{{ message.username }}: </strong> {{message.message}} </div>
-<div class="right">
-	<md-button aria-label="photo" 
-			   class="md-icon-button trashcan-holder" 
-			   ng-click='Chat.removeQuestion(message, $index)'>
-		<md-icon class="trashcan md-warn md-raised" 
-				 md-svg-src="bower_components/material-design-icons/action/svg/design/ic_delete_24px.svg">
-		</md-icon>
-	</md-button>
-</div> -->

@@ -3,16 +3,15 @@
 
   angular
     .module('meanChat.chat')
-    .controller('ChatController', ChatController)
-    .directive('dndColor', questionColor)
-    .directive('dragOverlay', overlayDrag);
+    .controller('ChatController', ChatController);
 
     ChatController.$inject = ['ChatFactory', 'mySocket', 'MessageFactory', 'UserAuthFactory', '$state', '$q'];
 
 
     /* @ngInject */
     function ChatController(ChatFactory, mySocket, MessageFactory, UserAuthFactory, $state, $q) {
-        // console.log('ChatController loaded');
+        console.log('ChatController loaded');
+
         var _this = this;
         _this.chatQuestions = [];
         /**
@@ -46,17 +45,13 @@
             _this.chatQuestions.splice(index, 1);
         }
 
-
+        //Shows the class bubble if the message if of response type 'Text'
         this.showBubble = function(message) {
             if (message == 'Text') {
                 return 'bubble me';
             } else {
                 return false;
             }
-        }
-
-        this.dragoverCallback = function(event, index, external, type) {
-            console.log(index);
         }
 
         /**
@@ -130,42 +125,6 @@
         })();
     }
 
-
-
-    //Remember to put directives in their own files!
-
-	// Question Color Directive
-	function questionColor() {
-		return {
-			restrict: 'C',
-			link: function(scope, element, attrs) {
-				var themeColors = ['#FF5722', '#00BCD4', '#009688', '#FF4081', '#448AFF', '#FF4081', '#388E3C'];
-				var randomColor = Math.floor(Math.random() * themeColors.length);
-				element.find('div').css('background-color', themeColors[randomColor]);
-			},
-		}
-	}
-
-	//Drag Overlay Directive
-	function overlayDrag() {
-		return {
-			restrict: 'C',
-			link: function(scope, element, attrs) {
-				element.on('dragstart', function() {
-					var overlay = document.getElementById("addOverlay");
-					var blurry = document.getElementById("blurme");
-					overlay.classList.remove("hidden");
-					overlay.className = overlay.className + " questionOverlay";
-					blurry.className = blurry.className + " blur";
-					element.on('dragend', function() {
-						overlay.classList.remove("questionOverlay");
-						blurry.classList.remove("blur");
-						overlay.className = overlay.className + " hidden";
-					})
-				})
-			}
-		}
-	}
 
 
 
